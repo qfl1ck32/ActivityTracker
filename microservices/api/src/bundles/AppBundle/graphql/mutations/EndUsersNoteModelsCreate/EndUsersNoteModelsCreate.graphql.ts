@@ -1,5 +1,5 @@
 export default /* GraphQL */ `
   type Mutation {
-    EndUsersNoteModelsCreate(input: EndUsersNoteModelsCreateInput!): id!!
+    EndUsersNoteModelsCreate(input: EndUsersNoteModelsCreateInput!): ObjectId
   }
 `;
