@@ -1,0 +1,25 @@
+import { IRoute } from "@bluelibs/x-ui";
+import "./i18n";
+
+import {
+  ACTIVITY_LOGS_LIST as BASE_ACTIVITY_LOGS_LIST,
+  ACTIVITY_LOGS_CREATE as BASE_ACTIVITY_LOGS_CREATE,
+  ACTIVITY_LOGS_EDIT as BASE_ACTIVITY_LOGS_EDIT,
+  ACTIVITY_LOGS_VIEW as BASE_ACTIVITY_LOGS_VIEW,
+} from "./config/routes";
+
+export const ACTIVITY_LOGS_LIST: IRoute = {
+  ...BASE_ACTIVITY_LOGS_LIST,
+};
+
+export const ACTIVITY_LOGS_CREATE: IRoute = {
+  ...BASE_ACTIVITY_LOGS_CREATE,
+};
+
+export const ACTIVITY_LOGS_EDIT: IRoute = {
+  ...BASE_ACTIVITY_LOGS_EDIT,
+};
+
+export const ACTIVITY_LOGS_VIEW: IRoute = {
+  ...BASE_ACTIVITY_LOGS_VIEW,
+};

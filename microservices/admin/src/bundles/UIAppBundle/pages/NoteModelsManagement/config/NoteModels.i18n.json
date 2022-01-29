@@ -1,0 +1,40 @@
+{
+  "en": {
+    "management": {
+      "note_models": {
+        "fields": {
+          "_id": "ID",
+          "name": "Name",
+          "fields": "Fields",
+          "type": "Type",
+          "enumValues": "Enum Values",
+          "createdAt": "Created At",
+          "createdAt_description": "Represents the date when this object was created",
+          "updatedAt": "Updated At",
+          "updatedAt_description": "Represents the last time when the object was updated",
+          "endUserId": "endUserId",
+          "endUser": "End User"
+        },
+        "menu": {
+          "title": "NoteModels"
+        },
+        "list": {
+          "header": "NoteModels List",
+          "create_btn": "New NoteModel"
+        },
+        "create": {
+          "header": "Create NoteModel"
+        },
+        "edit": {
+          "header": "Edit NoteModel"
+        },
+        "view": {
+          "header": "View NoteModel"
+        },
+        "delete_confirmation": "You have deleted the NoteModel",
+        "create_confirmation": "You successfully added a new NoteModel",
+        "edit_confirmation": "You successfully edited the NoteModel"
+      }
+    }
+  }
+}

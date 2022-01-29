@@ -1,0 +1,49 @@
+{
+  "en": {
+    "management": {
+      "activity_timings": {
+        "fields": {
+          "_id": "ID",
+          "name": "Name",
+          "startedAt": "Started At",
+          "finishedAt": "Finished At",
+          "createdAt": "Created At",
+          "createdAt_description": "Represents the date when this object was created",
+          "updatedAt": "Updated At",
+          "updatedAt_description": "Represents the last time when the object was updated",
+          "endUserId": "endUserId",
+          "activityLogId": "activityLogId",
+          "createdById": "createdById",
+          "createdById_description": "Represents the user's id who has created this object",
+          "updatedById": "updatedById",
+          "updatedById_description": "Represents the user's id who has made the latest update on this object",
+          "endUser": "End User",
+          "activityLog": "Activity Log",
+          "createdBy": "Created By",
+          "createdBy_description": "Represents the user who has created this object",
+          "updatedBy": "Updated By",
+          "updatedBy_description": "Represents the user who has made the latest update on this object"
+        },
+        "menu": {
+          "title": "ActivityTimings"
+        },
+        "list": {
+          "header": "ActivityTimings List",
+          "create_btn": "New ActivityTiming"
+        },
+        "create": {
+          "header": "Create ActivityTiming"
+        },
+        "edit": {
+          "header": "Edit ActivityTiming"
+        },
+        "view": {
+          "header": "View ActivityTiming"
+        },
+        "delete_confirmation": "You have deleted the ActivityTiming",
+        "create_confirmation": "You successfully added a new ActivityTiming",
+        "edit_confirmation": "You successfully edited the ActivityTiming"
+      }
+    }
+  }
+}

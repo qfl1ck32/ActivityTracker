@@ -1,0 +1,25 @@
+import { IRoute } from "@bluelibs/x-ui";
+import "./i18n";
+
+import {
+  ACTIVITY_NOTES_LIST as BASE_ACTIVITY_NOTES_LIST,
+  ACTIVITY_NOTES_CREATE as BASE_ACTIVITY_NOTES_CREATE,
+  ACTIVITY_NOTES_EDIT as BASE_ACTIVITY_NOTES_EDIT,
+  ACTIVITY_NOTES_VIEW as BASE_ACTIVITY_NOTES_VIEW,
+} from "./config/routes";
+
+export const ACTIVITY_NOTES_LIST: IRoute = {
+  ...BASE_ACTIVITY_NOTES_LIST,
+};
+
+export const ACTIVITY_NOTES_CREATE: IRoute = {
+  ...BASE_ACTIVITY_NOTES_CREATE,
+};
+
+export const ACTIVITY_NOTES_EDIT: IRoute = {
+  ...BASE_ACTIVITY_NOTES_EDIT,
+};
+
+export const ACTIVITY_NOTES_VIEW: IRoute = {
+  ...BASE_ACTIVITY_NOTES_VIEW,
+};

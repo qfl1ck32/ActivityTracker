@@ -1,0 +1,49 @@
+{
+  "en": {
+    "management": {
+      "activity_log_details": {
+        "fields": {
+          "_id": "ID",
+          "name": "Name",
+          "createdAt": "Created At",
+          "createdAt_description": "Represents the date when this object was created",
+          "updatedAt": "Updated At",
+          "updatedAt_description": "Represents the last time when the object was updated",
+          "createdById": "createdById",
+          "createdById_description": "Represents the user's id who has created this object",
+          "updatedById": "updatedById",
+          "updatedById_description": "Represents the user's id who has made the latest update on this object",
+          "timingId": "timingId",
+          "notesId": "notesId",
+          "activityLogId": "activityLogId",
+          "createdBy": "Created By",
+          "createdBy_description": "Represents the user who has created this object",
+          "updatedBy": "Updated By",
+          "updatedBy_description": "Represents the user who has made the latest update on this object",
+          "timing": "Timing",
+          "notes": "Notes",
+          "activityLog": "Activity Log"
+        },
+        "menu": {
+          "title": "ActivityLogDetails"
+        },
+        "list": {
+          "header": "ActivityLogDetails List",
+          "create_btn": "New ActivityLogDetail"
+        },
+        "create": {
+          "header": "Create ActivityLogDetail"
+        },
+        "edit": {
+          "header": "Edit ActivityLogDetail"
+        },
+        "view": {
+          "header": "View ActivityLogDetail"
+        },
+        "delete_confirmation": "You have deleted the ActivityLogDetail",
+        "create_confirmation": "You successfully added a new ActivityLogDetail",
+        "edit_confirmation": "You successfully edited the ActivityLogDetail"
+      }
+    }
+  }
+}
