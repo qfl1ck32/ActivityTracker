@@ -17,3 +17,6 @@ export * from "./ActivityTimingInsert.input";
 export * from "./ActivityTimingUpdate.input";
 export * from "./EndUserInsert.input";
 export * from "./EndUserUpdate.input";
+export * from "./EndUsersActivityLogsCreate.input";
+export * from "./EndUsersRegister.input";
+export * from "./EndUsersNoteModelsCreate.input";

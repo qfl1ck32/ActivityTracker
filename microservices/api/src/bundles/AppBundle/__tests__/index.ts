@@ -1,6 +1,16 @@
-// import { container } from "../../../__tests__/ecosystem";
+import "./NoteModels.service.test.ts";
+import "./NoteModelsSecurity.service.test.ts";
+import "./EndUser.service.test.ts";
+import "./ActivityLogsSecurity.service.test.ts";
+import "./Security.service.test.ts";
+import "./ActivityLogs.service.test.ts";
+import { container } from "../../../__tests__/ecosystem";
+import { AppFixture } from "../fixtures";
 
-test("dummy", () => {
-  // Feel free to use container as if you were in a kernel context
-  expect(true).toBe(true);
+beforeAll(async () => {
+  return container.get(AppFixture).clean();
+});
+
+afterEach(async () => {
+  return container.get(AppFixture).clean();
 });
