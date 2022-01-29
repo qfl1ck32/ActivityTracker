@@ -1,7 +1,7 @@
 import { collection, field, shortcuts } from "../utils";
 
-export const Activity = collection({
-  id: "Activity",
+export const Activities = collection({
+  id: "Activities",
 
   behaviors: {
     blameable: true,
