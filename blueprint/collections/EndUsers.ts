@@ -38,6 +38,8 @@ export const EndUsers = collection({
 
       isMany: true,
 
+      unique: false,
+
       inversedBy: "endUser",
     }),
 
