@@ -6,7 +6,7 @@ import {
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import { XPasswordService } from "@bluelibs/x-password-bundle";
-import { EndUsersCollection } from "../collections";
+import { EndUsersCollection, UsersCollection } from "../collections";
 import { EndUsersRegisterInput } from "./inputs/EndUsersRegister.input";
 
 @Service()

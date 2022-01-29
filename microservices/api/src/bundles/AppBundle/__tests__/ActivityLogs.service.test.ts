@@ -1,5 +1,6 @@
 import { ActivityLogsService } from "../services/ActivityLogs.service";
 import { container } from "../../../__tests__/ecosystem";
+import { createActivity, createEndUser, createNoteModel } from "./utilities";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -7,6 +8,29 @@ import { container } from "../../../__tests__/ecosystem";
 
 describe("ActivityLogsService", () => {
   test("create()", async () => {
-    throw new Error("Test not implemented.");
+    const activityLogsService = container.get(ActivityLogsService);
+
+    const { userId } = await createEndUser();
+
+    const activityId = await createActivity();
+
+    const noteModelId = await createNoteModel(
+      {
+        name: "noteModel",
+        fields: [],
+      },
+      userId
+    );
+
+    const activityLogId = await activityLogsService.create(
+      {
+        name: "activityLog",
+        activityId,
+        noteModelId,
+      },
+      userId
+    );
+
+    expect(activityLogId).toBeTruthy();
   });
 });
