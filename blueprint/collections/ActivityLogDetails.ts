@@ -25,5 +25,10 @@ export const ActivityLogDetails = collection({
       id: "notes",
       to: "ActivityNotes",
     }),
+
+    relation({
+      id: "activityLog",
+      to: "ActivityLogs",
+    }),
   ],
 });

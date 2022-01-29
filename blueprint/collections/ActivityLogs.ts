@@ -28,9 +28,7 @@ export const ActivityLogs = collection({
       id: "details",
       to: "ActivityLogDetails",
 
-      isRequired: false, // TODO: just for admin frontend testing
-
-      isMany: true,
+      inversedBy: "activityLog",
     }),
 
     relation({
