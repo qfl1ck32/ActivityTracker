@@ -45,6 +45,6 @@ export default /* GraphQL */ `
 
   enum UserRole {
     ADMIN
-    USER
+    END_USER
   }
 `;
