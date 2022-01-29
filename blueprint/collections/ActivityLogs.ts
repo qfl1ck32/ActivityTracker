@@ -34,8 +34,6 @@ export const ActivityLogs = collection({
     relation({
       id: "endUser",
       to: "EndUsers",
-
-      unique: true,
     }),
 
     ...shortcuts.relations.blameable(),
