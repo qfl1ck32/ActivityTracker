@@ -1,5 +1,5 @@
 export * from "./Users";
-export * from "./Activity";
+export * from "./Activities";
 export * from "./ActivityLogDetails";
 export * from "./ActivityLogs";
 export * from "./ActivityNoteInterfaces";
