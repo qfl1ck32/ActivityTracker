@@ -24,11 +24,15 @@ export const ActivityLogDetails = collection({
     relation({
       id: "timing",
       to: "ActivityTimings",
+
+      isMany: true,
     }),
 
     relation({
       id: "notes",
       to: "ActivityNotes",
+
+      isMany: true,
     }),
   ],
 });

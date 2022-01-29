@@ -10,7 +10,11 @@ export const NoteModels = collection({
     timestampable: true,
   },
 
+  representedBy: "name",
+
   fields: [
+    field.string("name"),
+
     field.object("fields", {
       model: () => Field,
 
