@@ -1,5 +1,5 @@
 import { Field } from "../shared-models/Field";
-import { collection, field, shortcuts } from "../utils";
+import { collection, field, relation, shortcuts } from "../utils";
 
 export const NoteModels = collection({
   id: "NoteModels",
@@ -18,5 +18,12 @@ export const NoteModels = collection({
     }),
 
     ...shortcuts.fields.timestampable(),
+  ],
+
+  relations: [
+    relation({
+      id: "endUser",
+      to: "EndUsers",
+    }),
   ],
 });

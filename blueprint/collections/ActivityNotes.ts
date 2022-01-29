@@ -13,9 +13,15 @@ export const ActivityNotes = collection({
 
   relations: [
     relation({
+      id: "endUser",
+      to: "EndUsers",
+    }),
+
+    relation({
       id: "activityLog",
       to: "ActivityLogs",
     }),
+
     ...shortcuts.relations.blameable(),
   ],
 });
