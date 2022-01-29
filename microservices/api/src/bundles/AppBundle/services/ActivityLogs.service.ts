@@ -36,6 +36,11 @@ export class ActivityLogsService {
       endUserId
     );
 
+    await this.securityService.noteModels.checkEndUserOwnsNoteModel(
+      noteModelId,
+      endUserId
+    );
+
     const { insertedId } = await this.activityLogsCollection.insertOne({
       activityId,
       name,
