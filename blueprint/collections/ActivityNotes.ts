@@ -9,6 +9,8 @@ export const ActivityNotes = collection({
     timestampable: true,
   },
 
+  representedBy: "value",
+
   fields: [
     field.string("value", {
       defaultValue: "{}",
