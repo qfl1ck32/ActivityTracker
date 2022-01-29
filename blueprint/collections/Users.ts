@@ -26,7 +26,7 @@ export const Users = collection({
     field({
       id: "roles",
       type: field.types.ENUM,
-      enumValues: ["ADMIN", "USER"],
+      enumValues: ["ADMIN", "END_USER"],
       isArray: true,
     }),
     field({
@@ -40,5 +40,15 @@ export const Users = collection({
       isReducer: true,
     }),
   ],
-  relations: [...shortcuts.relations.blameable()],
+
+  relations: [
+    relation({
+      id: "endUser",
+      to: "EndUsers",
+
+      inversedBy: "owner",
+    }),
+
+    ...shortcuts.relations.blameable(),
+  ],
 });
