@@ -34,8 +34,6 @@ describe("EndUserService", () => {
       email,
     });
 
-    console.log({ user, endUser });
-
     expect(endUser).toBeTruthy();
 
     expect(endUser.ownerId).toStrictEqual(user._id);
