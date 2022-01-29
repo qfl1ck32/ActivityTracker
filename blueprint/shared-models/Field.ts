@@ -1,5 +1,15 @@
 import { field, sharedModel } from "../utils";
 
+export const FieldRules = sharedModel({
+  id: "FieldRules",
+
+  fields: [
+    field.string("enumValues", {
+      isArray: true,
+    }),
+  ],
+});
+
 export const Field = sharedModel({
   id: "Field",
 
@@ -9,11 +19,7 @@ export const Field = sharedModel({
     }),
 
     field.object("rules", {
-      subfields: [
-        field.string("enumValues", {
-          isArray: true,
-        }),
-      ],
+      model: () => FieldRules,
     }),
   ],
 });
