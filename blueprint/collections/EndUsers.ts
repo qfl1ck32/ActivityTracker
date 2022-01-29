@@ -3,7 +3,7 @@ import { collection, field, relation, shortcuts } from "../utils";
 export const EndUsers = collection({
   id: "EndUsers",
 
-  representedBy: "name",
+  representedBy: "fullName",
 
   behaviors: {
     blameable: true,
