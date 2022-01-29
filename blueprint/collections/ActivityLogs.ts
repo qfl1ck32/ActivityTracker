@@ -20,6 +20,11 @@ export const ActivityLogs = collection({
     }),
 
     relation({
+      id: "noteModel",
+      to: "NoteModels",
+    }),
+
+    relation({
       id: "details",
       to: "ActivityLogDetails",
 

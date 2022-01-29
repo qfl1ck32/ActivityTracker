@@ -17,22 +17,13 @@ export const ActivityLogDetails = collection({
     ...shortcuts.relations.blameable(),
 
     relation({
-      id: "noteModel",
-      to: "NoteModels",
-    }),
-
-    relation({
       id: "timing",
       to: "ActivityTimings",
-
-      isMany: true,
     }),
 
     relation({
       id: "notes",
       to: "ActivityNotes",
-
-      isMany: true,
     }),
   ],
 });
