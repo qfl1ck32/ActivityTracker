@@ -6,6 +6,7 @@ export const FieldRules = sharedModel({
   fields: [
     field.string("enumValues", {
       isArray: true,
+      isRequired: false,
     }),
   ],
 });
@@ -14,12 +15,12 @@ export const Field = sharedModel({
   id: "Field",
 
   fields: [
+    field.string("name"),
+
     field.enum("type", {
       enumValues: ["BOOLEAN", "ENUM", "DATE", "STRING"],
     }),
 
-    field.object("rules", {
-      model: () => FieldRules,
-    }),
+    ...FieldRules.fields, // nesting level not rendered correctly in BlueLibs Admin UI, leaving like this for the moment
   ],
 });
