@@ -29,7 +29,7 @@ export const ActivityTimings = collection({
     relation({
       id: "activityLog",
       to: "ActivityLogs",
-    }),
+    }), // TODO: I got doubts
 
     ...shortcuts.relations.blameable(),
   ],

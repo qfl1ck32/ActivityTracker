@@ -9,7 +9,14 @@ export const ActivityNotes = collection({
     timestampable: true,
   },
 
-  fields: [field.string("description"), ...shortcuts.fields.timestampable()],
+  fields: [
+    field.string("value", {
+      defaultValue: "{}",
+      description:
+        "We are representing the value as an object, because we don't have an exact representation of how the note will look like.",
+    }),
+    ...shortcuts.fields.timestampable(),
+  ],
 
   relations: [
     relation({
