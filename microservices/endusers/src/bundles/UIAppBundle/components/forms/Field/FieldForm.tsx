@@ -1,11 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { Field, FieldType } from 'src/api.types';
 import { schema } from './schema';
 
 import { capitalize } from 'lodash-es';
 
-import { TextField, Button, MenuItem, Container, IconButton, Typography } from '@mui/material';
+import { TextField, Button, MenuItem, Container, IconButton, Typography, List, ListItem } from '@mui/material';
 import { ChangeEventHandler, FormEvent, Fragment, useEffect, useState } from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,19 +18,40 @@ export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,
-    getValues,
+    setValue,
+    watch,
     control,
     reset,
-    resetField,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
+  const {
+    fields: enumValues,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: 'enumValues',
+  });
+
+  useEffect(() => {
+    append('Value');
+  }, []);
+
   const onFinish = (e: FormEvent<HTMLFormElement>) => {
     handleSubmit((data: any) => {
-      onSubmit(data);
-      reset();
+      try {
+        onSubmit(data);
+
+        reset({
+          name: '',
+          enumValues: ['Value'],
+        });
+      } catch (err: any) {
+        alert(err);
+      }
     })(e);
   };
 
@@ -64,53 +85,26 @@ export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
         </TextField>
       </div>
 
-      <div>
-        <Controller
-          name="enumValues"
-          control={control}
-          render={(props) => {
-            const {
-              field: { onChange },
-            } = props;
+      {watch('type') === FieldType.ENUM && (
+        <Fragment>
+          <List>
+            {enumValues.map((item, index) => (
+              <ListItem key={item.id}>
+                <TextField placeholder="Field Value" {...register(`enumValues.${index}`)} />
+                {enumValues.length > 1 && (
+                  <IconButton onClick={() => remove(index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                )}
+              </ListItem>
+            ))}
+          </List>
 
-            const [enumValues, setEnumValues] = useState<string[]>([]);
-
-            const onAdd = () => {
-              onChange('');
-              setEnumValues((prev) => prev.concat(props.field.value));
-            };
-
-            const onDelete = (value: string) => {
-              setEnumValues((prev) => prev.filter((item) => item !== value));
-            };
-
-            return (
-              <Fragment>
-                <TextField
-                  InputProps={{
-                    startAdornment: enumValues.map((enumValue, index) => (
-                      <Container key={index}>
-                        {enumValue}
-                        <IconButton size="small" onClick={() => onDelete(enumValue)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Container>
-                    )),
-                    endAdornment: <Button onClick={onAdd}>Add</Button>,
-                  }}
-                  hidden={getValues().type !== FieldType.ENUM}
-                  error={Boolean(errors.enumValues)}
-                  helperText={errors.enumValues?.message}
-                  onChange={onChange}
-                  value={props.field.value || ''}
-                ></TextField>
-
-                <TextField hidden {...register('enumValues')} value={enumValues} />
-              </Fragment>
-            );
-          }}
-        />
-      </div>
+          <div>
+            <Button onClick={() => append('New Value')}>Add New Enum Value</Button>
+          </div>
+        </Fragment>
+      )}
 
       <div>
         <Button type="submit">Add field</Button>

@@ -5,7 +5,7 @@ import { EndUsersNoteModelsCreateInput, Field } from 'src/api.types';
 import { FieldComponent, FieldForm } from '../..';
 import { createSchema } from './schemas';
 
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Button, Container, TextField, Typography, List, ListItem } from '@mui/material';
 
 export type NoteModelsCreateFormProps = {
   onSubmit: (data: EndUsersNoteModelsCreateInput) => Promise<void>;
@@ -24,14 +24,11 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({ onSu
   });
 
   const onAddNewField = (field: Field) => {
-    setFields((prev) => {
-      if (prev.some((currentField) => currentField.name === field.name)) {
-        alert('You already have a field with this name.');
-        return prev;
-      }
+    if (fields.some((_field) => _field.name === field.name)) {
+      throw new Error('You already have a field with this name.');
+    }
 
-      return prev.concat(field);
-    });
+    setFields((prev) => prev.concat(field));
   };
 
   const onRemoveField = (field: Field) => {
@@ -47,10 +44,14 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({ onSu
       </form>
 
       <Container>
-        <Typography>Fields already added</Typography>
-        {fields.map((field) => (
-          <FieldComponent {...{ field, onDelete: onRemoveField }} />
-        ))}
+        <Typography variant="h5">Fields already added</Typography>
+        <List>
+          {fields.map((field, idx) => (
+            <ListItem key={idx}>
+              <FieldComponent {...{ field, onDelete: onRemoveField }} />
+            </ListItem>
+          ))}
+        </List>
       </Container>
 
       <FieldForm {...{ onSubmit: onAddNewField }} />
