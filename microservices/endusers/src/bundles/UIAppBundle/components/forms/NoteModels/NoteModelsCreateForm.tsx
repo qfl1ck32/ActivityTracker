@@ -5,16 +5,24 @@ import { EndUsersNoteModelsCreateInput, Field } from 'src/api.types';
 import { FieldComponent, FieldForm } from '../..';
 import { createSchema } from './schemas';
 
-import { Button, Container, TextField, Typography, List, ListItem } from '@mui/material';
+import { Container, TextField, Typography, List, ListItem } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 export type NoteModelsCreateFormProps = {
   onSubmit: (data: EndUsersNoteModelsCreateInput) => Promise<void>;
 
   fields: Field[];
   setFields: React.Dispatch<SetStateAction<Field[]>>;
+
+  isSubmitting: boolean;
 };
 
-export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({ onSubmit, fields, setFields }) => {
+export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
+  onSubmit,
+  fields,
+  setFields,
+  isSubmitting,
+}) => {
   const {
     register,
     formState: { errors },
@@ -40,7 +48,9 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({ onSu
       <form onSubmit={handleSubmit(onSubmit as any)}>
         <TextField label="name" {...register('name')} error={Boolean(errors.name)} helperText={errors.name?.message} />
 
-        <Button type="submit">Create</Button>
+        <LoadingButton loading={isSubmitting} type="submit">
+          Create
+        </LoadingButton>
       </form>
 
       <Container>

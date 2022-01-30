@@ -9,18 +9,40 @@ import { Container } from '@mui/material';
 
 export const NoteModelsCreateContainer: React.FC = () => {
   const [fields, setFields] = useState<Field[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
-  const [createNoteModel] = useMutation<Mutation['EndUsersNoteModelsCreate'], EndUsersNoteModelsCreateInput>(
+  const [createNoteModel] = useMutation<Mutation['EndUsersNoteModelsCreate'], { input: EndUsersNoteModelsCreateInput }>(
     CreateNoteModel
   );
 
   const onSubmit = async (data: EndUsersNoteModelsCreateInput) => {
-    console.log({ data, fields });
+    setSubmitting(true);
+
+    try {
+      const { name } = data;
+
+      const { data: noteModelId } = await createNoteModel({
+        variables: {
+          input: {
+            fields,
+            name,
+          },
+        },
+      });
+
+      alert('You have successfully created a new note model');
+
+      console.log(noteModelId);
+    } catch (err: any) {
+      alert('Err: ' + err.toString());
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <Container maxWidth="sm">
-      <NoteModelsCreateForm {...{ onSubmit, fields, setFields }} />
+      <NoteModelsCreateForm {...{ onSubmit, fields, setFields, isSubmitting: submitting }} />
     </Container>
   );
 };
