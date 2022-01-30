@@ -15,7 +15,7 @@ import { FieldType } from "../collections";
 // API: https://jestjs.io/docs/en/api
 // Expect: https://jestjs.io/docs/en/expect
 
-describe.only("ActivityLogDetailsService", () => {
+describe("ActivityLogDetailsService", () => {
   test("create()", async () => {
     const activityLogDetailsService = container.get(ActivityLogDetailsService);
 

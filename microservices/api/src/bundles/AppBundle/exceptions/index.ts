@@ -5,3 +5,6 @@ export * from "./DatesAreNotInChronologicalOrder.exception";
 export * from "./FieldEnumValuesAreNotUnique.exception";
 export * from "./FieldNamesAreNotUnique.exception";
 export * from "./FieldEnumValuesAreMissing.exception";
+export * from "./EndUserDoesNotOwnActivityLogDetails.exception";
+export * from "./FieldValueIsNotValid.exception";
+export * from "./FieldNameIsNotDefinedInNoteModel.exception";

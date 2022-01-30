@@ -4,7 +4,9 @@ import {
   EventManager,
   ContainerInstance,
 } from "@bluelibs/core";
+import { ActivityLogDetailsSecurityService } from "./ActivityLogDetailsSecurity.service";
 import { ActivityLogsSecurityService } from "./ActivityLogsSecurity.service";
+import { ActivityNotesSecurityService } from "./ActivityNotesSecurity.service";
 import { DateSecurityService } from "./DateSecurity.service";
 import { FieldSecurityService } from "./FieldSecurity.service";
 import { NoteModelsSecurityService } from "./NoteModelsSecurity.service";
@@ -17,6 +19,9 @@ export class SecurityService {
   public activityLogs: ActivityLogsSecurityService;
 
   @Inject()
+  public activityLogDetails: ActivityLogDetailsSecurityService;
+
+  @Inject()
   public noteModels: NoteModelsSecurityService;
 
   @Inject()
@@ -24,4 +29,7 @@ export class SecurityService {
 
   @Inject()
   public field: FieldSecurityService;
+
+  @Inject()
+  public activityNotesSecurity: ActivityNotesSecurityService;
 }

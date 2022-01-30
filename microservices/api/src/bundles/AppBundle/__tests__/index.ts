@@ -1,3 +1,6 @@
+import "./ActivityNotesSecurity.service.test.ts";
+import "./ActivityLogDetailsSecurity.service.test.ts";
+import "./ActivityNotes.service.test.ts";
 import "./FieldSecurity.service.test.ts";
 import "./Date.service.test.ts";
 import "./DateSecurity.service.test.ts";

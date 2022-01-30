@@ -9,7 +9,10 @@ import { Field, FieldType } from "../collections";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
 import { FieldEnumValuesAreNotUnique } from "../exceptions/FieldEnumValuesAreNotUnique.exception";
-import { FieldEnumValuesAreMissingException } from "../exceptions";
+import {
+  FieldEnumValuesAreMissingException,
+  FieldValueIsNotValidException,
+} from "../exceptions";
 
 @Service()
 export class FieldSecurityService {
@@ -20,7 +23,42 @@ export class FieldSecurityService {
 
     switch (type) {
       case FieldType.ENUM:
-        this.checkEnumValuesAreValid(enumValues, name);
+        return this.checkEnumValuesAreValid(enumValues, name);
+    }
+  }
+
+  public checkFieldValueIsValid(field: Field, value: any) {
+    const { name: fieldName, type, enumValues } = field;
+
+    if (value === undefined) return; // TODO: think, is this right?
+
+    switch (type) {
+      case FieldType.ENUM:
+        return this.checkEnumFieldValueIsValid(value, fieldName, enumValues);
+
+      case FieldType.BOOLEAN:
+        return this.checkBooleanFieldValueIsValid(value, fieldName);
+
+      case FieldType.STRING:
+        return; // TODO: any type of check here?
+    }
+  }
+
+  private checkEnumFieldValueIsValid(
+    value: any,
+    fieldName: string,
+    enumValues: string[]
+  ) {
+    if (!enumValues?.includes(value)) {
+      throw new FieldValueIsNotValidException({
+        fieldName,
+      });
+    }
+  }
+
+  private checkBooleanFieldValueIsValid(value: any, fieldName: string) {
+    if (value !== true && value !== false) {
+      throw new FieldValueIsNotValidException({ fieldName });
     }
   }
 

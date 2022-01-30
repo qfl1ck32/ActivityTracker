@@ -121,4 +121,11 @@ export default {
       updatedById: { $objectId: "61f647dcb7efe9b10c739c9a" },
     },
   ],
+  endUsers: [],
+  activityNotes: [],
+  activityLogs: [],
+  activityLogDetails: [],
+  activities: [],
+  activityTimings: [],
+  noteModels: [],
 };

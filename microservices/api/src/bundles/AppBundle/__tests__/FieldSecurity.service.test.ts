@@ -5,6 +5,7 @@ import {
   FieldEnumValuesAreMissingException,
   FieldEnumValuesAreNotUnique,
 } from "../exceptions";
+import { FieldValueIsNotValidException } from "../exceptions/FieldValueIsNotValid.exception";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -38,6 +39,68 @@ describe("FieldSecurityService", () => {
         type: FieldType.ENUM,
         enumValues: ["a", "b"],
       })
+    ).not.toThrow();
+  });
+
+  test("checkFieldValueIsValid()", async () => {
+    const fieldSecurityService = container.get(FieldSecurityService);
+
+    const check = (field: Field, value: any) => () =>
+      fieldSecurityService.checkFieldValueIsValid(field, value);
+
+    const name = "name";
+    const fieldName = name;
+
+    // ENUM
+    expect(
+      check(
+        {
+          name,
+          type: FieldType.ENUM,
+        },
+        "test"
+      )
+    ).toThrowError(new FieldValueIsNotValidException({ fieldName }));
+
+    // BOOLEAN
+    expect(
+      check(
+        {
+          name,
+          type: FieldType.BOOLEAN,
+        },
+        true
+      )
+    ).not.toThrow();
+
+    expect(
+      check(
+        {
+          name,
+          type: FieldType.BOOLEAN,
+        },
+        false
+      )
+    ).not.toThrow();
+
+    expect(
+      check(
+        {
+          name,
+          type: FieldType.BOOLEAN,
+        },
+        "test"
+      )
+    ).toThrowError(new FieldValueIsNotValidException({ fieldName }));
+
+    expect(
+      check(
+        {
+          name,
+          type: FieldType.STRING,
+        },
+        "test"
+      )
     ).not.toThrow();
   });
 });
