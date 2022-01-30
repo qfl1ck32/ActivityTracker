@@ -1,6 +1,7 @@
 /** @overridable */
 import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
+import { EndUser } from "../";
 import { IPasswordAuthenticationStrategy } from "@bluelibs/password-bundle";
 import { UserRole } from "./enums/UserRole.enum";
 export { UserRole };
@@ -37,6 +38,8 @@ export class User {
   createdById?: ObjectId;
 
   email: string;
+
+  endUser: EndUser[] = [];
 
   fullName: string;
 

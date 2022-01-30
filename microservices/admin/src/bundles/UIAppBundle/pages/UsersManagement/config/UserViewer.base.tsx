@@ -132,6 +132,26 @@ export class UserViewer extends XViewer {
         },
       },
       {
+        id: "endUser",
+        label: t("management.users.fields.endUser"),
+        dataIndex: ["endUser"],
+        render: (value) => {
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.END_USERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "fullName",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdBy",
         label: t("management.users.fields.createdBy"),
         dataIndex: ["createdBy"],
@@ -186,6 +206,10 @@ export class UserViewer extends XViewer {
       profile: {
         firstName: 1,
         lastName: 1,
+      },
+      endUser: {
+        _id: 1,
+        fullName: 1,
       },
       createdBy: {
         _id: 1,

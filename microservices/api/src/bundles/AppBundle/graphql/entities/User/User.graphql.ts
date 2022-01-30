@@ -17,6 +17,7 @@ export default /* GraphQL */ `
     """
     createdById: ObjectId
     email: String!
+    endUser: [EndUser]!
     fullName: String!
     isEnabled: Boolean!
     profile: UserProfile!

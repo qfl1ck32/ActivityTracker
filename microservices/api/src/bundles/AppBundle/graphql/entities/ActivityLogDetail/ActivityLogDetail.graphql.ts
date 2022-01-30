@@ -18,9 +18,11 @@ export default /* GraphQL */ `
     Represents the user's id who has created this object
     """
     createdById: ObjectId
+    endUser: EndUser!
+    endUserId: ObjectId!
     name: String!
-    notes: ActivityNote!
-    notesId: ObjectId!
+    note: ActivityNote!
+    noteId: ObjectId!
     timing: ActivityTiming!
     timingId: ObjectId!
 

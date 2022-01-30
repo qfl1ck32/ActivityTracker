@@ -1,4 +1,9 @@
-import { ActivitiesCollection, EndUsersCollection } from "../../collections";
+import {
+  ActivitiesCollection,
+  ActivityNotesCollection,
+  EndUsersCollection,
+  NoteModelsCollection,
+} from "../../collections";
 import {
   ActivityLogsService,
   EndUserService,
@@ -11,6 +16,7 @@ import { EndUsersNoteModelsCreateInput } from "@bundles/AppBundle/services/input
 import { ObjectId } from "@bluelibs/ejson";
 import { EndUsersActivityLogsCreateInput } from "@bundles/AppBundle/services/inputs/EndUsersActivityLogsCreate.input";
 
+// create
 export const createEndUser = async (
   input: EndUsersRegisterInput = endUsersRegisterInput
 ) => {
@@ -52,4 +58,12 @@ export const createActivityLog = async (
   const activityLogsService = container.get(ActivityLogsService);
 
   return activityLogsService.create(input, userId);
+};
+
+// get
+
+export const getActivityNoteByActivityLogDetailsId = async (
+  activityLogDetailsId: ObjectId
+) => {
+  // return container.get(ActivityNotesCollection).findOne({activityLog})
 };

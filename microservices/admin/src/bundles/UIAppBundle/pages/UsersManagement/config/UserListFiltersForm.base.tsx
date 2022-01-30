@@ -4,7 +4,11 @@ import { XFormElementType, XList, XForm } from "@bluelibs/x-ui-admin";
 import { Service } from "@bluelibs/core";
 import { IComponents, XRouter, use } from "@bluelibs/x-ui";
 import * as Ant from "antd";
-import { User, UsersCollection } from "@bundles/UIAppBundle/collections";
+import {
+  User,
+  EndUsersCollection,
+  UsersCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class UserListFiltersForm extends XForm {
@@ -26,8 +30,8 @@ export class UserListFiltersForm extends XForm {
               <Ant.Select.Option value="ADMIN" key="ADMIN">
                 Admin
               </Ant.Select.Option>
-              <Ant.Select.Option value="USER" key="USER">
-                User
+              <Ant.Select.Option value="END_USER" key="END_USER">
+                End User
               </Ant.Select.Option>
             </Ant.Select>
           </Ant.Form.Item>

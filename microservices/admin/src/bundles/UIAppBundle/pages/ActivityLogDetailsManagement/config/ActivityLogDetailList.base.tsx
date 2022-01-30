@@ -12,6 +12,7 @@ import {
   ActivityTimingsCollection,
   ActivityNotesCollection,
   ActivityLogsCollection,
+  EndUsersCollection,
   ActivityLogDetailsCollection,
 } from "@bundles/UIAppBundle/collections";
 
@@ -131,10 +132,10 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
         },
       },
       {
-        id: "notes",
-        title: t("management.activity_log_details.fields.notes"),
-        key: "management.activity_log_details.fields.notes",
-        dataIndex: ["notes"],
+        id: "note",
+        title: t("management.activity_log_details.fields.note"),
+        key: "management.activity_log_details.fields.note",
+        dataIndex: ["note"],
         sorter: true,
         render: (value, model) => {
           const props = {
@@ -174,6 +175,28 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
           return <UIComponents.AdminListItemRenderer {...props} />;
         },
       },
+      {
+        id: "endUser",
+        title: t("management.activity_log_details.fields.endUser"),
+        key: "management.activity_log_details.fields.endUser",
+        dataIndex: ["endUser"],
+        sorter: true,
+        render: (value, model) => {
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.END_USERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "fullName",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
     ]);
   }
 
@@ -182,8 +205,9 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
       timing: "timing.name",
-      notes: "notes.value",
+      note: "note.value",
       activityLog: "activityLog.name",
+      endUser: "endUser.fullName",
     };
   }
 
@@ -208,16 +232,21 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
         name: 1,
       },
       timingId: 1,
-      notes: {
+      note: {
         _id: 1,
         value: 1,
       },
-      notesId: 1,
+      noteId: 1,
       activityLog: {
         _id: 1,
         name: 1,
       },
       activityLogId: 1,
+      endUser: {
+        _id: 1,
+        fullName: 1,
+      },
+      endUserId: 1,
     };
   }
 }

@@ -9,6 +9,7 @@ import {
   ActivityTimingsCollection,
   ActivityNotesCollection,
   ActivityLogsCollection,
+  EndUsersCollection,
 } from "@bundles/UIAppBundle/collections";
 import { ObjectId } from "@bluelibs/ejson";
 
@@ -46,13 +47,18 @@ export class ActivityLogDetailsCollection extends Collection<ActivityLogDetail> 
       },
       {
         collection: () => ActivityNotesCollection,
-        name: "notes",
-        field: "notesId",
+        name: "note",
+        field: "noteId",
       },
       {
         collection: () => ActivityLogsCollection,
         name: "activityLog",
         field: "activityLogId",
+      },
+      {
+        collection: () => EndUsersCollection,
+        name: "endUser",
+        field: "endUserId",
       },
     ];
   }

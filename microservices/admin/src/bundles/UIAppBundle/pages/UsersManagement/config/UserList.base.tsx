@@ -6,7 +6,11 @@ import { Routes } from "@bundles/UIAppBundle";
 import { Service } from "@bluelibs/core";
 import { IComponents, XRouter, use, QueryBodyType } from "@bluelibs/x-ui";
 import * as Ant from "antd";
-import { User, UsersCollection } from "@bundles/UIAppBundle/collections";
+import {
+  User,
+  EndUsersCollection,
+  UsersCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class UserList extends XList<User> {
@@ -138,6 +142,28 @@ export class UserList extends XList<User> {
         },
       },
       {
+        id: "endUser",
+        title: t("management.users.fields.endUser"),
+        key: "management.users.fields.endUser",
+        dataIndex: ["endUser"],
+        sorter: true,
+        render: (value, model) => {
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.END_USERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "fullName",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdBy",
         title: t("management.users.fields.createdBy"),
         key: "management.users.fields.createdBy",
@@ -186,6 +212,7 @@ export class UserList extends XList<User> {
 
   static getSortMap() {
     return {
+      endUser: "endUser.fullName",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -203,6 +230,10 @@ export class UserList extends XList<User> {
       profile: {
         firstName: 1,
         lastName: 1,
+      },
+      endUser: {
+        _id: 1,
+        fullName: 1,
       },
       createdBy: {
         _id: 1,

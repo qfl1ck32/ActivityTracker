@@ -7,7 +7,11 @@ import { Routes } from "@bundles/UIAppBundle";
 import { Service, Inject } from "@bluelibs/core";
 import { features } from "./features";
 
-import { User, UsersCollection } from "@bundles/UIAppBundle/collections";
+import {
+  User,
+  EndUsersCollection,
+  UsersCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class UserCreateForm extends XForm {
@@ -34,8 +38,8 @@ export class UserCreateForm extends XForm {
               <Ant.Select.Option value="ADMIN" key="ADMIN">
                 Admin
               </Ant.Select.Option>
-              <Ant.Select.Option value="USER" key="USER">
-                User
+              <Ant.Select.Option value="END_USER" key="END_USER">
+                End User
               </Ant.Select.Option>
             </Ant.Select>
           </Ant.Form.Item>

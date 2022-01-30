@@ -122,9 +122,9 @@ export class ActivityLogDetailViewer extends XViewer {
         },
       },
       {
-        id: "notes",
-        label: t("management.activity_log_details.fields.notes"),
-        dataIndex: ["notes"],
+        id: "note",
+        label: t("management.activity_log_details.fields.note"),
+        dataIndex: ["note"],
         render: (value) => {
           const props = {
             type: "relation",
@@ -161,6 +161,26 @@ export class ActivityLogDetailViewer extends XViewer {
           return <UIComponents.AdminListItemRenderer {...props} />;
         },
       },
+      {
+        id: "endUser",
+        label: t("management.activity_log_details.fields.endUser"),
+        dataIndex: ["endUser"],
+        render: (value) => {
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.END_USERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "fullName",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
     ]);
   }
 
@@ -185,16 +205,21 @@ export class ActivityLogDetailViewer extends XViewer {
         name: 1,
       },
       timingId: 1,
-      notes: {
+      note: {
         _id: 1,
         value: 1,
       },
-      notesId: 1,
+      noteId: 1,
       activityLog: {
         _id: 1,
         name: 1,
       },
       activityLogId: 1,
+      endUser: {
+        _id: 1,
+        fullName: 1,
+      },
+      endUserId: 1,
     };
   }
 }

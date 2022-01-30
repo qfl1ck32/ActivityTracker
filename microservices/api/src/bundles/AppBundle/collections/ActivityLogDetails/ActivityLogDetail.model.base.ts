@@ -3,6 +3,7 @@ import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 import { ActivityLog } from "../";
 import { User } from "../";
+import { EndUser } from "../";
 import { ActivityNote } from "../";
 import { ActivityTiming } from "../";
 
@@ -33,13 +34,18 @@ export class ActivityLogDetail {
   @Is(an.objectId().nullable())
   createdById?: ObjectId;
 
+  endUser: EndUser;
+
+  @Is(an.objectId().required())
+  endUserId: ObjectId;
+
   @Is(a.string().required())
   name: string;
 
-  notes: ActivityNote;
+  note: ActivityNote;
 
   @Is(an.objectId().required())
-  notesId: ObjectId;
+  noteId: ObjectId;
 
   timing: ActivityTiming;
 

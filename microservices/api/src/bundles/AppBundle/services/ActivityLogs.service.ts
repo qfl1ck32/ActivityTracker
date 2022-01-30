@@ -14,7 +14,8 @@ import { SecurityService } from "./Security.service";
 export class ActivityLogsService {
   constructor(protected readonly container: ContainerInstance) {}
 
-  @Inject()
+  // FIXME: why doesn't it work without (() => ...) ?
+  @Inject(() => SecurityService)
   private securityService: SecurityService;
 
   @Inject()

@@ -37,7 +37,7 @@ export class ActivityLogDetailsService {
     input: EndUsersActivityLogDetailsCreateInput,
     userId: ObjectId
   ) {
-    const { activityLogId } = input;
+    const { activityLogId, startedAt, finishedAt } = input;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
@@ -46,24 +46,42 @@ export class ActivityLogDetailsService {
       endUserId
     );
 
+    this.securityService.date.checkDatesAreInChronologicalOrder(
+      startedAt,
+      finishedAt
+    );
+
     const activityTimingsInsertResponse =
       await this.activityTimingsCollection.insertOne({
         name: "random", // TODO: we should delete this
+        startedAt,
+        finishedAt,
         activityLogId,
         endUserId,
       });
 
     const activityNoteInsertResponse =
-      await this.activityNotesCollection.insertOne({
-        value: JSON.stringify({}),
+      await this.activityNotesCollection.insertOne(
+        {
+          value: JSON.stringify({}),
+          activityLogId,
+          endUserId,
+        },
+        {
+          context: { userId },
+        }
+      );
+
+    const { insertedId } = await this.activityLogDetailsCollection.insertOne(
+      {
+        timingId: activityTimingsInsertResponse.insertedId,
+        noteId: activityNoteInsertResponse.insertedId,
         activityLogId,
         endUserId,
-      });
+      },
+      { context: { userId } }
+    );
 
-    const { insertedId } = await this.activityLogDetailsCollection.insertOne({
-      timingId: activityTimingsInsertResponse.insertedId,
-      notesId: activityNoteInsertResponse.insertedId,
-      activityLogId,
-    });
+    return insertedId;
   }
 }

@@ -1,3 +1,4 @@
+import { EndUsersCollection } from "../EndUsers/EndUsers.collection";
 import { ActivityLogsCollection } from "../ActivityLogs/ActivityLogs.collection";
 import { ActivityNotesCollection } from "../ActivityNotes/ActivityNotes.collection";
 import { ActivityTimingsCollection } from "../ActivityTimings/ActivityTimings.collection";
@@ -22,12 +23,17 @@ export const timing: IBundleLinkCollectionOption = {
   field: "timingId",
 };
 
-export const notes: IBundleLinkCollectionOption = {
+export const note: IBundleLinkCollectionOption = {
   collection: () => ActivityNotesCollection,
-  field: "notesId",
+  field: "noteId",
 };
 
 export const activityLog: IBundleLinkCollectionOption = {
   collection: () => ActivityLogsCollection,
   field: "activityLogId",
+};
+
+export const endUser: IBundleLinkCollectionOption = {
+  collection: () => EndUsersCollection,
+  field: "endUserId",
 };

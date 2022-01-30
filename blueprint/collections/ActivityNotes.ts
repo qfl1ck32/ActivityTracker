@@ -27,8 +27,8 @@ export const ActivityNotes = collection({
     }),
 
     relation({
-      id: "activityLog",
-      to: "ActivityLogs",
+      id: "activityLogDetails",
+      to: "ActivityLogDetails",
     }),
 
     ...shortcuts.relations.blameable(),

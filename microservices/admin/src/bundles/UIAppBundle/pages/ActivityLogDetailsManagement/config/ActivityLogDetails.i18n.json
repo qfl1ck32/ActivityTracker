@@ -14,15 +14,17 @@
           "updatedById": "updatedById",
           "updatedById_description": "Represents the user's id who has made the latest update on this object",
           "timingId": "timingId",
-          "notesId": "notesId",
+          "noteId": "noteId",
           "activityLogId": "activityLogId",
+          "endUserId": "endUserId",
           "createdBy": "Created By",
           "createdBy_description": "Represents the user who has created this object",
           "updatedBy": "Updated By",
           "updatedBy_description": "Represents the user who has made the latest update on this object",
           "timing": "Timing",
-          "notes": "Notes",
-          "activityLog": "Activity Log"
+          "note": "Note",
+          "activityLog": "Activity Log",
+          "endUser": "End User"
         },
         "menu": {
           "title": "ActivityLogDetails"

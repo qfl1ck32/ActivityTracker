@@ -29,9 +29,9 @@ export const ActivityTimings = collection({
     }),
 
     relation({
-      id: "activityLog",
-      to: "ActivityLogs",
-    }), // TODO: I got doubts
+      id: "activityLogDetails",
+      to: "ActivityLogDetails",
+    }),
 
     ...shortcuts.relations.blameable(),
   ],

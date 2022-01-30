@@ -23,6 +23,7 @@
           "profile.firstName": "Profile — First Name",
           "profile.lastName": "Profile — Last Name",
           "_id": "ID",
+          "endUser": "End User",
           "createdBy": "Created By",
           "createdBy_description": "Represents the user who has created this object",
           "updatedBy": "Updated By",

@@ -13,6 +13,7 @@ import {
   ActivityTimingsCollection,
   ActivityNotesCollection,
   ActivityLogsCollection,
+  EndUsersCollection,
   ActivityLogDetailsCollection,
 } from "@bundles/UIAppBundle/collections";
 
@@ -50,9 +51,9 @@ export class ActivityLogDetailCreateForm extends XForm {
       },
 
       {
-        id: "notesId",
-        label: t("management.activity_log_details.fields.notes"),
-        name: ["notesId"],
+        id: "noteId",
+        label: t("management.activity_log_details.fields.note"),
+        name: ["noteId"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
@@ -74,6 +75,21 @@ export class ActivityLogDetailCreateForm extends XForm {
             <UIComponents.RemoteSelect
               collectionClass={ActivityLogsCollection}
               field="name"
+            />
+          </Ant.Form.Item>
+        ),
+      },
+
+      {
+        id: "endUserId",
+        label: t("management.activity_log_details.fields.endUser"),
+        name: ["endUserId"],
+        required: true,
+        render: (props) => (
+          <Ant.Form.Item {...props}>
+            <UIComponents.RemoteSelect
+              collectionClass={EndUsersCollection}
+              field="fullName"
             />
           </Ant.Form.Item>
         ),

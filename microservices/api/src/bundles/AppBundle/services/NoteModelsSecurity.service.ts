@@ -5,15 +5,23 @@ import {
   ContainerInstance,
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
+import { FieldSecurityService } from ".";
 import { NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
+import { EndUsersNoteModelsCreateInput } from "./inputs";
 
+// TODO: import from lodash-es, three shake
+import { uniq } from "lodash";
+import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 @Service()
 export class NoteModelsSecurityService {
   constructor(protected readonly container: ContainerInstance) {}
 
   @Inject()
   private noteModelsCollection: NoteModelsCollection;
+
+  @Inject()
+  private fieldSecurityService: FieldSecurityService;
 
   public async checkEndUserOwnsNoteModel(
     noteModelId: ObjectId,
@@ -28,5 +36,19 @@ export class NoteModelsSecurityService {
     if (numberOfNoteModelsByIdAndEndUserId === 0) {
       throw new EndUserDoesNotOwnNoteModelException();
     }
+  }
+
+  public checkCreateInputIsValid(input: EndUsersNoteModelsCreateInput) {
+    const { fields } = input;
+
+    const fieldNames = fields.map((field) => field.name);
+
+    if (uniq(fieldNames).length !== fields.length) {
+      throw new FieldNamesAreNotUniqueException();
+    }
+
+    fields.forEach((field) =>
+      this.fieldSecurityService.checkFieldIsValid(field)
+    );
   }
 }
