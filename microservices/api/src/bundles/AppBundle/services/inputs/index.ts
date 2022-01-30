@@ -20,3 +20,4 @@ export * from "./EndUserUpdate.input";
 export * from "./EndUsersActivityLogsCreate.input";
 export * from "./EndUsersRegister.input";
 export * from "./EndUsersNoteModelsCreate.input";
+export * from "./EndUsersActivityLogDetailsCreate.input";

@@ -1,3 +1,4 @@
+import "./ActivityLogDetails.service.test.ts";
 import "./NoteModels.service.test.ts";
 import "./NoteModelsSecurity.service.test.ts";
 import "./EndUser.service.test.ts";

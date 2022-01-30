@@ -22,13 +22,18 @@ export const ActivityLogDetails = collection({
     }),
 
     relation({
-      id: "notes",
+      id: "note",
       to: "ActivityNotes",
     }),
 
     relation({
       id: "activityLog",
       to: "ActivityLogs",
+    }),
+
+    relation({
+      id: "endUser",
+      to: "EndUsers",
     }),
   ],
 });

@@ -6,6 +6,7 @@ import {
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import { ActivityLogsCollection } from "../collections";
+import { EndUserDoesNotOwnActivityLogException } from "../exceptions";
 import { ActivityAlreadyDefinedException } from "../exceptions/ActivityAlreadyDefined.exception";
 
 @Service()
@@ -27,6 +28,21 @@ export class ActivityLogsSecurityService {
 
     if (numberOfActivityLogsByActivityIdForEndUser > 0) {
       throw new ActivityAlreadyDefinedException();
+    }
+  }
+
+  public async checkEndUserOwnsActivityLog(
+    activityLogId: ObjectId,
+    endUserId: ObjectId
+  ) {
+    const numberOfActivityLogsByIdAndEndUserId =
+      await this.activityLogsCollection.count({
+        _id: activityLogId,
+        endUserId,
+      });
+
+    if (numberOfActivityLogsByIdAndEndUserId === 0) {
+      throw new EndUserDoesNotOwnActivityLogException();
     }
   }
 }
