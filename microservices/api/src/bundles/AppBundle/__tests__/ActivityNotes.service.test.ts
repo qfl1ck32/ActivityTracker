@@ -19,7 +19,7 @@ describe("ActivityNotesService", () => {
   test("update()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
-    const { userId, endUserId } = await createEndUser();
+    const { userId } = await createEndUser();
 
     const activityId = await createActivity();
 
