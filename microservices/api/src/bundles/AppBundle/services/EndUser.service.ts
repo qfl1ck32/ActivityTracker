@@ -22,10 +22,17 @@ export class EndUserService {
   public async register(input: EndUsersRegisterInput) {
     const { userId } = await this.xPasswordService.register(input);
 
-    await this.endUsersCollection.insertOne({
-      ...input,
-      ownerId: userId as ObjectId,
-    });
+    await this.endUsersCollection.insertOne(
+      {
+        ...input,
+        ownerId: userId as ObjectId,
+      },
+      {
+        context: {
+          userId,
+        },
+      }
+    );
   }
 
   public async getIdByOwnerId(ownerId: ObjectId) {
