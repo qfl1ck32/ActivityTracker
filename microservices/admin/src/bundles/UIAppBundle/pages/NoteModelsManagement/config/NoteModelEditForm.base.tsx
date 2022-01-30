@@ -62,8 +62,11 @@ export class NoteModelEditForm extends XForm {
                   <Ant.Select.Option value="ENUM" key="ENUM">
                     Enum
                   </Ant.Select.Option>
-                  <Ant.Select.Option value="DATE" key="DATE">
-                    Date
+                  <Ant.Select.Option value="INTEGER" key="INTEGER">
+                    Integer
+                  </Ant.Select.Option>
+                  <Ant.Select.Option value="FLOAT" key="FLOAT">
+                    Float
                   </Ant.Select.Option>
                   <Ant.Select.Option value="STRING" key="STRING">
                     String

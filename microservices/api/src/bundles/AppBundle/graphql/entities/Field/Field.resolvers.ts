@@ -4,7 +4,8 @@ export default {
     FieldType: {
       BOOLEAN: "BOOLEAN",
       ENUM: "ENUM",
-      DATE: "DATE",
+      INTEGER: "INTEGER",
+      FLOAT: "FLOAT",
       STRING: "STRING",
     },
   },
