@@ -1,4 +1,4 @@
-import { LoginContainer } from "src/bundles/UIAppBundle/components/containers/Login/LoginContainer";
+import { LoginContainer } from 'src/bundles/UIAppBundle/components/containers';
 
 const LoginPage = () => {
   return <LoginContainer />;

@@ -1,4 +1,4 @@
-import { VerifyEmailContainer } from "src/bundles/UIAppBundle/components/containers/VerifyEmail/VerifyEmailContainer";
+import { VerifyEmailContainer } from 'src/bundles/UIAppBundle/components/containers/VerifyEmail/VerifyEmailContainer';
 
 const VerifyEmailPage: React.FC = () => {
   return <VerifyEmailContainer />;

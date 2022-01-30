@@ -1,6 +1,6 @@
-import { IRoute } from "@bluelibs/x-ui-next";
+import { IRoute } from '@bluelibs/x-ui-next';
 
-export const LOGIN: IRoute = {
-  name: "Login",
-  path: "/login",
+export const Login: IRoute = {
+  name: 'Login',
+  path: '/login',
 };
