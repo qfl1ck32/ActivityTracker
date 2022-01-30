@@ -15,7 +15,7 @@ import { EJSON } from "@bluelibs/ejson";
 // API: https://jestjs.io/docs/en/api
 // Expect: https://jestjs.io/docs/en/expect
 
-describe.only("ActivityNotesService", () => {
+describe("ActivityNotesService", () => {
   test("update()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
@@ -35,7 +35,7 @@ describe.only("ActivityNotesService", () => {
           },
           {
             name: "How many reps?",
-            type: FieldType.INTEGER,
+            type: FieldType.NUMBER,
           },
           {
             name: "Did you rest?",
@@ -78,7 +78,7 @@ describe.only("ActivityNotesService", () => {
       userId
     );
 
-    let activityNote = await getActivityNoteByActivityLogDetailsId(
+    const activityNote = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId
     );
 
