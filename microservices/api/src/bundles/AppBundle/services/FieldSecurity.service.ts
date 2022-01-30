@@ -41,6 +41,9 @@ export class FieldSecurityService {
 
       case FieldType.STRING:
         return; // TODO: any type of check here?
+
+      case FieldType.NUMBER:
+        return this.checkNumberFieldValueIsValid(value, fieldName);
     }
   }
 
@@ -58,6 +61,12 @@ export class FieldSecurityService {
 
   private checkBooleanFieldValueIsValid(value: any, fieldName: string) {
     if (value !== true && value !== false) {
+      throw new FieldValueIsNotValidException({ fieldName });
+    }
+  }
+
+  private checkNumberFieldValueIsValid(value: any, fieldName: string) {
+    if (!Number.isInteger(value)) {
       throw new FieldValueIsNotValidException({ fieldName });
     }
   }

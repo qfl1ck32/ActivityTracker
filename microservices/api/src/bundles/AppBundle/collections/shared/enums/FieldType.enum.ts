@@ -1,15 +1,13 @@
 export enum FieldType {
   BOOLEAN = "BOOLEAN",
   ENUM = "ENUM",
-  INTEGER = "INTEGER",
-  FLOAT = "FLOAT",
+  NUMBER = "NUMBER",
   STRING = "STRING",
 }
 
 export enum FieldTypeLabels {
   "BOOLEAN" = "Boolean",
   "ENUM" = "Enum",
-  "INTEGER" = "Integer",
-  "FLOAT" = "Float",
+  "NUMBER" = "Number",
   "STRING" = "String",
 }

@@ -8,8 +8,7 @@ export default /* GraphQL */ `
   enum FieldType {
     BOOLEAN
     ENUM
-    INTEGER
-    FLOAT
+    NUMBER
     STRING
   }
 `;

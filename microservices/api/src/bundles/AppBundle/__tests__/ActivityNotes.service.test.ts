@@ -9,12 +9,13 @@ import {
   getActivityNoteByActivityLogDetailsId,
 } from "./utilities";
 import { FieldType } from "../collections";
+import { EJSON } from "@bluelibs/ejson";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
 // Expect: https://jestjs.io/docs/en/expect
 
-describe("ActivityNotesService", () => {
+describe.only("ActivityNotesService", () => {
   test("update()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
@@ -34,7 +35,11 @@ describe("ActivityNotesService", () => {
           },
           {
             name: "How many reps?",
-            type: FieldType.BOOLEAN, // TODO: add numbers!
+            type: FieldType.INTEGER,
+          },
+          {
+            name: "Did you rest?",
+            type: FieldType.BOOLEAN,
           },
         ],
       },
@@ -59,8 +64,10 @@ describe("ActivityNotesService", () => {
       userId
     );
 
-    const value = JSON.stringify({
-      "my field": 32,
+    const value = EJSON.stringify({
+      "How it went?": "EXCELLENT",
+      "How many reps?": 10,
+      "Did you rest?": false,
     });
 
     await activityNotesService.update(
@@ -75,6 +82,6 @@ describe("ActivityNotesService", () => {
       activityLogDetailsId
     );
 
-    console.log(activityNote.value);
+    expect(activityNote.value).toBe(value);
   });
 });
