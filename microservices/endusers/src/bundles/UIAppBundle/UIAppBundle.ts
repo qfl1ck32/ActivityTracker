@@ -1,8 +1,8 @@
-import { Bundle } from "@bluelibs/core";
-import { XUINextBundle } from "@bluelibs/x-ui-next";
-import { AppGuardian } from "./services/AppGuardian";
+import { Bundle } from '@bluelibs/core';
+import { XUINextBundle } from '@bluelibs/x-ui-next';
+import { AppGuardian } from './services/AppGuardian';
 
-// import * as ComponentOverrides from "./overrides";
+import * as ComponentOverrides from './overrides';
 
 export class UIAppBundle extends Bundle {
   async prepare() {
@@ -10,7 +10,6 @@ export class UIAppBundle extends Bundle {
 
     xui.setGuardianClass(AppGuardian);
 
-    // In case you want to override certain components
-    // xui.updateComponents(ComponentOverrides);
+    xui.updateComponents(ComponentOverrides);
   }
 }
