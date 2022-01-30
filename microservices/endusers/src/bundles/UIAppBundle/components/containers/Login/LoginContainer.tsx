@@ -17,7 +17,6 @@ export const LoginContainer: React.FC = () => {
   });
 
   const onSubmit = async (data: LoginInput) => {
-    console.log(data);
     try {
       const { username, password } = data;
       await guardian.login(username, password);
