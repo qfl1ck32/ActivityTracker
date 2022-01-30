@@ -1,6 +1,6 @@
 export default /* GraphQL */ `
   input ActivityTimingUpdateInput {
-    activityLogId: ObjectId
+    activityLogDetailsId: ObjectId
     endUserId: ObjectId
     finishedAt: Date
     name: String

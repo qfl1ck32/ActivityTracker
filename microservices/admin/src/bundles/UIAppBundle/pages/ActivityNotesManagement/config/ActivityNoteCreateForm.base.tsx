@@ -10,7 +10,7 @@ import { features } from "./features";
 import {
   ActivityNote,
   EndUsersCollection,
-  ActivityLogsCollection,
+  ActivityLogDetailsCollection,
   UsersCollection,
   ActivityNotesCollection,
 } from "@bundles/UIAppBundle/collections";
@@ -51,14 +51,14 @@ export class ActivityNoteCreateForm extends XForm {
       },
 
       {
-        id: "activityLogId",
-        label: t("management.activity_notes.fields.activityLog"),
-        name: ["activityLogId"],
+        id: "activityLogDetailsId",
+        label: t("management.activity_notes.fields.activityLogDetails"),
+        name: ["activityLogDetailsId"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
-              collectionClass={ActivityLogsCollection}
+              collectionClass={ActivityLogDetailsCollection}
               field="name"
             />
           </Ant.Form.Item>

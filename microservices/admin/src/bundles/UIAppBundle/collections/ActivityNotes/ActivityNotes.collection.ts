@@ -6,7 +6,7 @@ import {
 import { ActivityNote } from "@root/api.types";
 import {
   EndUsersCollection,
-  ActivityLogsCollection,
+  ActivityLogDetailsCollection,
   UsersCollection,
 } from "@bundles/UIAppBundle/collections";
 import { ObjectId } from "@bluelibs/ejson";
@@ -34,9 +34,9 @@ export class ActivityNotesCollection extends Collection<ActivityNote> {
         field: "endUserId",
       },
       {
-        collection: () => ActivityLogsCollection,
-        name: "activityLog",
-        field: "activityLogId",
+        collection: () => ActivityLogDetailsCollection,
+        name: "activityLogDetails",
+        field: "activityLogDetailsId",
       },
       {
         collection: () => UsersCollection,

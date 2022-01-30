@@ -1,5 +1,5 @@
 import { UsersCollection } from "../Users/Users.collection";
-import { ActivityLogsCollection } from "../ActivityLogs/ActivityLogs.collection";
+import { ActivityLogDetailsCollection } from "../ActivityLogDetails/ActivityLogDetails.collection";
 import { EndUsersCollection } from "../EndUsers/EndUsers.collection";
 import { IBundleLinkCollectionOption } from "@bluelibs/mongo-bundle";
 
@@ -11,9 +11,9 @@ export const endUser: IBundleLinkCollectionOption = {
   field: "endUserId",
 };
 
-export const activityLog: IBundleLinkCollectionOption = {
-  collection: () => ActivityLogsCollection,
-  field: "activityLogId",
+export const activityLogDetails: IBundleLinkCollectionOption = {
+  collection: () => ActivityLogDetailsCollection,
+  field: "activityLogDetailsId",
 };
 
 export const createdBy: IBundleLinkCollectionOption = {

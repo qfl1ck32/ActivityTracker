@@ -1,6 +1,7 @@
 import {
   ActivitiesCollection,
   ActivityNotesCollection,
+  ActivityTimingsCollection,
   EndUsersCollection,
   NoteModelsCollection,
 } from "../../collections";
@@ -65,5 +66,15 @@ export const createActivityLog = async (
 export const getActivityNoteByActivityLogDetailsId = async (
   activityLogDetailsId: ObjectId
 ) => {
-  // return container.get(ActivityNotesCollection).findOne({activityLog})
+  return container
+    .get(ActivityNotesCollection)
+    .findOne({ activityLogDetailsId });
+};
+
+export const getActivityTimingByActivityLogDetailsId = async (
+  activityLogDetailsId: ObjectId
+) => {
+  return container
+    .get(ActivityTimingsCollection)
+    .findOne({ activityLogDetailsId });
 };

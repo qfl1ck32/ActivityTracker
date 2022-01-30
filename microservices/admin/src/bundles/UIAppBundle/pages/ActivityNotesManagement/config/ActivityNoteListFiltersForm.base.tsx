@@ -7,7 +7,7 @@ import * as Ant from "antd";
 import {
   ActivityNote,
   EndUsersCollection,
-  ActivityLogsCollection,
+  ActivityLogDetailsCollection,
   UsersCollection,
   ActivityNotesCollection,
 } from "@bundles/UIAppBundle/collections";
@@ -72,13 +72,13 @@ export class ActivityNoteListFiltersForm extends XForm {
       },
 
       {
-        id: "activityLogId",
-        label: t("management.activity_notes.fields.activityLog"),
-        name: ["activityLogId"],
+        id: "activityLogDetailsId",
+        label: t("management.activity_notes.fields.activityLogDetails"),
+        name: ["activityLogDetailsId"],
         render: (props) => (
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
-              collectionClass={ActivityLogsCollection}
+              collectionClass={ActivityLogDetailsCollection}
               field="name"
               placeholder="Please select an option"
               mode="multiple"

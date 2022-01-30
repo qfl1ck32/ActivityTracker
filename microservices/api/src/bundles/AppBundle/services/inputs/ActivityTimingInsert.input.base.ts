@@ -5,7 +5,7 @@ import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 @Schema()
 export class ActivityTimingInsertInput {
   @Is(an.objectId().required())
-  activityLogId: ObjectId;
+  activityLogDetailsId: ObjectId;
 
   @Is(an.objectId().required())
   endUserId: ObjectId;

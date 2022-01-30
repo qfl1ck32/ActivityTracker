@@ -6,6 +6,8 @@ import {
   createActivityLog,
   createEndUser,
   createNoteModel,
+  getActivityNoteByActivityLogDetailsId,
+  getActivityTimingByActivityLogDetailsId,
 } from "./utilities";
 import { FieldType } from "../collections";
 
@@ -46,14 +48,35 @@ describe.only("ActivityLogDetailsService", () => {
       userId
     );
 
+    const startedAt = dateService.toDayJS().toDate();
+    const finishedAt = dateService.toDayJS().add(1, "minute").toDate();
+
     const activityLogDetailsId = await activityLogDetailsService.create(
       {
         activityLogId,
-
-        startedAt: dateService.toDayJS().toDate(),
-        finishedAt: dateService.toDayJS().add(1, "minute").toDate(),
+        startedAt,
+        finishedAt,
       },
       userId
     );
+
+    expect(activityLogDetailsId).toBeTruthy();
+
+    const timing = await getActivityTimingByActivityLogDetailsId(
+      activityLogDetailsId
+    );
+
+    expect(timing).toBeTruthy();
+
+    expect(timing.startedAt).toStrictEqual(startedAt);
+    expect(timing.finishedAt).toStrictEqual(finishedAt);
+
+    const note = await getActivityNoteByActivityLogDetailsId(
+      activityLogDetailsId
+    );
+
+    expect(note).toBeTruthy();
+
+    expect(note.value).toBe(JSON.stringify({}));
   });
 });

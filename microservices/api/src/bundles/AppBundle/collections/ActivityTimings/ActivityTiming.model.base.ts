@@ -1,7 +1,7 @@
 /** @overridable */
 import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
-import { ActivityLog } from "../";
+import { ActivityLogDetail } from "../";
 import { User } from "../";
 import { EndUser } from "../";
 
@@ -10,10 +10,10 @@ export class ActivityTiming {
   @Is(an.objectId())
   _id?: ObjectId;
 
-  activityLog: ActivityLog;
+  activityLogDetails: ActivityLogDetail;
 
   @Is(an.objectId().required())
-  activityLogId: ObjectId;
+  activityLogDetailsId: ObjectId;
 
   /**
    * @description Represents the date when this object was created

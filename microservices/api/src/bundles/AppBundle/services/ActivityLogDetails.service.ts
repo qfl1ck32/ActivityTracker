@@ -52,19 +52,11 @@ export class ActivityLogDetailsService {
     );
 
     const activityTimingsInsertResponse =
-      await this.activityTimingsCollection.insertOne({
-        name: "random", // TODO: we should delete this
-        startedAt,
-        finishedAt,
-        activityLogId,
-        endUserId,
-      });
-
-    const activityNoteInsertResponse =
-      await this.activityNotesCollection.insertOne(
+      await this.activityTimingsCollection.insertOne(
         {
-          value: JSON.stringify({}),
-          activityLogId,
+          name: "random", // TODO: we should delete this
+          startedAt,
+          finishedAt,
           endUserId,
         },
         {
@@ -72,16 +64,50 @@ export class ActivityLogDetailsService {
         }
       );
 
-    const { insertedId } = await this.activityLogDetailsCollection.insertOne(
+    const activityNoteInsertResponse =
+      await this.activityNotesCollection.insertOne(
+        {
+          value: JSON.stringify({}),
+          endUserId,
+        },
+        {
+          context: { userId },
+        }
+      );
+
+    const { insertedId: activityLogDetailsId } =
+      await this.activityLogDetailsCollection.insertOne(
+        {
+          timingId: activityTimingsInsertResponse.insertedId,
+          noteId: activityNoteInsertResponse.insertedId,
+          activityLogId,
+          endUserId,
+        },
+        { context: { userId } }
+      );
+
+    await this.activityTimingsCollection.updateOne(
       {
-        timingId: activityTimingsInsertResponse.insertedId,
-        noteId: activityNoteInsertResponse.insertedId,
-        activityLogId,
-        endUserId,
+        _id: activityTimingsInsertResponse.insertedId,
       },
-      { context: { userId } }
+      {
+        $set: {
+          activityLogDetailsId,
+        },
+      }
     );
 
-    return insertedId;
+    await this.activityNotesCollection.updateOne(
+      {
+        _id: activityNoteInsertResponse.insertedId,
+      },
+      {
+        $set: {
+          activityLogDetailsId,
+        },
+      }
+    );
+
+    return activityLogDetailsId;
   }
 }

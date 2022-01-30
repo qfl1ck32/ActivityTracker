@@ -8,7 +8,7 @@ import * as Ant from "antd";
 import {
   ActivityTiming,
   EndUsersCollection,
-  ActivityLogsCollection,
+  ActivityLogDetailsCollection,
   UsersCollection,
   ActivityTimingsCollection,
 } from "@bundles/UIAppBundle/collections";
@@ -62,14 +62,14 @@ export class ActivityTimingEditForm extends XForm {
       },
 
       {
-        id: "activityLogId",
-        label: t("management.activity_timings.fields.activityLog"),
-        name: ["activityLogId"],
+        id: "activityLogDetailsId",
+        label: t("management.activity_timings.fields.activityLogDetails"),
+        name: ["activityLogDetailsId"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
-              collectionClass={ActivityLogsCollection}
+              collectionClass={ActivityLogDetailsCollection}
               field="name"
             />
           </Ant.Form.Item>
@@ -89,11 +89,11 @@ export class ActivityTimingEditForm extends XForm {
         fullName: 1,
       },
       endUserId: 1,
-      activityLog: {
+      activityLogDetails: {
         _id: 1,
         name: 1,
       },
-      activityLogId: 1,
+      activityLogDetailsId: 1,
     };
   }
 

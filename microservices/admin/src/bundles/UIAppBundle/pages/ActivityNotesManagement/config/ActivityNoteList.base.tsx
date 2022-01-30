@@ -9,7 +9,7 @@ import * as Ant from "antd";
 import {
   ActivityNote,
   EndUsersCollection,
-  ActivityLogsCollection,
+  ActivityLogDetailsCollection,
   UsersCollection,
   ActivityNotesCollection,
 } from "@bundles/UIAppBundle/collections";
@@ -86,17 +86,17 @@ export class ActivityNoteList extends XList<ActivityNote> {
         },
       },
       {
-        id: "activityLog",
-        title: t("management.activity_notes.fields.activityLog"),
-        key: "management.activity_notes.fields.activityLog",
-        dataIndex: ["activityLog"],
+        id: "activityLogDetails",
+        title: t("management.activity_notes.fields.activityLogDetails"),
+        key: "management.activity_notes.fields.activityLogDetails",
+        dataIndex: ["activityLogDetails"],
         sorter: true,
         render: (value, model) => {
           const props = {
             type: "relation",
             value,
             relation: {
-              path: router.path(Routes.ACTIVITY_LOGS_VIEW, {
+              path: router.path(Routes.ACTIVITY_LOG_DETAILS_VIEW, {
                 params: {
                   id: value?._id,
                 },
@@ -157,7 +157,7 @@ export class ActivityNoteList extends XList<ActivityNote> {
   static getSortMap() {
     return {
       endUser: "endUser.fullName",
-      activityLog: "activityLog.name",
+      activityLogDetails: "activityLogDetails.name",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -174,11 +174,11 @@ export class ActivityNoteList extends XList<ActivityNote> {
         fullName: 1,
       },
       endUserId: 1,
-      activityLog: {
+      activityLogDetails: {
         _id: 1,
         name: 1,
       },
-      activityLogId: 1,
+      activityLogDetailsId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,

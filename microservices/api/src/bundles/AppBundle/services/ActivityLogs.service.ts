@@ -42,12 +42,17 @@ export class ActivityLogsService {
       endUserId
     );
 
-    const { insertedId } = await this.activityLogsCollection.insertOne({
-      activityId,
-      name,
-      endUserId,
-      noteModelId,
-    });
+    const { insertedId } = await this.activityLogsCollection.insertOne(
+      {
+        activityId,
+        name,
+        endUserId,
+        noteModelId,
+      },
+      {
+        context: { userId },
+      }
+    );
 
     return insertedId;
   }
