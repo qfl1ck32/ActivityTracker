@@ -15,8 +15,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit as any)}>
-        <input type="text" {...register("usename")} />
+        <input type="text" {...register("username")} />
         <input type="password" {...register("password")} />
+        <button type="submit">Login</button>
       </form>
     </div>
   );
