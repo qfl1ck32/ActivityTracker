@@ -77,7 +77,7 @@ describe("ActivityLogsSecurityService", () => {
       userId
     );
 
-    const activityLogId = await activityLogsService.create(
+    const { _id: activityLogId } = await activityLogsService.create(
       {
         name: "activity log",
         activityId,
