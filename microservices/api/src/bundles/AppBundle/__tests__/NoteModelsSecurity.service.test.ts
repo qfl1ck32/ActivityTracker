@@ -6,6 +6,7 @@ import {
   endUsersRegisterInput,
 } from "./utilities";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
+import { NoteModelNameAlreadyExistsException } from "../exceptions";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -43,5 +44,35 @@ describe("NoteModelsSecurityService", () => {
         secondEndUserId
       )
     ).rejects.toThrowError(new EndUserDoesNotOwnNoteModelException());
+  });
+
+  test("checkEndUserDoesNotHaveNoteModelWithTheSameName()", async () => {
+    const noteModelsSecurityService = container.get(NoteModelsSecurityService);
+
+    const { userId, endUserId } = await createEndUser();
+
+    const name = "abc";
+
+    await expect(
+      noteModelsSecurityService.checkEndUserDoesNotHaveNoteModelWithTheSameName(
+        name,
+        endUserId
+      )
+    ).resolves.not.toThrow();
+
+    await createNoteModel(
+      {
+        name,
+        fields: [],
+      },
+      userId
+    );
+
+    await expect(
+      noteModelsSecurityService.checkEndUserDoesNotHaveNoteModelWithTheSameName(
+        name,
+        endUserId
+      )
+    ).rejects.toThrowError(new NoteModelNameAlreadyExistsException());
   });
 });

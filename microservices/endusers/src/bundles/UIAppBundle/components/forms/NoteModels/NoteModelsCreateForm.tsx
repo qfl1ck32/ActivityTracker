@@ -1,11 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { EndUsersNoteModelsCreateInput, Field } from 'src/api.types';
+import { EndUsersNoteModelsCreateInput, Field, FieldType } from 'src/api.types';
 import { FieldComponent, FieldForm } from '../..';
 import { createSchema } from './schemas';
 
-import { Container, TextField, Typography, List, ListItem } from '@mui/material';
+import { Container, TextField, Typography, List, ListItem, Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 export type NoteModelsCreateFormProps = {
@@ -36,6 +36,11 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
       throw new Error('You already have a field with this name.');
     }
 
+    // TODO: should this be handled in the form?
+    if (field.type !== FieldType.ENUM) {
+      delete field.enumValues;
+    }
+
     setFields((prev) => prev.concat(field));
   };
 
@@ -44,7 +49,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
   };
 
   return (
-    <Container>
+    <Box>
       <form onSubmit={handleSubmit(onSubmit as any)}>
         <TextField label="name" {...register('name')} error={Boolean(errors.name)} helperText={errors.name?.message} />
 
@@ -53,7 +58,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
         </LoadingButton>
       </form>
 
-      <Container>
+      <Box>
         <Typography variant="h5">Fields already added</Typography>
         <List>
           {fields.map((field, idx) => (
@@ -62,9 +67,9 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
             </ListItem>
           ))}
         </List>
-      </Container>
+      </Box>
 
       <FieldForm {...{ onSubmit: onAddNewField }} />
-    </Container>
+    </Box>
   );
 };

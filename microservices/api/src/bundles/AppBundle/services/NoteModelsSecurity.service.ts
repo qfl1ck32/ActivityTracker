@@ -13,6 +13,7 @@ import { EndUsersNoteModelsCreateInput } from "./inputs";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
+import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
 @Service()
 export class NoteModelsSecurityService {
   constructor(protected readonly container: ContainerInstance) {}
@@ -50,5 +51,20 @@ export class NoteModelsSecurityService {
     fields.forEach((field) =>
       this.fieldSecurityService.checkFieldIsValid(field)
     );
+  }
+
+  public async checkEndUserDoesNotHaveNoteModelWithTheSameName(
+    name: string,
+    endUserId: ObjectId
+  ) {
+    const numberOfNoteModelsByNameAndEndUserId =
+      await this.noteModelsCollection.count({
+        name,
+        endUserId,
+      });
+
+    if (numberOfNoteModelsByNameAndEndUserId > 0) {
+      throw new NoteModelNameAlreadyExistsException();
+    }
   }
 }

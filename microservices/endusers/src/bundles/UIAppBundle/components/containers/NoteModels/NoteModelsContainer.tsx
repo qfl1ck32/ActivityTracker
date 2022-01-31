@@ -1,24 +1,20 @@
-import { useQuery } from '@apollo/client';
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
 import { useState } from 'react';
-import { NoteModel, Query } from 'src/api.types';
-import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
+import { NoteModelsCreateModal } from '../../modals';
+import { NoteModelsListContainer } from './NoteModelsListContainer';
 
 export const NoteModelsContainer: React.FC = () => {
-  const [noteModels, setNoteModels] = useState<NoteModel[]>([]);
-
-  const { loading, error } = useQuery<{ EndUsersNoteModelsGetAll: Query['EndUsersNoteModelsGetAll'] }>(
-    NoteModelsGetAll,
-    {
-      onCompleted: (data) => setNoteModels(data.EndUsersNoteModelsGetAll),
-    }
-  );
-
-  console.log(noteModels);
+  const [createModalIsOpened, setCreateModalIsOpened] = useState(false);
 
   return (
     <Container>
       <Typography variant="h6">Hello</Typography>
+
+      <Button onClick={() => setCreateModalIsOpened((prev) => !prev)}>Create</Button>
+
+      <NoteModelsListContainer />
+
+      <NoteModelsCreateModal open={createModalIsOpened} onClose={() => setCreateModalIsOpened(false)} />
     </Container>
   );
 };

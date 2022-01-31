@@ -37,7 +37,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
   });
 
   useEffect(() => {
-    append('Value');
+    append('');
   }, []);
 
   const onFinish = (e: FormEvent<HTMLFormElement>) => {
@@ -47,7 +47,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
 
         reset({
           name: '',
-          enumValues: ['Value'],
+          enumValues: [''],
         });
       } catch (err: any) {
         alert(err);
@@ -90,7 +90,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
           <List>
             {enumValues.map((item, index) => (
               <ListItem key={item.id}>
-                <TextField placeholder="Field Value" {...register(`enumValues.${index}`)} />
+                <TextField placeholder="Enter your value here..." {...register(`enumValues.${index}`)} />
                 {enumValues.length > 1 && (
                   <IconButton onClick={() => remove(index)}>
                     <DeleteIcon />
@@ -101,7 +101,7 @@ export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
           </List>
 
           <div>
-            <Button onClick={() => append('New Value')}>Add New Enum Value</Button>
+            <Button onClick={() => append('')}>Add New Enum Value</Button>
           </div>
         </Fragment>
       )}

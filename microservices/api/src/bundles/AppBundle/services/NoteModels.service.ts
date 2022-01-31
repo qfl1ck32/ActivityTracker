@@ -30,6 +30,11 @@ export class NoteModelsService {
 
     this.securityService.noteModels.checkCreateInputIsValid(input);
 
+    await this.securityService.noteModels.checkEndUserDoesNotHaveNoteModelWithTheSameName(
+      name,
+      endUserId
+    );
+
     const { insertedId } = await this.noteModelsCollection.insertOne(
       {
         name,
