@@ -21,6 +21,7 @@ export class AppFixture {
   kernel: Kernel;
 
   async init() {
+    return;
     if (!(await this.shouldRun())) {
       return;
     }

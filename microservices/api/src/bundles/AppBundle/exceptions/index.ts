@@ -8,3 +8,4 @@ export * from "./FieldEnumValuesAreMissing.exception";
 export * from "./EndUserDoesNotOwnActivityLogDetails.exception";
 export * from "./FieldValueIsNotValid.exception";
 export * from "./FieldNameIsNotDefinedInNoteModel.exception";
+export * from "./FieldTypeIsNotEnumButEnumValuesWereGiven.exception";

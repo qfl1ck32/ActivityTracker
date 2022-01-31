@@ -4,6 +4,7 @@ import { Field, FieldType } from "../collections";
 import {
   FieldEnumValuesAreMissingException,
   FieldEnumValuesAreNotUnique,
+  FieldTypeIsNotEnumButEnumValuesWereGivenException,
 } from "../exceptions";
 import { FieldValueIsNotValidException } from "../exceptions/FieldValueIsNotValid.exception";
 
@@ -32,6 +33,14 @@ describe("FieldSecurityService", () => {
         enumValues: ["A", "A"],
       })
     ).toThrowError(new FieldEnumValuesAreNotUnique({ fieldName: "name" }));
+
+    expect(
+      check({
+        name: "name",
+        type: FieldType.NUMBER,
+        enumValues: ["a", "b"],
+      })
+    ).toThrowError(new FieldTypeIsNotEnumButEnumValuesWereGivenException());
 
     expect(
       check({

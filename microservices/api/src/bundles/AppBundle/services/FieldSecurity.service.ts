@@ -13,6 +13,7 @@ import {
   FieldEnumValuesAreMissingException,
   FieldValueIsNotValidException,
 } from "../exceptions";
+import { FieldTypeIsNotEnumButEnumValuesWereGivenException } from "../exceptions/FieldTypeIsNotEnumButEnumValuesWereGiven.exception";
 
 @Service()
 export class FieldSecurityService {
@@ -20,6 +21,12 @@ export class FieldSecurityService {
 
   public checkFieldIsValid(field: Field) {
     const { name, type, enumValues } = field;
+
+    if (type !== FieldType.ENUM) {
+      if (Boolean(enumValues)) {
+        throw new FieldTypeIsNotEnumButEnumValuesWereGivenException();
+      }
+    }
 
     switch (type) {
       case FieldType.ENUM:

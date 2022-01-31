@@ -706,6 +706,7 @@ export type Query = {
   UsersFindOneByID?: Maybe<User>;
   UsersFind: Array<Maybe<User>>;
   UsersCount: Scalars['Int'];
+  EndUsersNoteModelsGetAll: Array<Maybe<NoteModel>>;
   me: User;
   framework?: Maybe<Scalars['String']>;
 };

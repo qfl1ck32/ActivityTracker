@@ -45,4 +45,26 @@ export class NoteModelsService {
 
     return insertedId;
   }
+
+  public async getAll(userId: ObjectId) {
+    const endUserId = await this.endUserService.getIdByOwnerId(userId);
+
+    return this.noteModelsCollection.query({
+      $: {
+        filters: {
+          endUserId,
+        },
+      },
+
+      _id: 1,
+      name: 1,
+      fields: {
+        name: 1,
+        type: 1,
+        enumValues: 1,
+      },
+      createdAt: 1,
+      updatedAt: 1,
+    });
+  }
 }
