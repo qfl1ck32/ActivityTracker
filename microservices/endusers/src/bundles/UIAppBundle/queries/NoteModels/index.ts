@@ -1,1 +1,1 @@
-export * from './GetAll';
+export * from './NoteModelsGetAll.query';

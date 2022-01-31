@@ -22,7 +22,7 @@ describe("ActivityLogsService", () => {
       userId
     );
 
-    const activityLogId = await activityLogsService.create(
+    const activityLog = await activityLogsService.create(
       {
         name: "activityLog",
         activityId,
@@ -31,6 +31,6 @@ describe("ActivityLogsService", () => {
       userId
     );
 
-    expect(activityLogId).toBeTruthy();
+    expect(activityLog).toBeTruthy();
   });
 });

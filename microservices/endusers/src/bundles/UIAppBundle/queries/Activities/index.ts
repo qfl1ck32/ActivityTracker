@@ -1,1 +1,1 @@
-export * from './Find.query';
+export * from './ActivitiesFind.query';

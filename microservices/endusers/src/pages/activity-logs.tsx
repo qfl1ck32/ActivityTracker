@@ -1,9 +1,9 @@
-import { ActivitiesContainer, ProtectContainer } from 'src/bundles/UIAppBundle/components/containers';
+import { ActivityLogsContainer, ProtectContainer } from 'src/bundles/UIAppBundle/components/containers';
 
 const ActivitiesPage: React.FC = () => {
   return (
     <ProtectContainer>
-      <ActivitiesContainer />
+      <ActivityLogsContainer />
     </ProtectContainer>
   );
 };

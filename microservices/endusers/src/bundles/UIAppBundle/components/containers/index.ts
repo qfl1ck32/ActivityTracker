@@ -1,5 +1,5 @@
 export * from './Login';
 export * from './Home';
-export * from './Activities';
+export * from './ActivityLogs';
 export * from './Protect';
-export * from './NoteModels/';
+export * from './NoteModels';

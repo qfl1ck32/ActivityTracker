@@ -56,7 +56,7 @@ export const createActivityLog = async (
   input: EndUsersActivityLogsCreateInput,
   userId: ObjectId
 ) => {
-  return container.get(ActivityLogsService).create(input, userId);
+  return (await container.get(ActivityLogsService).create(input, userId))._id;
 };
 
 export const createActivityLogDetails = async (
