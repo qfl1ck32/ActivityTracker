@@ -1,6 +1,6 @@
 import { NoteModelsService } from "../services/NoteModels.service";
 import { container } from "../../../__tests__/ecosystem";
-import { FieldType, NoteModelsCollection } from "../collections";
+import { FieldType } from "../collections";
 import { createEndUser } from "./utilities";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
@@ -11,11 +11,9 @@ describe("NoteModelsService", () => {
   test("create()", async () => {
     const noteModelsService = container.get(NoteModelsService);
 
-    const noteModelsCollection = container.get(NoteModelsCollection);
-
     const { userId } = await createEndUser();
 
-    const noteModelId = await noteModelsService.create(
+    const noteModel = await noteModelsService.create(
       {
         name: "noteModelName",
         fields: [
@@ -27,12 +25,6 @@ describe("NoteModelsService", () => {
       },
       userId
     );
-
-    expect(noteModelId).toBeTruthy();
-
-    const noteModel = await noteModelsCollection.findOne({
-      _id: noteModelId,
-    });
 
     expect(noteModel).toBeTruthy();
   });

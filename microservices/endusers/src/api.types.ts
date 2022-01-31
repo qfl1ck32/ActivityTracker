@@ -415,7 +415,7 @@ export type Mutation = {
   EndUsersActivityLogDetailsCreate: Scalars['ObjectId'];
   EndUsersActivityLogsCreate: Scalars['ObjectId'];
   EndUsersActivityNotesUpdate?: Maybe<Scalars['Boolean']>;
-  EndUsersNoteModelsCreate?: Maybe<Scalars['ObjectId']>;
+  EndUsersNoteModelsCreate: NoteModel;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;

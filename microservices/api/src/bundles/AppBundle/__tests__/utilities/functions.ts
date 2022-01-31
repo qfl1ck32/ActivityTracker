@@ -39,7 +39,7 @@ export const createNoteModel = async (
   input: EndUsersNoteModelsCreateInput,
   userId: ObjectId
 ) => {
-  return container.get(NoteModelsService).create(input, userId);
+  return (await container.get(NoteModelsService).create(input, userId))._id;
 };
 
 export const createActivity = async (name: string = "activity") => {

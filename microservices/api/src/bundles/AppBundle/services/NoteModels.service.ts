@@ -48,7 +48,9 @@ export class NoteModelsService {
       }
     );
 
-    return insertedId;
+    return this.noteModelsCollection.findOne({
+      _id: insertedId,
+    });
   }
 
   public async getAll(userId: ObjectId) {
