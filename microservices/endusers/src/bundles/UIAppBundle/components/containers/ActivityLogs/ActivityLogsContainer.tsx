@@ -1,12 +1,27 @@
 import { useQuery } from '@apollo/client';
 import { useUIComponents } from '@bluelibs/x-ui-react-bundle';
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography, Button } from '@mui/material';
 import { useState } from 'react';
 import { Activity, Query } from 'src/api.types';
 import { ActivitiesFind } from 'src/bundles/UIAppBundle/queries';
 import { styleCenter } from 'src/bundles/UIAppBundle/styles';
+import { ActivityLogsListContainer } from './ActivityLogsListContainer';
 
 export const ActivityLogsContainer: React.FC = () => {
+  const [createModalIsOpened, setCreateModalIsOpened] = useState(false);
+
+  return (
+    <Container>
+      <Typography variant="h6">Activity Logs</Typography>
+
+      <Button onClick={() => setCreateModalIsOpened(true)}>Create</Button>
+
+      <ActivityLogsListContainer />
+    </Container>
+  );
+};
+
+/*
   const [activities, setActivities] = useState<Activity[]>([]);
 
   const [selectedActivity, setSelectedActivity] = useState<Activity>();
@@ -35,4 +50,4 @@ export const ActivityLogsContainer: React.FC = () => {
       </Box>
     </Box>
   );
-};
+*/

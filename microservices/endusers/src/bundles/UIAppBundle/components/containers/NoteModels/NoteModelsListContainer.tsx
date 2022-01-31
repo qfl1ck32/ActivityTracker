@@ -9,6 +9,7 @@ import { NoteModelsListComponent } from '../../NoteModelsList';
 
 export const NoteModelsListContainer: React.FC = () => {
   const [noteModels, setNoteModels] = useState<NoteModel[]>([]);
+
   const { loading, error } = useQuery<{ EndUsersNoteModelsGetAll: Query['EndUsersNoteModelsGetAll'] }>(
     NoteModelsGetAll,
     {

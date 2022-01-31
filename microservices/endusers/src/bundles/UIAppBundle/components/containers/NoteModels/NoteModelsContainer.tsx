@@ -8,9 +8,9 @@ export const NoteModelsContainer: React.FC = () => {
 
   return (
     <Container>
-      <Typography variant="h6">Hello</Typography>
+      <Typography variant="h6">Note Models</Typography>
 
-      <Button onClick={() => setCreateModalIsOpened((prev) => !prev)}>Create</Button>
+      <Button onClick={() => setCreateModalIsOpened(true)}>Create</Button>
 
       <NoteModelsListContainer />
 
