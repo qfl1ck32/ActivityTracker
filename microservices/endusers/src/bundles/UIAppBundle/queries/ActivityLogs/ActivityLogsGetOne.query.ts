@@ -11,6 +11,8 @@ export const ActivityLogsGetOne = gql`
 
       noteModel {
         fields {
+          name
+
           type
 
           enumValues
