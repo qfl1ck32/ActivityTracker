@@ -22,3 +22,4 @@ export * from "./EndUsersRegister.input";
 export * from "./EndUsersNoteModelsCreate.input";
 export * from "./EndUsersActivityLogDetailsCreate.input";
 export * from "./EndUsersActivityNotesUpdate.input";
+export * from "./EndUsersActivityLogsGetOne.input";

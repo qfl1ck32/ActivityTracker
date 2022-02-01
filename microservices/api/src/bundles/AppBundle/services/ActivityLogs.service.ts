@@ -9,6 +9,7 @@ import { QueryBodyType } from "@bluelibs/nova";
 import { ActivityLog, ActivityLogsCollection } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityLogsCreateInput } from "./inputs/EndUsersActivityLogsCreate.input";
+import { EndUsersActivityLogsGetOneInput } from "./inputs/EndUsersActivityLogsGetOne.input";
 import { SecurityService } from "./Security.service";
 
 @Service()
@@ -94,6 +95,53 @@ export class ActivityLogsService {
       },
 
       ...this.queryBody,
+    });
+  }
+
+  public async getOne(
+    input: EndUsersActivityLogsGetOneInput,
+    userId: ObjectId
+  ) {
+    const { activityLogId } = input;
+
+    const endUserId = await this.endUserService.getIdByOwnerId(userId);
+
+    await this.securityService.activityLogs.checkEndUserOwnsActivityLog(
+      activityLogId,
+      endUserId
+    );
+
+    return this.activityLogsCollection.queryOne({
+      $: {
+        filters: {
+          _id: activityLogId,
+        },
+      },
+
+      name: 1,
+
+      activity: {
+        name: 1,
+      },
+
+      details: {
+        name: 1,
+
+        note: {
+          _id: 1,
+
+          value: 1,
+        },
+
+        timing: {
+          _id: 1,
+
+          startedAt: 1,
+          finishedAt: 1,
+        },
+
+        createdAt: 1,
+      },
     });
   }
 }

@@ -1,8 +1,10 @@
-import { use } from '@bluelibs/x-ui-next';
+import { use, useRouter } from '@bluelibs/x-ui-next';
 import { Box } from '@mui/material';
-import { DataGrid, GridColumns } from '@mui/x-data-grid';
+import { DataGrid, GridColumns, GridEventListener, GridEvents } from '@mui/x-data-grid';
 import { ActivityLog } from 'src/api.types';
 import { DataGridService } from '../../services';
+
+import * as Routes from 'src/routes';
 
 export type ActivityLogsListComponentProps = {
   activityLogs: ActivityLog[];
@@ -53,9 +55,22 @@ const columns: GridColumns = [
 export const ActivityLogsListComponent: React.FC<ActivityLogsListComponentProps> = ({ activityLogs }) => {
   const dataGridService = use(DataGridService);
 
+  const router = useRouter();
+
+  const onCellClick: GridEventListener<GridEvents.cellClick> = (gridCell) => {
+    if (gridCell.field !== 'id') return;
+
+    router.go(Routes.ActivityLog, {
+      params: {
+        id: gridCell.id,
+      },
+    });
+  };
+
   return (
     <Box height="400px" width="100%">
       <DataGrid
+        onCellClick={onCellClick}
         rows={dataGridService.mapApiDataToGridData(activityLogs)}
         columns={columns}
         pageSize={5}

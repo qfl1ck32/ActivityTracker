@@ -317,6 +317,10 @@ export type EndUsersActivityLogsCreateInput = {
   name: Scalars['String'];
 };
 
+export type EndUsersActivityLogsGetOneInput = {
+  activityLogId: Scalars['ObjectId'];
+};
+
 export type EndUsersActivityNotesUpdateInput = {
   activityLogDetailsId: Scalars['ObjectId'];
   value: Scalars['String'];
@@ -413,7 +417,7 @@ export type Mutation = {
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
   EndUsersActivityLogDetailsCreate: Scalars['ObjectId'];
-  EndUsersActivityLogsCreate: Scalars['ObjectId'];
+  EndUsersActivityLogsCreate: ActivityLog;
   EndUsersActivityNotesUpdate?: Maybe<Scalars['Boolean']>;
   EndUsersNoteModelsCreate: NoteModel;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
@@ -708,6 +712,7 @@ export type Query = {
   UsersCount: Scalars['Int'];
   EndUsersActivitiesGetAll: Array<Maybe<Activity>>;
   EndUsersActivityLogsGetAll: Array<Maybe<ActivityLog>>;
+  EndUsersActivityLogsGetOne: ActivityLog;
   EndUsersNoteModelsGetAll: Array<Maybe<NoteModel>>;
   me: User;
   framework?: Maybe<Scalars['String']>;
@@ -891,6 +896,11 @@ export type QueryUsersFindArgs = {
 
 export type QueryUsersCountArgs = {
   query?: Maybe<QueryInput>;
+};
+
+
+export type QueryEndUsersActivityLogsGetOneArgs = {
+  input: EndUsersActivityLogsGetOneInput;
 };
 
 export type QueryInput = {
