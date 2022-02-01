@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const ActivitiesFind = gql`
+export const ActivitiesGetAll = gql`
   {
-    ActivitiesFind {
+    EndUsersActivitiesGetAll {
       _id
       name
     }

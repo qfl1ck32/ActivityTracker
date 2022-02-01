@@ -7,7 +7,7 @@ import {
   endUsersRegisterInput,
 } from "./utilities";
 import { ActivityLogsService } from "../services";
-import { ActivityAlreadyDefinedException } from "../exceptions/ActivityAlreadyDefined.exception";
+import { ActivityLogAlreadyExistsForGivenActivityException } from "../exceptions/ActivityLogAlreadyExistsForGivenActivity.exception";
 import { EndUserDoesNotOwnActivityLogException } from "../exceptions";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
@@ -55,7 +55,9 @@ describe("ActivityLogsSecurityService", () => {
         activityId,
         endUserId
       )
-    ).rejects.toThrowError(new ActivityAlreadyDefinedException());
+    ).rejects.toThrowError(
+      new ActivityLogAlreadyExistsForGivenActivityException()
+    );
   });
 
   test("checkEndUserOwnsActivityLog()", async () => {

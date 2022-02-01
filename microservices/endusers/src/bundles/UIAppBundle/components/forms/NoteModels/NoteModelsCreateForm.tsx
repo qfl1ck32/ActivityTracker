@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { EndUsersNoteModelsCreateInput, Field, FieldType } from 'src/api.types';
-import { FieldComponent, FieldForm } from '../..';
+import { FieldComponent, AddFieldForm } from '../..';
 import { createSchema } from './schemas';
 
 import { Container, TextField, Typography, List, ListItem, Box } from '@mui/material';
@@ -69,7 +69,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
         </List>
       </Box>
 
-      <FieldForm {...{ onSubmit: onAddNewField }} />
+      <AddFieldForm {...{ onSubmit: onAddNewField }} />
     </Box>
   );
 };

@@ -42,7 +42,7 @@ export const NoteModelsCreateContainer: React.FC = () => {
         } as any) // TODO: fetch the whole noteModel.
       );
     } catch (err: any) {
-      alert('Err: ' + err.toString());
+      alert(err.toString());
     } finally {
       setSubmitting(false);
     }

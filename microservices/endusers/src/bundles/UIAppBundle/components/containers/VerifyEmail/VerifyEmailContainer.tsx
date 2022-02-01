@@ -1,7 +1,7 @@
-import { useRouter } from "@bluelibs/x-ui-next";
-import { useEffect, useState } from "react";
-import { Routes } from "src/bundles/UIAppBundle";
-import { useAppGuardian } from "src/bundles/UIAppBundle/services";
+import { useRouter } from '@bluelibs/x-ui-next';
+import { useEffect, useState } from 'react';
+import { Routes } from 'src/bundles/UIAppBundle';
+import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 
 export const VerifyEmailContainer: React.FC = () => {
   const router = useRouter();
@@ -11,15 +11,13 @@ export const VerifyEmailContainer: React.FC = () => {
 
   const verifyEmail = async () => {
     try {
-      const token = await guardian.verifyEmail(
-        router.next.query.token as string
-      );
+      const token = await guardian.verifyEmail(router.next.query.token as string);
 
       await guardian.storeToken(token);
 
       await guardian.load();
 
-      alert("You have successfully verified your e-mail");
+      alert('You have successfully verified your e-mail');
 
       setIsVerified(true);
 
@@ -27,7 +25,7 @@ export const VerifyEmailContainer: React.FC = () => {
         router.go(Routes.Home);
       }, 2500);
     } catch (err: any) {
-      alert("Err: " + err.toString());
+      alert(err.toString());
     }
   };
 

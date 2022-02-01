@@ -12,7 +12,7 @@ export const HomeContainer: React.FC = () => {
 
   useEffect(() => {
     if (guardian.state.isLoggedIn) {
-      router.go(Routes.Activities);
+      router.go(Routes.ActivityLogs);
     }
   });
 

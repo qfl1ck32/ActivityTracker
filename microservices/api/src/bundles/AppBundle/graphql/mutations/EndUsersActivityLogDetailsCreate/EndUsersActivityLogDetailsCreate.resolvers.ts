@@ -3,7 +3,7 @@ import { IResolverMap } from "@bluelibs/graphql-bundle";
 
 import { EndUsersActivityLogDetailsCreateInput } from "../../../services/inputs/EndUsersActivityLogDetailsCreate.input";
 import { ActivityLogDetailsService } from "../../../services/ActivityLogDetails.service";
-import { UserRole } from "../../../collections";
+import { UserRole } from "@bundles/AppBundle/collections";
 
 export default {
   Mutation: {

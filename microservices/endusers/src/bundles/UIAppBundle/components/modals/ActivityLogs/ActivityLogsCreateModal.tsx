@@ -1,13 +1,13 @@
 import { Box, Modal } from '@mui/material';
 import { styleCenter } from 'src/bundles/UIAppBundle/styles';
-import { NoteModelsCreateContainer } from '../../containers';
+import { ActivityLogsCreateContainer } from '../..';
 
-export type NoteModelsCreateModalProps = {
+export type ActivityLogsCreateModalProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export const NoteModelsCreateModal: React.FC<NoteModelsCreateModalProps> = ({ open, onClose }) => {
+export const ActivityLogsCreateModal: React.FC<ActivityLogsCreateModalProps> = ({ open, onClose }) => {
   return (
     <Modal
       {...{
@@ -16,7 +16,7 @@ export const NoteModelsCreateModal: React.FC<NoteModelsCreateModalProps> = ({ op
       }}
     >
       <Box sx={styleCenter}>
-        <NoteModelsCreateContainer />
+        <ActivityLogsCreateContainer />
       </Box>
     </Modal>
   );

@@ -15,9 +15,10 @@
     "emitDecoratorMetadata": true,
     "declaration": true,
     "typeRoots": ["node_modules/@types"],
+    "baseUrl": "./src/",
     "paths": {
-      "@bundles/*": ["./src/bundles/*"],
-      "@root/*": ["./src/*"]
+      "@bundles/*": ["bundles/*"],
+      "@root/*": ["*"]
     }
   },
 

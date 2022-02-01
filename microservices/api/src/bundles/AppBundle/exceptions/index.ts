@@ -1,4 +1,4 @@
-export * from "./ActivityAlreadyDefined.exception";
+export * from "./ActivityLogAlreadyExistsForGivenActivity.exception";
 export * from "./EndUserDoesNotOwnNoteModel.exception";
 export * from "./EndUserDoesNotOwnActivityLog.exception";
 export * from "./DatesAreNotInChronologicalOrder.exception";

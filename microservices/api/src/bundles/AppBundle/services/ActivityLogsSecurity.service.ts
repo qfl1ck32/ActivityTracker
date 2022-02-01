@@ -7,7 +7,7 @@ import {
 import { ObjectId } from "@bluelibs/ejson";
 import { ActivityLogsCollection } from "../collections";
 import { EndUserDoesNotOwnActivityLogException } from "../exceptions";
-import { ActivityAlreadyDefinedException } from "../exceptions/ActivityAlreadyDefined.exception";
+import { ActivityLogAlreadyExistsForGivenActivityException } from "../exceptions/ActivityLogAlreadyExistsForGivenActivity.exception";
 
 @Service()
 export class ActivityLogsSecurityService {
@@ -27,7 +27,7 @@ export class ActivityLogsSecurityService {
       });
 
     if (numberOfActivityLogsByActivityIdForEndUser > 0) {
-      throw new ActivityAlreadyDefinedException();
+      throw new ActivityLogAlreadyExistsForGivenActivityException();
     }
   }
 

@@ -1,24 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, IconButton, List, ListItem, MenuItem, TextField } from '@mui/material';
+import { capitalize } from 'lodash-es';
+import { FormEvent, Fragment, useEffect } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { Field, FieldType } from 'src/api.types';
 import { schema } from './schema';
 
-import { capitalize } from 'lodash-es';
-
-import { TextField, Button, MenuItem, Container, IconButton, Typography, List, ListItem } from '@mui/material';
-import { ChangeEventHandler, FormEvent, Fragment, useEffect, useState } from 'react';
-
-import DeleteIcon from '@mui/icons-material/Delete';
-
-export type FieldFormProps = {
+export type AddFieldFormProps = {
   onSubmit: (data: Field) => void;
 };
 
-export const FieldForm: React.FC<FieldFormProps> = ({ onSubmit }) => {
+export const AddFieldForm: React.FC<AddFieldFormProps> = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     control,
     reset,

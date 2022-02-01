@@ -2,7 +2,7 @@ import * as X from "@bluelibs/x-bundle";
 import { IResolverMap } from "@bluelibs/graphql-bundle";
 
 import { NoteModelsService } from "../../../services/NoteModels.service";
-import { UserRole } from "../../../collections";
+import { UserRole } from "@bundles/AppBundle/collections";
 
 export default {
   Query: {

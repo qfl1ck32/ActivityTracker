@@ -3,7 +3,7 @@ import { IResolverMap } from "@bluelibs/graphql-bundle";
 
 import { EndUsersNoteModelsCreateInput } from "../../../services/inputs/EndUsersNoteModelsCreate.input";
 import { NoteModelsService } from "../../../services/NoteModels.service";
-import { UserRole } from "../../../collections";
+import { UserRole } from "@bundles/AppBundle/collections";
 
 export default {
   Mutation: {
