@@ -4,13 +4,13 @@ import { Container, Typography, IconButton } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export type FieldComponentProps = {
+export type AddFieldComponentProps = {
   field: FieldType;
 
   onDelete?: (field: FieldType) => void;
 };
 
-export const FieldComponent: React.FC<FieldComponentProps> = ({ field, onDelete }) => {
+export const AddFieldComponent: React.FC<AddFieldComponentProps> = ({ field, onDelete }) => {
   const { name, type, enumValues } = field;
 
   return (

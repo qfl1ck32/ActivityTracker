@@ -124,6 +124,13 @@ export class ActivityLogsService {
         name: 1,
       },
 
+      noteModel: {
+        fields: {
+          type: 1,
+          enumValues: 1,
+        },
+      },
+
       details: {
         name: 1,
 

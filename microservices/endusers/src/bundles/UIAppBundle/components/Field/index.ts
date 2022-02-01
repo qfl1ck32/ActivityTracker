@@ -1,1 +1,1 @@
-export * from './FieldComponent';
+export * from './AddFieldComponent';

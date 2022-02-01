@@ -40,7 +40,13 @@ export const ActivityLogContainer: React.FC = () => {
 
       <Button onClick={() => setIsCreateModalOpened(true)}>Add new log</Button>
 
-      <ActivityLogDetailsCreateModal {...{ open: isCreateModalOpened, onClose: () => setIsCreateModalOpened(false) }} />
+      <ActivityLogDetailsCreateModal
+        {...{
+          open: isCreateModalOpened,
+          onClose: () => setIsCreateModalOpened(false),
+          createContainerProps: { activityLog },
+        }}
+      />
     </Box>
   );
 };
