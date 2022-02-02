@@ -8,7 +8,12 @@ import {
   createNoteModel,
   endUsersRegisterInput,
 } from "./utilities";
-import { EndUserDoesNotOwnActivityLogDetailsException } from "../exceptions";
+import {
+  EndUserDoesNotOwnActivityLogDetailsException,
+  FieldValueIsNotValidException,
+} from "../exceptions";
+import { FieldType } from "../collections";
+import { EndUsersActivityLogDetailsCreateInput } from "../services/inputs";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -68,5 +73,73 @@ describe("ActivityLogDetailsSecurityService", () => {
         anotherEndUserId
       )
     ).rejects.toThrowError(new EndUserDoesNotOwnActivityLogDetailsException());
+  });
+
+  test("checkCreateInputIsValid()", async () => {
+    const activityLogDetailsSecurityService = container.get(
+      ActivityLogDetailsSecurityService
+    );
+
+    const check = async (input: EndUsersActivityLogDetailsCreateInput) =>
+      activityLogDetailsSecurityService.checkCreateInputIsValid(input);
+
+    const { userId, endUserId } = await createEndUser();
+
+    const activityId = await createActivity();
+
+    const noteModelId = await createNoteModel(
+      {
+        name: "my note model",
+        fields: [
+          {
+            name: "test field",
+            type: FieldType.BOOLEAN,
+          },
+        ],
+      },
+      userId
+    );
+
+    const activityLogId = await createActivityLog(
+      {
+        activityId,
+        name: "my activity log",
+        noteModelId,
+      },
+      userId
+    );
+
+    const startedAt = new Date();
+    const finishedAt = new Date();
+
+    const partialInput = {
+      activityLogId,
+      startedAt,
+      finishedAt,
+    } as EndUsersActivityLogDetailsCreateInput;
+
+    await expect(check(partialInput)).resolves.not.toThrow();
+
+    await expect(
+      check({
+        ...partialInput,
+
+        noteDetailsValue: JSON.stringify({
+          "test field": "test",
+        }),
+      })
+    ).rejects.toThrowError(
+      new FieldValueIsNotValidException({ fieldName: "my note model" })
+    );
+
+    await expect(
+      check({
+        ...partialInput,
+
+        noteDetailsValue: JSON.stringify({
+          "test field": true,
+        }),
+      })
+    ).resolves.not.toThrow();
   });
 });

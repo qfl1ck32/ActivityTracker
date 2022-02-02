@@ -1,20 +1,19 @@
-import { ActivityNotesSecurityService } from "../services/ActivityNotesSecurity.service";
-import { container } from "../../../__tests__/ecosystem";
-import { ActivityNotesService } from "../services";
-import {
-  createEndUser,
-  createActivity,
-  createNoteModel,
-  createActivityLog,
-  createActivityLogDetails,
-} from "./utilities";
-import { EndUsersActivityNotesUpdateInput } from "../services/inputs";
 import { EJSON } from "@bluelibs/ejson";
+import { container } from "../../../__tests__/ecosystem";
+import { Field, FieldType } from "../collections";
 import {
   FieldNameIsNotDefinedInNoteModelException,
   FieldValueIsNotValidException,
 } from "../exceptions";
-import { FieldType } from "../collections";
+import { ActivityNotesSecurityService } from "../services/ActivityNotesSecurity.service";
+import { EndUsersActivityNotesUpdateInput } from "../services/inputs";
+import {
+  createActivity,
+  createActivityLog,
+  createActivityLogDetails,
+  createEndUser,
+  createNoteModel,
+} from "./utilities";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -129,5 +128,62 @@ describe("ActivityNotesSecurityService", () => {
     });
 
     await expect(check(updateInput)).resolves.not.toThrow();
+  });
+
+  test("checkNoteDetailsValueIsValid()", async () => {
+    const activityNotesSecurityService = container.get(
+      ActivityNotesSecurityService
+    );
+
+    const check = (noteDetailsValue: string, noteModelFields: Field[]) => () =>
+      activityNotesSecurityService.checkNoteDetailsValueIsValid(
+        noteDetailsValue,
+        noteModelFields
+      );
+
+    const fields = [
+      {
+        name: "enumTest",
+        type: FieldType.ENUM,
+        enumValues: ["ACCEPTED_ENUM_VALUE"],
+      },
+      {
+        name: "booleanTest",
+        type: FieldType.BOOLEAN,
+      },
+    ] as Field[];
+
+    expect(
+      check(
+        JSON.stringify({
+          enumTest: "ACCEPTED_ENUM_VALUE",
+        }),
+        fields
+      )
+    ).not.toThrow();
+
+    expect(
+      check(
+        JSON.stringify({
+          enumTest: "NOT_ACCEPTED_ENUM_VALUE",
+        }),
+        fields
+      )
+    ).toThrowError(
+      new FieldValueIsNotValidException({ fieldName: "enumTest" })
+    );
+
+    expect(
+      check(
+        JSON.stringify({
+          nonExistingField: 1,
+        }),
+        fields
+      )
+    ).toThrowError(
+      new FieldNameIsNotDefinedInNoteModelException({
+        fieldName: "nonExistingField",
+      })
+    );
   });
 });

@@ -72,12 +72,31 @@ describe("ActivityLogDetailsService", () => {
     expect(timing.startedAt).toStrictEqual(startedAt);
     expect(timing.finishedAt).toStrictEqual(finishedAt);
 
-    const note = await getActivityNoteByActivityLogDetailsId(
+    let note = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId
     );
 
     expect(note).toBeTruthy();
 
     expect(note.value).toBe(JSON.stringify({}));
+
+    const noteDetailsValue = JSON.stringify({
+      "Went hardcore?": "HELL YES!",
+    });
+
+    const { _id: activityLogDetailsId2 } =
+      await activityLogDetailsService.create(
+        {
+          activityLogId,
+          startedAt,
+          finishedAt,
+          noteDetailsValue,
+        },
+        userId
+      );
+
+    note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId2);
+
+    expect(note.value).toBe(JSON.stringify(noteDetailsValue));
   });
 });
