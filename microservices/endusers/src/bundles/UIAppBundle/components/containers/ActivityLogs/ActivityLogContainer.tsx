@@ -1,12 +1,60 @@
 import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
+import { EJSON } from '@bluelibs/ejson';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { Box, Button, Typography } from '@mui/material';
+import { GridColumns } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
-import { ActivityLog, EndUsersActivityLogsGetOneInput, Query } from 'src/api.types';
+import { ActivityLog, ActivityNote, ActivityTiming, EndUsersActivityLogsGetOneInput, Query } from 'src/api.types';
 import { ActivityLogDetailCreatedEvent, IActivityLogDetailCreated } from 'src/bundles/UIAppBundle/events';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
-import { ActivityLogDetailsCreateModal, ActivityLogDetailsListComponent } from '../..';
+import { ActivityLogDetailsCreateModal, DataGridContainer } from '../..';
+
+const columns: GridColumns = [
+  {
+    field: 'id',
+    headerName: 'ID',
+
+    width: 300,
+  },
+
+  {
+    field: 'note',
+    headerName: 'Note',
+
+    valueFormatter: (props) => {
+      const activityNote = props.value as ActivityNote;
+
+      return EJSON.parse(activityNote.value);
+    },
+
+    width: 600,
+  },
+
+  {
+    field: 'timing',
+    headerName: 'Timing',
+
+    valueFormatter: (props) => {
+      const activityTiming = props.value as ActivityTiming;
+
+      return `${new Date(activityTiming.startedAt).toLocaleTimeString()} -- ${new Date(
+        activityTiming.finishedAt
+      ).toLocaleTimeString()}`;
+    },
+
+    width: 500,
+  },
+
+  {
+    field: 'createdAt',
+    headerName: 'Created At',
+
+    valueFormatter: (props) => new Date(props.value as number).toLocaleDateString(),
+
+    width: 250,
+  },
+];
 
 export const ActivityLogContainer: React.FC = () => {
   const router = useRouter();
@@ -62,11 +110,13 @@ export const ActivityLogContainer: React.FC = () => {
 
   if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
 
+  const onDelete = async (id: string) => {
+    console.log(id);
+  };
+
   return (
     <Box>
       <Typography variant="h6">{activityLog.name}</Typography>
-
-      <Button onClick={() => setIsCreateModalOpened(true)}>Add new log</Button>
 
       <ActivityLogDetailsCreateModal
         {...{
@@ -76,7 +126,16 @@ export const ActivityLogContainer: React.FC = () => {
         }}
       />
 
-      <ActivityLogDetailsListComponent details={activityLog.details} />
+      <DataGridContainer
+        {...{
+          rows: activityLog.details,
+          columns,
+          onDelete,
+          toolbarProps: {
+            onCreatePress: () => setIsCreateModalOpened(true),
+          },
+        }}
+      />
     </Box>
   );
 };

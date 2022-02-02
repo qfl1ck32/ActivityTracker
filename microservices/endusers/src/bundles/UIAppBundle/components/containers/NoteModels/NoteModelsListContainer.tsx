@@ -1,11 +1,48 @@
 import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useUIComponents } from '@bluelibs/x-ui-next';
+import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { NoteModel, Query } from 'src/api.types';
 import { INoteModelCreated, NoteModelCreatedEvent } from 'src/bundles/UIAppBundle/events';
 import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
-import { NoteModelsListComponent } from '../../NoteModelsList';
+import { DataGridContainer } from '../DataGrid';
+
+const columns: GridColumns = [
+  {
+    field: 'id',
+    headerName: 'ID',
+
+    width: 300,
+  },
+
+  {
+    field: 'name',
+    headerName: 'Name',
+
+    width: 250,
+  },
+
+  {
+    field: 'fields',
+    headerName: 'Fields',
+
+    width: 250,
+
+    renderCell: (params) => {
+      return JSON.stringify(params.value);
+    },
+  },
+
+  {
+    field: 'createdAt',
+    headerName: 'Created At',
+
+    width: 300,
+
+    valueFormatter: (params) => new Date(params.value as number).toLocaleDateString(),
+  },
+];
 
 export const NoteModelsListContainer: React.FC = () => {
   const [noteModels, setNoteModels] = useState<NoteModel[]>([]);
@@ -37,5 +74,9 @@ export const NoteModelsListContainer: React.FC = () => {
 
   if (error) return <UIComponents.Error error={error} />;
 
-  return <NoteModelsListComponent noteModels={noteModels} />;
+  const onDelete = async (id: string) => {
+    console.log(id);
+  };
+
+  return <DataGridContainer {...{ rows: noteModels, columns, onDelete }} />;
 };
