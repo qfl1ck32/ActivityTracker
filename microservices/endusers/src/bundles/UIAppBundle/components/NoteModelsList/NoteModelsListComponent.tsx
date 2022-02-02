@@ -56,6 +56,7 @@ const columns: GridColumns = [
 
 export const NoteModelsListComponent: React.FC<NoteModelsListComponentProps> = ({ noteModels }) => {
   const dataGridService = use(DataGridService);
+
   return (
     <Box height="400px" width="100%">
       <DataGrid

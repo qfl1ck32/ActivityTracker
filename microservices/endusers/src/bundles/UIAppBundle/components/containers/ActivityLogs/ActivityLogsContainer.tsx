@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import { ActivityLogsCreateModal } from '../..';
 import { ActivityLogsListContainer } from './ActivityLogsListContainer';
@@ -7,7 +7,7 @@ export const ActivityLogsContainer: React.FC = () => {
   const [createModalIsOpened, setCreateModalIsOpened] = useState(false);
 
   return (
-    <Container>
+    <Box>
       <Typography variant="h6">Activity Logs</Typography>
 
       <Button onClick={() => setCreateModalIsOpened(true)}>Create</Button>
@@ -15,6 +15,6 @@ export const ActivityLogsContainer: React.FC = () => {
       <ActivityLogsListContainer />
 
       <ActivityLogsCreateModal {...{ open: createModalIsOpened, onClose: () => setCreateModalIsOpened(false) }} />
-    </Container>
+    </Box>
   );
 };
