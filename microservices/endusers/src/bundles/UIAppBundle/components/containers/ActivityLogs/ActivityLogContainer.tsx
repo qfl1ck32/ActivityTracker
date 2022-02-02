@@ -84,12 +84,12 @@ export const ActivityLogContainer: React.FC = () => {
 
   useEffect(() => {
     const listener: EventHandlerType<IActivityLogDetailCreated> = (e) => {
-      const details = [...(activityLog as ActivityLog).details];
-
-      details.push(e.data.activityLogDetail);
-
       setActivityLog((previousActivityLog) => {
         const activityLog = previousActivityLog as ActivityLog;
+
+        const details = [...(activityLog as ActivityLog).details];
+
+        details.push(e.data.activityLogDetail);
 
         return {
           ...activityLog,
