@@ -18,6 +18,7 @@ export class ActivityLogsService {
   constructor(protected readonly container: ContainerInstance) {
     this.queryBody = {
       _id: 1,
+
       name: 1,
 
       activity: {
@@ -123,6 +124,8 @@ export class ActivityLogsService {
           _id: activityLogId,
         },
       },
+
+      _id: 1,
 
       name: 1,
 

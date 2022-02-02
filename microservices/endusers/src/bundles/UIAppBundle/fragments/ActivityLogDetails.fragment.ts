@@ -1,8 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const ActivityLogDetailsFragment = gql`
-  fragment ActivityLogDetailsFragment on ActivityLogDetails {
+  fragment ActivityLogDetailsFragment on ActivityLogDetail {
+    _id
+
     name
+
+    createdAt
 
     note {
       _id

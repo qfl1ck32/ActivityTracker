@@ -6,6 +6,8 @@ export const ActivityLogsGetOne = gql`
 
   query ($input: EndUsersActivityLogsGetOneInput!) {
     EndUsersActivityLogsGetOne(input: $input) {
+      _id
+
       name
 
       activity {

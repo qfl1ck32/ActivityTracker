@@ -1,10 +1,12 @@
 import { useQuery } from '@apollo/client';
-import { useRouter, useUIComponents } from '@bluelibs/x-ui-next';
+import { EventHandlerType } from '@bluelibs/core';
+import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { Box, Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityLog, EndUsersActivityLogsGetOneInput, Query } from 'src/api.types';
+import { ActivityLogDetailCreatedEvent, IActivityLogDetailCreated } from 'src/bundles/UIAppBundle/events';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
-import { ActivityLogDetailsCreateModal } from '../..';
+import { ActivityLogDetailsCreateModal, ActivityLogDetailsListComponent } from '../..';
 
 export const ActivityLogContainer: React.FC = () => {
   const router = useRouter();
@@ -30,19 +32,41 @@ export const ActivityLogContainer: React.FC = () => {
     onCompleted: (data) => setActivityLog(data.EndUsersActivityLogsGetOne),
   });
 
+  const eventManager = useEventManager();
+
+  useEffect(() => {
+    const listener: EventHandlerType<IActivityLogDetailCreated> = (e) => {
+      const details = [...(activityLog as ActivityLog).details];
+
+      details.push(e.data.activityLogDetail);
+
+      setActivityLog((previousActivityLog) => {
+        const activityLog = previousActivityLog as ActivityLog;
+
+        return {
+          ...activityLog,
+
+          details,
+        };
+      });
+    };
+
+    eventManager.addListener(ActivityLogDetailCreatedEvent, listener);
+
+    return () => {
+      eventManager.removeListener(ActivityLogDetailCreatedEvent as any, listener); // TODO: fix in BL
+    };
+  }, []);
+
   if (activityLogError) return <UIComponents.Error error={activityLogError} />;
 
   if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
-
-  // TODO: setup event for "LogDetailsCreated" -> update activityLog with set()
 
   return (
     <Box>
       <Typography variant="h6">{activityLog.name}</Typography>
 
       <Button onClick={() => setIsCreateModalOpened(true)}>Add new log</Button>
-
-      {/* TODO: render activity log details */}
 
       <ActivityLogDetailsCreateModal
         {...{
@@ -51,6 +75,8 @@ export const ActivityLogContainer: React.FC = () => {
           createContainerProps: { activityLog },
         }}
       />
+
+      <ActivityLogDetailsListComponent details={activityLog.details} />
     </Box>
   );
 };

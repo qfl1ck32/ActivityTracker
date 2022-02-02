@@ -107,6 +107,7 @@ export class ActivityLogDetailsService {
     const { insertedId: activityLogDetailsId } =
       await this.activityLogDetailsCollection.insertOne(
         {
+          name: "random", // TODO: remove as well
           timingId: activityTimingsInsertResponse.insertedId,
           noteId: activityNoteInsertResponse.insertedId,
           activityLogId,

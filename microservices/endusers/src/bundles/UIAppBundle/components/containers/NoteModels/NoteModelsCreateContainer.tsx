@@ -17,13 +17,13 @@ export const NoteModelsCreateContainer: React.FC = () => {
 
   const eventManager = useEventManager();
 
-  const onSubmit = async (data: EndUsersNoteModelsCreateInput) => {
+  const onSubmit = async (input: EndUsersNoteModelsCreateInput) => {
     setSubmitting(true);
 
     try {
-      const { name } = data;
+      const { name } = input;
 
-      const response = await createNoteModel({
+      const { data } = await createNoteModel({
         variables: {
           input: {
             fields,
@@ -34,12 +34,10 @@ export const NoteModelsCreateContainer: React.FC = () => {
 
       alert('You have successfully created a new note model');
 
-      const noteModel = response.data?.EndUsersNoteModelsCreate as NoteModel;
-
       eventManager.emit(
         new NoteModelCreatedEvent({
-          noteModel,
-        } as any) // TODO: fetch the whole noteModel.
+          noteModel: data?.EndUsersNoteModelsCreate as NoteModel,
+        })
       );
     } catch (err: any) {
       alert(err.toString());

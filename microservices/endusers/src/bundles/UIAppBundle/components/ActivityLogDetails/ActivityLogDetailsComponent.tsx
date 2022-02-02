@@ -1,25 +1,31 @@
 import { Box, Typography } from '@mui/material';
-import { ActivityLog } from 'src/api.types';
-import { NoteDetailsCreateContainer } from '..';
+import { ActivityLog, EndUsersActivityLogDetailsCreateInput } from 'src/api.types';
+import { NoteDetailsCreateForm } from '../forms';
 
 export type ActivityLogDetailsComponentProps = {
   activityLog: ActivityLog;
 
-  startTime: Date;
-  finishTime: Date;
+  startedAt: Date;
+  finishedAt: Date;
+
+  onSubmit: (noteDetailsValue: Object) => Promise<void>;
+
+  isSubmitting: boolean;
 };
 
 export const ActivityLogDetailsComponent: React.FC<ActivityLogDetailsComponentProps> = ({
   activityLog,
-  startTime,
-  finishTime,
+  startedAt,
+  finishedAt,
+  onSubmit,
+  isSubmitting,
 }) => {
   return (
     <Box>
-      <Typography variant="h6">Start time: {startTime.toLocaleTimeString()}</Typography>
-      <Typography variant="h6">Finish time: {finishTime.toLocaleTimeString()}</Typography>
+      <Typography variant="h6">Start time: {startedAt.toLocaleTimeString()}</Typography>
+      <Typography variant="h6">Finish time: {finishedAt.toLocaleTimeString()}</Typography>
 
-      <NoteDetailsCreateContainer noteModel={activityLog.noteModel} />
+      <NoteDetailsCreateForm {...{ isSubmitting, onSubmit, noteModel: activityLog.noteModel }} />
     </Box>
   );
 };

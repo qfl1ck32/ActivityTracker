@@ -8,7 +8,7 @@ import { FieldType, NoteModel } from 'src/api.types';
 import { NoteDetailsService } from 'src/bundles/UIAppBundle/services';
 
 export type NoteDetailsCreateFormProps = {
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: Object) => Promise<void>;
 
   isSubmitting: boolean;
 

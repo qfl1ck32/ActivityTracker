@@ -8,8 +8,6 @@ export class NoteDetailsService {
   public createYupSchema(noteModel: NoteModel) {
     const spec = {} as ObjectShape;
 
-    const schema = yup.object(spec);
-
     for (const field of noteModel.fields) {
       switch (field.type) {
         case FieldType.BOOLEAN:
@@ -20,6 +18,7 @@ export class NoteDetailsService {
           spec[field.name] = yup
             .string()
             .oneOf(field.enumValues as string[])
+            .notOneOf(['none'])
             .required();
           break;
 
@@ -33,6 +32,6 @@ export class NoteDetailsService {
       }
     }
 
-    return schema;
+    return yup.object(spec).required();
   }
 }

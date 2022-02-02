@@ -10,6 +10,8 @@ import { ActivityLogDetailsComponent } from '../..';
 import { ActivityLog, EndUsersActivityLogDetailsCreateInput, Mutation } from 'src/api.types';
 import { useMutation } from '@apollo/client';
 import { ActivityLogDetailsCreate } from 'src/bundles/UIAppBundle/mutations';
+import { useEventManager } from '@bluelibs/x-ui-next';
+import { ActivityLogDetailCreatedEvent } from 'src/bundles/UIAppBundle/events';
 
 export type ActivityLogDetailsCreateContainerProps = {
   activityLog: ActivityLog;
@@ -18,6 +20,10 @@ export type ActivityLogDetailsCreateContainerProps = {
 export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreateContainerProps> = ({
   activityLog,
 }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const eventManager = useEventManager();
+
   const [startAudio] = useState(new Audio(`${env.APP_URL}/assets/audio/start.mp3`));
   const [stopAudio] = useState(new Audio(`${env.APP_URL}/assets/audio/stop.mp3`));
 
@@ -28,18 +34,44 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
   const [hasStarted, setHasStarted] = useState(false);
   const [hasFinished, setHasFinished] = useState(false);
 
-  const [startTime, setStartTime] = useState<Date>(new Date());
-  const [finishTime, setFinishTime] = useState<Date>(new Date());
+  const [startedAt, setStartedAt] = useState<Date>(new Date());
+  const [finishedAt, setFinishedAt] = useState<Date>(new Date());
 
   const [startCountdown, setStartCountdown] = useState(0);
 
-  const [createActivityLogDetails] =
-    useMutation<{ EndUsersActivityLogDetailsCreate: Mutation['EndUsersActivityLogDetailsCreate'] }>(
-      ActivityLogDetailsCreate
-    );
+  const [createActivityLogDetails] = useMutation<
+    { EndUsersActivityLogDetailsCreate: Mutation['EndUsersActivityLogDetailsCreate'] },
+    { input: EndUsersActivityLogDetailsCreateInput }
+  >(ActivityLogDetailsCreate);
 
-  const onSubmit = async (data: EndUsersActivityLogDetailsCreateInput) => {
-    console.log(data);
+  const onSubmit = async (noteDetailsValue: Object) => {
+    setIsSubmitting(true);
+
+    try {
+      const { data } = await createActivityLogDetails({
+        variables: {
+          input: {
+            activityLogId: activityLog._id,
+            finishedAt,
+            startedAt,
+
+            noteDetailsValue: JSON.stringify(noteDetailsValue),
+          },
+        },
+      });
+
+      await eventManager.emit(
+        new ActivityLogDetailCreatedEvent({
+          activityLogDetail: data?.EndUsersActivityLogDetailsCreate,
+        })
+      );
+
+      alert('You have successfully created the activity log details');
+    } catch (err: any) {
+      alert(err.toString());
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const start = () => {
@@ -47,7 +79,7 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
       setHasStarted(true);
       setHasFinished(false);
 
-      setStartTime(new Date());
+      setStartedAt(new Date());
 
       setShowingActivityLogDetailsComponent(false);
 
@@ -59,7 +91,7 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
     setHasFinished(true);
     setHasStarted(false);
 
-    setFinishTime(new Date());
+    setFinishedAt(new Date());
 
     setShowingActivityLogDetailsComponent(true);
 
@@ -77,7 +109,7 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
       </Button>
 
       {showingActivityLogDetailsComponent && (
-        <ActivityLogDetailsComponent {...{ activityLog, startTime, finishTime }} />
+        <ActivityLogDetailsComponent {...{ activityLog, startedAt, finishedAt, onSubmit, isSubmitting }} />
       )}
 
       <h5>{transcript}</h5>

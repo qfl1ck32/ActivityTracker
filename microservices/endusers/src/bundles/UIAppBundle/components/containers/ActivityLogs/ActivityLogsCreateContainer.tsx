@@ -26,7 +26,7 @@ export const ActivityLogsCreateContainer: React.FC = () => {
   });
 
   const [createActivityLog] = useMutation<
-    Mutation['EndUsersActivityLogsCreate'],
+    { EndUsersActivityLogsCreate: Mutation['EndUsersActivityLogsCreate'] },
     { input: EndUsersActivityLogsCreateInput }
   >(ActivityLogsCreate);
 
@@ -36,17 +36,15 @@ export const ActivityLogsCreateContainer: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await createActivityLog({
+      const { data } = await createActivityLog({
         variables: {
           input,
         },
       });
 
-      const activityLog = response.data.EndUsersActivityLogsCreate as ActivityLog;
-
       await eventManager.emit(
         new ActivityLogCreatedEvent({
-          activityLog,
+          activityLog: data?.EndUsersActivityLogsCreate as ActivityLog,
         })
       );
 
