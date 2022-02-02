@@ -7,7 +7,9 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import env from 'src/env';
 import { ActivityLogDetailsComponent } from '../..';
 
-import { ActivityLog } from 'src/api.types';
+import { ActivityLog, EndUsersActivityLogDetailsCreateInput, Mutation } from 'src/api.types';
+import { useMutation } from '@apollo/client';
+import { ActivityLogDetailsCreate } from 'src/bundles/UIAppBundle/mutations';
 
 export type ActivityLogDetailsCreateContainerProps = {
   activityLog: ActivityLog;
@@ -30,6 +32,15 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
   const [finishTime, setFinishTime] = useState<Date>(new Date());
 
   const [startCountdown, setStartCountdown] = useState(0);
+
+  const [createActivityLogDetails] =
+    useMutation<{ EndUsersActivityLogDetailsCreate: Mutation['EndUsersActivityLogDetailsCreate'] }>(
+      ActivityLogDetailsCreate
+    );
+
+  const onSubmit = async (data: EndUsersActivityLogDetailsCreateInput) => {
+    console.log(data);
+  };
 
   const start = () => {
     setTimeout(() => {
