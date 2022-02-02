@@ -1,12 +1,12 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { ActivityLogDetailsCollection } from "../collections";
+import {
+  ActivityLogDetailsCollection,
+  ActivityLogsCollection,
+} from "../collections";
 import { EndUserDoesNotOwnActivityLogDetailsException } from "../exceptions";
+import { ActivityNotesSecurityService } from "./ActivityNotesSecurity.service";
+import { EndUsersActivityLogDetailsCreateInput } from "./inputs";
 
 @Service()
 export class ActivityLogDetailsSecurityService {
@@ -14,6 +14,12 @@ export class ActivityLogDetailsSecurityService {
 
   @Inject()
   private activityLogDetailsCollection: ActivityLogDetailsCollection;
+
+  @Inject()
+  private activityNotesSecurityService: ActivityNotesSecurityService;
+
+  @Inject()
+  private activityLogsCollection: ActivityLogsCollection;
 
   public async checkEndUserOwnsActivityLogDetails(
     activityLogDetailsId: ObjectId,
@@ -28,5 +34,37 @@ export class ActivityLogDetailsSecurityService {
     if (numberOfActivityLogDetailsByIdAndEndUserId === 0) {
       throw new EndUserDoesNotOwnActivityLogDetailsException();
     }
+  }
+
+  public async checkCreateInputIsValid(
+    input: EndUsersActivityLogDetailsCreateInput
+  ) {
+    const { activityLogId, noteDetailsValue } = input;
+
+    if (!noteDetailsValue) return;
+
+    const {
+      noteModel: { fields: noteModelFields },
+    } = await this.activityLogsCollection.queryOne({
+      $: {
+        filters: {
+          _id: activityLogId,
+        },
+      },
+
+      noteModel: {
+        fields: {
+          name: 1,
+          type: 1,
+
+          enumValues: 1,
+        },
+      },
+    });
+
+    this.activityNotesSecurityService.checkNoteDetailsValueIsValid(
+      noteDetailsValue,
+      noteModelFields
+    );
   }
 }

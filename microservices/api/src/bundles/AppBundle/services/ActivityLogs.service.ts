@@ -6,6 +6,7 @@ import {
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import { QueryBodyType } from "@bluelibs/nova";
+import { ActivityLogDetailsService } from ".";
 import { ActivityLog, ActivityLogsCollection } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityLogsCreateInput } from "./inputs/EndUsersActivityLogsCreate.input";
@@ -42,6 +43,11 @@ export class ActivityLogsService {
 
   @Inject()
   private endUserService: EndUserService;
+
+  // FIXME: maybe it's a reasonable idea to have this query body parts somewhere else
+  // rather than in all services. just one place, and use from there?
+  @Inject(() => ActivityLogDetailsService)
+  private activityLogDetailsService: ActivityLogDetailsService;
 
   public async create(
     input: EndUsersActivityLogsCreateInput,
@@ -133,22 +139,7 @@ export class ActivityLogsService {
       },
 
       details: {
-        name: 1,
-
-        note: {
-          _id: 1,
-
-          value: 1,
-        },
-
-        timing: {
-          _id: 1,
-
-          startedAt: 1,
-          finishedAt: 1,
-        },
-
-        createdAt: 1,
+        ...this.activityLogDetailsService.queryBody,
       },
     });
   }

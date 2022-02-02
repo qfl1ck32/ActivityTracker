@@ -309,6 +309,7 @@ export type EndUsersActivityLogDetailsCreateInput = {
   activityLogId: Scalars['ObjectId'];
   startedAt: Scalars['Date'];
   finishedAt: Scalars['Date'];
+  noteDetailsValue?: Maybe<Scalars['String']>;
 };
 
 export type EndUsersActivityLogsCreateInput = {

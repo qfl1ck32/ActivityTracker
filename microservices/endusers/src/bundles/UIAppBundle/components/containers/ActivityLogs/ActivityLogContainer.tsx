@@ -34,11 +34,15 @@ export const ActivityLogContainer: React.FC = () => {
 
   if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
 
+  // TODO: setup event for "LogDetailsCreated" -> update activityLog with set()
+
   return (
     <Box>
       <Typography variant="h6">{activityLog.name}</Typography>
 
       <Button onClick={() => setIsCreateModalOpened(true)}>Add new log</Button>
+
+      {/* TODO: render activity log details */}
 
       <ActivityLogDetailsCreateModal
         {...{

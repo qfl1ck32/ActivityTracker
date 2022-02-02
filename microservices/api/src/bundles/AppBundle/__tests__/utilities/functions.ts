@@ -63,7 +63,8 @@ export const createActivityLogDetails = async (
   input: EndUsersActivityLogDetailsCreateInput,
   userId: ObjectId
 ) => {
-  return container.get(ActivityLogDetailsService).create(input, userId);
+  return (await container.get(ActivityLogDetailsService).create(input, userId))
+    ._id;
 };
 
 // get

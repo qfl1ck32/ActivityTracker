@@ -4,5 +4,7 @@ export default /* GraphQL */ `
 
     startedAt: Date!
     finishedAt: Date!
+
+    noteDetailsValue: String
   }
 `;

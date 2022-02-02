@@ -51,14 +51,15 @@ describe("ActivityLogDetailsService", () => {
     const startedAt = dateService.toDayJS().toDate();
     const finishedAt = dateService.toDayJS().add(1, "minute").toDate();
 
-    const activityLogDetailsId = await activityLogDetailsService.create(
-      {
-        activityLogId,
-        startedAt,
-        finishedAt,
-      },
-      userId
-    );
+    const { _id: activityLogDetailsId } =
+      await activityLogDetailsService.create(
+        {
+          activityLogId,
+          startedAt,
+          finishedAt,
+        },
+        userId
+      );
 
     expect(activityLogDetailsId).toBeTruthy();
 

@@ -5,7 +5,9 @@ import {
   ContainerInstance,
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
+import { QuerySubBodyType, QueryBodyType } from "@bluelibs/nova";
 import {
+  ActivityLogDetail,
   ActivityLogDetailsCollection,
   ActivityNotesCollection,
   ActivityTimingsCollection,
@@ -16,7 +18,28 @@ import { SecurityService } from "./Security.service";
 
 @Service()
 export class ActivityLogDetailsService {
-  constructor(protected readonly container: ContainerInstance) {}
+  constructor(protected readonly container: ContainerInstance) {
+    this.queryBody = {
+      name: 1,
+
+      note: {
+        _id: 1,
+
+        value: 1,
+      },
+
+      timing: {
+        _id: 1,
+
+        startedAt: 1,
+        finishedAt: 1,
+      },
+
+      createdAt: 1,
+    };
+  }
+
+  public queryBody: QueryBodyType<ActivityLogDetail>;
 
   @Inject()
   private activityLogDetailsCollection: ActivityLogDetailsCollection;
@@ -37,7 +60,7 @@ export class ActivityLogDetailsService {
     input: EndUsersActivityLogDetailsCreateInput,
     userId: ObjectId
   ) {
-    const { activityLogId, startedAt, finishedAt } = input;
+    const { activityLogId, startedAt, finishedAt, noteDetailsValue } = input;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
@@ -50,6 +73,12 @@ export class ActivityLogDetailsService {
       startedAt,
       finishedAt
     );
+
+    if (noteDetailsValue) {
+      await this.securityService.activityLogDetails.checkCreateInputIsValid(
+        input
+      );
+    }
 
     const activityTimingsInsertResponse =
       await this.activityTimingsCollection.insertOne(
@@ -67,7 +96,7 @@ export class ActivityLogDetailsService {
     const activityNoteInsertResponse =
       await this.activityNotesCollection.insertOne(
         {
-          value: JSON.stringify({}),
+          value: JSON.stringify(noteDetailsValue || {}),
           endUserId,
         },
         {
@@ -108,6 +137,14 @@ export class ActivityLogDetailsService {
       }
     );
 
-    return activityLogDetailsId;
+    return this.activityLogDetailsCollection.queryOne({
+      $: {
+        filters: {
+          _id: activityLogDetailsId,
+        },
+      },
+
+      ...this.queryBody,
+    });
   }
 }

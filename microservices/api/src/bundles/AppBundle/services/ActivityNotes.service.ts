@@ -37,9 +37,7 @@ export class ActivityNotesService {
       endUserId
     );
 
-    await this.securityService.activityNotesSecurity.checkUpdateInputIsValid(
-      input
-    );
+    await this.securityService.activityNotes.checkUpdateInputIsValid(input);
 
     await this.activityNotesCollection.updateOne(
       {

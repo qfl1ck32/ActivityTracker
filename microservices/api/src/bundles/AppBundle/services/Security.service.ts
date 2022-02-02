@@ -31,5 +31,5 @@ export class SecurityService {
   public field: FieldSecurityService;
 
   @Inject()
-  public activityNotesSecurity: ActivityNotesSecurityService;
+  public activityNotes: ActivityNotesSecurityService;
 }

@@ -43,7 +43,14 @@ export class ActivityNotesSecurityService {
       },
     });
 
-    const fields = EJSON.parse(value) as Record<string, any>;
+    this.checkNoteDetailsValueIsValid(value, noteModelFields);
+  }
+
+  public checkNoteDetailsValueIsValid(
+    noteDetailsValue: string,
+    noteModelFields: Field[]
+  ) {
+    const fields = EJSON.parse(noteDetailsValue) as Record<string, any>;
 
     this.checkFieldsAreValid(
       noteModelFields.map((field) => field.name),

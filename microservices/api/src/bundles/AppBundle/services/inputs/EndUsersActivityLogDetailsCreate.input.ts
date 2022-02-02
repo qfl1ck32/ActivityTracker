@@ -11,4 +11,7 @@ export class EndUsersActivityLogDetailsCreateInput {
 
   @Is(a.date().required())
   finishedAt: Date;
+
+  @Is(a.string().nullable())
+  noteDetailsValue?: string;
 }
