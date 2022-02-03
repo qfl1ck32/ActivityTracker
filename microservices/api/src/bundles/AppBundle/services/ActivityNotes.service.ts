@@ -106,8 +106,7 @@ export class ActivityNotesService {
     for (const activityNote of activityNotesThatNeedUpdate) {
       const { _id, value } = activityNote;
 
-      // TODO: is this right?...
-      const parsedValue = JSON.parse(value) as Record<string, any>;
+      const parsedValue = EJSON.parse(value) as Record<string, any>;
 
       const newValue = {};
 

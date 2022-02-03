@@ -10,6 +10,7 @@ import {
   getActivityTimingByActivityLogDetailsId,
 } from "./utilities";
 import { FieldType } from "../collections";
+import { EJSON } from "@bluelibs/ejson";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -21,7 +22,7 @@ describe("ActivityLogDetailsService", () => {
 
     const dateService = container.get(DateService);
 
-    const { userId, endUserId } = await createEndUser();
+    const { userId } = await createEndUser();
 
     const activityId = await createActivity();
 
@@ -80,7 +81,7 @@ describe("ActivityLogDetailsService", () => {
 
     expect(note.value).toBe(JSON.stringify({}));
 
-    const noteDetailsValue = JSON.stringify({
+    const noteDetailsValue = EJSON.stringify({
       "Went hardcore?": "HELL YES!",
     });
 
@@ -97,6 +98,6 @@ describe("ActivityLogDetailsService", () => {
 
     note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId2);
 
-    expect(note.value).toBe(JSON.stringify(noteDetailsValue));
+    expect(note.value).toBe(noteDetailsValue);
   });
 });
