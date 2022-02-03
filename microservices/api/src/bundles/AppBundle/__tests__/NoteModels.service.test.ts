@@ -29,6 +29,7 @@ describe("NoteModelsService", () => {
     expect(noteModel).toBeTruthy();
 
     expect(noteModel.fields[0].id).toBeTruthy();
+    expect(noteModel.fields[0].id).toHaveLength(36); // UUID :)
   });
 
   test("update()", async () => {
