@@ -6,7 +6,7 @@ import {
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import { FieldSecurityService } from ".";
-import { NoteModelsCollection } from "../collections";
+import { Field, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { EndUsersNoteModelsCreateInput } from "./inputs";
 
@@ -39,7 +39,7 @@ export class NoteModelsSecurityService {
     }
   }
 
-  public checkCreateInputIsValid(input: EndUsersNoteModelsCreateInput) {
+  public checkFieldsInputIsValid<T extends { fields: Field[] }>(input: T) {
     const { fields } = input;
 
     const fieldNames = fields.map((field) => field.name);

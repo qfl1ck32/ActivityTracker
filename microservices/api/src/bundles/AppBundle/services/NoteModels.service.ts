@@ -8,6 +8,7 @@ import { ObjectId } from "@bluelibs/ejson";
 import { EndUserService, SecurityService } from ".";
 import { NoteModelsCollection } from "../collections";
 import { EndUsersNoteModelsCreateInput } from "./inputs/EndUsersNoteModelsCreate.input";
+import { EndUsersNoteModelsUpdateInput } from "./inputs/EndUsersNoteModelsUpdate.input";
 
 @Service()
 export class NoteModelsService {
@@ -28,7 +29,7 @@ export class NoteModelsService {
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
-    this.securityService.noteModels.checkCreateInputIsValid(input);
+    this.securityService.noteModels.checkFieldsInputIsValid(input);
 
     await this.securityService.noteModels.checkEndUserDoesNotHaveNoteModelWithTheSameName(
       name,
@@ -51,6 +52,16 @@ export class NoteModelsService {
     return this.noteModelsCollection.findOne({
       _id: insertedId,
     });
+  }
+
+  public async update(input: EndUsersNoteModelsUpdateInput, userId: ObjectId) {
+    const { fields, noteModelId, ...restOfFieldsToUpdate } = input;
+
+    if (fields?.length) {
+      this.securityService.noteModels.checkFieldsInputIsValid({ fields });
+
+      // activityNotes.syncNewFields()
+    }
   }
 
   public async getAll(userId: ObjectId) {

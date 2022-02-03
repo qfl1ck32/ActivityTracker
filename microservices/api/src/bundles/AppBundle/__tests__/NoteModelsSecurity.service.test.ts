@@ -6,7 +6,12 @@ import {
   endUsersRegisterInput,
 } from "./utilities";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
-import { NoteModelNameAlreadyExistsException } from "../exceptions";
+import {
+  FieldNamesAreNotUniqueException,
+  FieldTypeIsNotEnumButEnumValuesWereGivenException,
+  NoteModelNameAlreadyExistsException,
+} from "../exceptions";
+import { Field, FieldType } from "../collections";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -74,5 +79,53 @@ describe("NoteModelsSecurityService", () => {
         endUserId
       )
     ).rejects.toThrowError(new NoteModelNameAlreadyExistsException());
+  });
+
+  test("checkFieldsInputIsValid()", async () => {
+    const noteModelsSecurityService = container.get(NoteModelsSecurityService);
+
+    const check = (input: { fields: Field[] }) => () =>
+      noteModelsSecurityService.checkFieldsInputIsValid(input);
+
+    expect(
+      check({
+        fields: [
+          {
+            name: "abc",
+            type: FieldType.NUMBER,
+          },
+          {
+            name: "abc",
+            type: FieldType.STRING,
+          },
+        ],
+      })
+    ).toThrowError(new FieldNamesAreNotUniqueException());
+
+    expect(
+      check({
+        fields: [
+          {
+            name: "abc",
+            type: FieldType.STRING,
+
+            enumValues: [],
+          },
+        ],
+      })
+    ).toThrowError(new FieldTypeIsNotEnumButEnumValuesWereGivenException());
+
+    expect(
+      check({
+        fields: [
+          {
+            name: "abc",
+            type: FieldType.ENUM,
+
+            enumValues: ["A"],
+          },
+        ],
+      })
+    ).not.toThrow();
   });
 });

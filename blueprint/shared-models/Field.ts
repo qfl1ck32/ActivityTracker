@@ -15,6 +15,8 @@ export const Field = sharedModel({
   id: "Field",
 
   fields: [
+    field.string("id"),
+
     field.string("name"),
 
     field.enum("type", {

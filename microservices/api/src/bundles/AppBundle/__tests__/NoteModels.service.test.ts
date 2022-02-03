@@ -28,4 +28,23 @@ describe("NoteModelsService", () => {
 
     expect(noteModel).toBeTruthy();
   });
+
+  test.only("update()", async () => {
+    const noteModelsService = container.get(NoteModelsService);
+
+    const { userId } = await createEndUser();
+
+    const noteModel = await noteModelsService.create(
+      {
+        name: "noteModelName",
+        fields: [
+          {
+            name: "isThisOk",
+            type: FieldType.BOOLEAN,
+          },
+        ],
+      },
+      userId
+    );
+  });
 });
