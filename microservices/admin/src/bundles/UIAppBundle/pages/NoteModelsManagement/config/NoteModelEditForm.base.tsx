@@ -37,6 +37,15 @@ export class NoteModelEditForm extends XForm {
         isList: true,
         nest: [
           {
+            id: "id",
+            label: t("management.note_models.fields.id"),
+            name: ["fields", "id"],
+            required: true,
+            initialValue: [],
+            component: Ant.Input,
+          },
+
+          {
             id: "name",
             label: t("management.note_models.fields.name"),
             name: ["fields", "name"],
@@ -107,6 +116,7 @@ export class NoteModelEditForm extends XForm {
       _id: 1,
       name: 1,
       fields: {
+        id: 1,
         name: 1,
         type: 1,
         enumValues: 1,

@@ -35,6 +35,15 @@ export class NoteModelListFiltersForm extends XForm {
         columns: true,
         nest: [
           {
+            id: "id",
+            label: t("management.note_models.fields.id"),
+            name: ["fields", "id"],
+            required: true,
+            initialValue: [],
+            component: Ant.Input,
+          },
+
+          {
             id: "name",
             label: t("management.note_models.fields.name"),
             name: ["fields", "name"],

@@ -6,6 +6,9 @@ export { FieldType };
 @Schema()
 export class Field {
   @Is(a.string().required())
+  id: string;
+
+  @Is(a.string().required())
   name: string;
 
   @Is(a.string().oneOf(Object.values(FieldType)).required())

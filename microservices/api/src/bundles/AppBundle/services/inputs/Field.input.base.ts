@@ -6,6 +6,9 @@ import { FieldType } from "../../collections";
 @Schema()
 export class FieldInput {
   @Is(a.string().required())
+  id: string;
+
+  @Is(a.string().required())
   name: string;
 
   @Is(a.string().oneOf(Object.values(FieldType)).required())

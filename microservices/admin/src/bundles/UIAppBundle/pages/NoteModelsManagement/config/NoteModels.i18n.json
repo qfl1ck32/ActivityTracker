@@ -6,6 +6,7 @@
           "_id": "ID",
           "name": "Name",
           "fields": "Fields",
+          "id": "Id",
           "type": "Type",
           "enumValues": "Enum Values",
           "createdAt": "Created At",

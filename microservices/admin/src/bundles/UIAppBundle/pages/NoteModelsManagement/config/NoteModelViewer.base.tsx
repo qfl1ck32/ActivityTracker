@@ -110,6 +110,7 @@ export class NoteModelViewer extends XViewer {
       _id: 1,
       name: 1,
       fields: {
+        id: 1,
         name: 1,
         type: 1,
         enumValues: 1,
