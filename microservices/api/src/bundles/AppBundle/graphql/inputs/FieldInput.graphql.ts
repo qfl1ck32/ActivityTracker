@@ -4,4 +4,12 @@ export default /* GraphQL */ `
     type: FieldType!
     enumValues: [String]
   }
+
+  input FieldInputWithId {
+    id: String
+
+    name: String!
+    type: FieldType!
+    enumValues: [String]
+  }
 `;

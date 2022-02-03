@@ -5,12 +5,15 @@ import {
   ContainerInstance,
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { EndUserService, SecurityService } from ".";
+import { ActivityNotesService, EndUserService, SecurityService } from ".";
 import { Field, NoteModelsCollection } from "../collections";
 import { EndUsersNoteModelsCreateInput } from "./inputs/EndUsersNoteModelsCreate.input";
 import { EndUsersNoteModelsUpdateInput } from "./inputs/EndUsersNoteModelsUpdate.input";
 
+// TODO :(
 import * as crypto from "crypto";
+
+import { pickBy } from "lodash";
 
 @Service()
 export class NoteModelsService {
@@ -25,6 +28,9 @@ export class NoteModelsService {
   // FIXME: why doesn't it work without (() => ...) ?
   @Inject(() => SecurityService)
   private securityService: SecurityService;
+
+  @Inject(() => ActivityNotesService)
+  private activityNotesService: ActivityNotesService;
 
   public async create(input: EndUsersNoteModelsCreateInput, userId: ObjectId) {
     const { name } = input;
@@ -73,8 +79,27 @@ export class NoteModelsService {
     if (fields?.length) {
       this.securityService.noteModels.checkFieldsInputIsValid({ fields });
 
-      // activityNotes.syncNewFields()
+      const { fields: oldFields } = await this.noteModelsCollection.findOne({
+        _id: noteModelId,
+      });
+
+      await this.activityNotesService.syncWithNewFields(
+        oldFields,
+        fields,
+        noteModelId
+      );
     }
+
+    const updates = pickBy({ fields, ...restOfFieldsToUpdate }, Boolean);
+
+    await this.noteModelsCollection.updateOne(
+      {
+        _id: noteModelId,
+      },
+      {
+        $set: updates,
+      }
+    );
   }
 
   public async getAll(userId: ObjectId) {
