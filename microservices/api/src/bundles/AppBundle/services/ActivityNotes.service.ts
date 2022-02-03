@@ -9,6 +9,7 @@ import {
   ActivityLogsCollection,
   ActivityNotesCollection,
   Field,
+  FieldEnumValues,
   FieldType,
   NoteModelsCollection,
 } from "../collections";
@@ -104,6 +105,7 @@ export class ActivityNotesService {
       newFieldsById[field.id] = field;
     }
 
+    // TODO: this looks HARSH. Maybe... an... improvement?...
     for (const activityNote of activityNotesThatNeedUpdate) {
       const { _id, value } = activityNote;
 
@@ -117,26 +119,57 @@ export class ActivityNotesService {
 
         const newField = newFieldsById[oldFieldByName.id];
 
-        // TODO: doesn't work if we change field types. but I don't think we should ALLOW that. :)
-        const fieldType = oldFieldByName.type;
+        let newFieldName = "";
 
         // the name has been changed
         if (newField) {
-          newValue[newField.name] = parsedValue[fieldName];
+          newFieldName = newField.name;
         } else {
           // the field didn't change
           // but it was deleted
           if (newFieldsById[oldFieldByName.id]) {
-            newValue[fieldName] = parsedValue[fieldName];
+            newFieldName = fieldName;
           }
         }
 
-        if (fieldType === FieldType.ENUM) {
-          if (newField) {
-            for (const enumValue of oldFieldByName.enumValues) {
-              console.log(enumValue);
-            }
+        if (!newFieldName) continue; // the field was removed, so we also remove the value in the note
+
+        newValue[newFieldName] = parsedValue[fieldName];
+
+        // TODO: doesn't work if we change field types. but I don't think we should ALLOW that. :)
+        if (oldFieldByName.type === FieldType.ENUM) {
+          if (!newField) break;
+
+          // TODO: these are kinda recalculated for every field. but is it better than calculating them for every field, from the beginning?
+
+          const oldEnumValuesByName = {} as Record<string, FieldEnumValues>;
+          const newEnumValuesByName = {} as Record<string, FieldEnumValues>;
+
+          const oldEnumValuesById = {} as Record<string, FieldEnumValues>;
+          const newEnumValuesById = {} as Record<string, FieldEnumValues>;
+
+          for (const enumValue of oldFieldByName.enumValues) {
+            oldEnumValuesById[enumValue.id] = enumValue;
+            oldEnumValuesByName[enumValue.value] = enumValue;
           }
+
+          for (const enumValue of newField.enumValues) {
+            newEnumValuesById[enumValue.id] = enumValue;
+            newEnumValuesByName[enumValue.value] = enumValue;
+          }
+
+          const fieldValue = newValue[newFieldName];
+
+          const newEnumValue =
+            newEnumValuesById[oldEnumValuesByName[fieldValue].id];
+
+          if (!newEnumValue) {
+            // the field has been deleted!
+            delete newValue[newFieldName];
+            break;
+          }
+
+          newValue[newFieldName] = newEnumValue.value;
         }
       }
 

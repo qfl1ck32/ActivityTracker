@@ -90,7 +90,8 @@ describe("ActivityNotesService", () => {
     expect(activityNote.value).toBe(value);
   });
 
-  test.only("syncWithNewFields()", async () => {
+  // TODO: improve the tests for this one! not all edge cases are touched.
+  test("syncWithNewFields()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
     const noteModelsCollection = container.get(NoteModelsCollection);
