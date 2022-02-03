@@ -107,7 +107,7 @@ export class ActivityNotesService {
       const { _id, value } = activityNote;
 
       // TODO: is this right?...
-      const parsedValue = JSON.parse(EJSON.parse(value)) as Record<string, any>;
+      const parsedValue = JSON.parse(value) as Record<string, any>;
 
       const newValue = {};
 
@@ -116,9 +116,14 @@ export class ActivityNotesService {
 
         const newField = newFieldsById[oldFieldByName.id];
 
+        // the name has been changed
         if (newField) {
           newValue[newField.name] = parsedValue[fieldName];
         } else {
+          // the field didn't change
+          // but it was deleted
+          if (!newFieldsById[oldFieldByName.id]) continue;
+
           newValue[fieldName] = parsedValue[fieldName];
         }
       }

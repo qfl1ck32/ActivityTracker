@@ -90,7 +90,7 @@ describe("ActivityNotesService", () => {
     expect(activityNote.value).toBe(value);
   });
 
-  test("syncWithNewFields()", async () => {
+  test.only("syncWithNewFields()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
     const noteModelsCollection = container.get(NoteModelsCollection);
@@ -144,12 +144,6 @@ describe("ActivityNotesService", () => {
 
     newFields[0].name = "I just modified this";
 
-    newFields.push({
-      id: "abcdtest",
-      name: "new field",
-      type: FieldType.NUMBER,
-    });
-
     // simulate changing the name of a field
     await noteModelsCollection.updateOne(
       {
@@ -168,13 +162,33 @@ describe("ActivityNotesService", () => {
       noteModelId
     );
 
-    const note = await getActivityNoteByActivityLogDetailsId(
+    let note = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId
     );
 
-    const value = EJSON.parse(note.value);
+    let value = EJSON.parse(note.value);
 
     expect(value[inputFields[0].name]).toBeFalsy();
     expect(value[newFields[0].name]).toBe("YES");
+
+    // simulate removing a field
+    await noteModelsCollection.updateOne(
+      {
+        _id: noteModelId,
+      },
+      {
+        $set: {
+          fields: [],
+        },
+      }
+    );
+
+    await activityNotesService.syncWithNewFields(newFields, [], noteModelId);
+
+    note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId);
+
+    value = EJSON.parse(note.value);
+
+    expect(value).toStrictEqual({});
   });
 });

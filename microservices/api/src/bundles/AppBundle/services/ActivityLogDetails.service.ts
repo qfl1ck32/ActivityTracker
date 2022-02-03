@@ -4,7 +4,7 @@ import {
   EventManager,
   ContainerInstance,
 } from "@bluelibs/core";
-import { ObjectId } from "@bluelibs/ejson";
+import { EJSON, ObjectId } from "@bluelibs/ejson";
 import { QuerySubBodyType, QueryBodyType } from "@bluelibs/nova";
 import {
   ActivityLogDetail,
@@ -96,7 +96,7 @@ export class ActivityLogDetailsService {
     const activityNoteInsertResponse =
       await this.activityNotesCollection.insertOne(
         {
-          value: JSON.stringify(noteDetailsValue || {}),
+          value: noteDetailsValue || "{}",
           endUserId,
         },
         {
