@@ -6,7 +6,10 @@ import {
   FieldValueIsNotValidException,
 } from "../exceptions";
 import { ActivityNotesSecurityService } from "../services/ActivityNotesSecurity.service";
-import { EndUsersActivityNotesUpdateInput } from "../services/inputs";
+import {
+  EndUsersActivityNotesUpdateInput,
+  FieldInput,
+} from "../services/inputs";
 import {
   createActivity,
   createActivityLog,
@@ -145,7 +148,12 @@ describe("ActivityNotesSecurityService", () => {
       {
         name: "enumTest",
         type: FieldType.ENUM,
-        enumValues: ["ACCEPTED_ENUM_VALUE"],
+        enumValues: [
+          {
+            id: "a",
+            value: "ACCEPTED_ENUM_VALUE",
+          },
+        ],
       },
       {
         name: "booleanTest",

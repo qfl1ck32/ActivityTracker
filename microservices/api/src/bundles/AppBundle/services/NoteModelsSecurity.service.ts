@@ -3,7 +3,7 @@ import { ObjectId } from "@bluelibs/ejson";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
 import { FieldSecurityService } from ".";
-import { NoteModelsCollection } from "../collections";
+import { Field, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
@@ -34,7 +34,9 @@ export class NoteModelsSecurityService {
     }
   }
 
-  public checkFieldsInputIsValid<T extends { fields: FieldInput[] }>(input: T) {
+  public checkFieldsInputIsValid<T extends { fields: (Field | FieldInput)[] }>(
+    input: T
+  ) {
     const { fields } = input;
 
     const fieldNames = fields.map((field) => field.name);

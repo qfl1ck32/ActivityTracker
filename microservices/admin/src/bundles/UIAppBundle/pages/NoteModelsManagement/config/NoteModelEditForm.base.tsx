@@ -86,9 +86,9 @@ export class NoteModelEditForm extends XForm {
             id: "enumValues",
             label: t("management.note_models.fields.enumValues"),
             name: ["fields", "enumValues"],
-            initialValue: [],
-            component: Ant.Input,
             isList: true,
+            nest: [],
+            initialValue: [],
           },
         ],
         initialValue: [],
@@ -119,7 +119,10 @@ export class NoteModelEditForm extends XForm {
         id: 1,
         name: 1,
         type: 1,
-        enumValues: 1,
+        enumValues: {
+          id: 1,
+          value: 1,
+        },
       },
       endUser: {
         _id: 1,

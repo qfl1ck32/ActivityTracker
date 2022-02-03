@@ -90,7 +90,7 @@ describe("ActivityNotesService", () => {
     expect(activityNote.value).toBe(value);
   });
 
-  test("syncWithNewFields()", async () => {
+  test.only("syncWithNewFields()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
     const noteModelsCollection = container.get(NoteModelsCollection);
@@ -170,6 +170,35 @@ describe("ActivityNotesService", () => {
 
     expect(value[inputFields[0].name]).toBeFalsy();
     expect(value[newFields[0].name]).toBe("YES");
+
+    const newNewFields = cloneDeep(newFields);
+
+    newNewFields[0].enumValues[0].value = "newEnumValue";
+
+    // simulate changing the name of an ENUM field
+    await noteModelsCollection.updateOne(
+      {
+        _id: noteModelId,
+      },
+      {
+        $set: {
+          fields: newFields,
+        },
+      }
+    );
+
+    await activityNotesService.syncWithNewFields(
+      newFields,
+      newNewFields,
+      noteModelId
+    );
+
+    note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId);
+
+    value = EJSON.parse(note.value);
+
+    expect(value[inputFields[0].name]).toBeFalsy();
+    expect(value[newFields[0].name]).toBe("newEnumValue");
 
     // simulate removing a field
     await noteModelsCollection.updateOne(

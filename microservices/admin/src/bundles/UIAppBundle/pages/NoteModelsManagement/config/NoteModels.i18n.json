@@ -9,6 +9,7 @@
           "id": "Id",
           "type": "Type",
           "enumValues": "Enum Values",
+          "value": "Value",
           "createdAt": "Created At",
           "createdAt_description": "Represents the date when this object was created",
           "updatedAt": "Updated At",

@@ -123,7 +123,10 @@ export class NoteModelList extends XList<NoteModel> {
         id: 1,
         name: 1,
         type: 1,
-        enumValues: 1,
+        enumValues: {
+          id: 1,
+          value: 1,
+        },
       },
       createdAt: 1,
       updatedAt: 1,

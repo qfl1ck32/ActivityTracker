@@ -1,7 +1,7 @@
 export default /* GraphQL */ `
   input EndUsersNoteModelsUpdateInput {
     noteModelId: ObjectId!
-    fields: [FieldInputWithId]!
+    fields: [FieldInput]!
     name: String
   }
 `;

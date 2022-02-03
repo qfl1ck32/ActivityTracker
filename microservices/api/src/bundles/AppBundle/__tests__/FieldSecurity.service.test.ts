@@ -55,8 +55,8 @@ describe("FieldSecurityService", () => {
   test("checkFieldValueIsValid()", async () => {
     const fieldSecurityService = container.get(FieldSecurityService);
 
-    const check = (field: FieldInput, value: any) => () =>
-      fieldSecurityService.checkInputFieldValueIsValid(field, value);
+    const check = (field: Field, value: any) => () =>
+      fieldSecurityService.checkFieldValueIsValid(field, value);
 
     const name = "name";
     const fieldName = name;
@@ -65,6 +65,7 @@ describe("FieldSecurityService", () => {
     expect(
       check(
         {
+          id: "a",
           name,
           type: FieldType.ENUM,
         },
@@ -76,6 +77,7 @@ describe("FieldSecurityService", () => {
     expect(
       check(
         {
+          id: "a",
           name,
           type: FieldType.BOOLEAN,
         },
@@ -86,6 +88,7 @@ describe("FieldSecurityService", () => {
     expect(
       check(
         {
+          id: "a",
           name,
           type: FieldType.BOOLEAN,
         },
@@ -96,6 +99,7 @@ describe("FieldSecurityService", () => {
     expect(
       check(
         {
+          id: "a",
           name,
           type: FieldType.BOOLEAN,
         },
@@ -106,6 +110,7 @@ describe("FieldSecurityService", () => {
     expect(
       check(
         {
+          id: "a",
           name,
           type: FieldType.STRING,
         },

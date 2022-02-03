@@ -49,9 +49,18 @@ export class NoteModelsService {
     const fields = [] as Field[];
 
     for (const field of inputFields) {
+      const { enumValues, ...restOfField } = field;
+
       fields.push({
         id: crypto.randomUUID(),
-        ...field,
+        ...restOfField,
+
+        enumValues: enumValues
+          ? enumValues.map((value) => ({
+              id: crypto.randomUUID(),
+              value,
+            }))
+          : undefined,
       });
     }
 

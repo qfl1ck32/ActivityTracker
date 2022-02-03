@@ -1,10 +1,18 @@
 import { field, sharedModel } from "../utils";
 
+export const FieldEnumValues = sharedModel({
+  id: "FieldEnumValues",
+
+  fields: [field.string("id"), field.string("value")],
+});
+
 export const FieldRules = sharedModel({
   id: "FieldRules",
 
   fields: [
-    field.string("enumValues", {
+    field.object("enumValues", {
+      model: () => FieldEnumValues,
+
       isArray: true,
       isRequired: false,
     }),

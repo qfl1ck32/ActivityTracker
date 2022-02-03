@@ -58,7 +58,7 @@ export class ActivityNotesSecurityService {
     );
 
     for (const field of noteModelFields) {
-      this.fieldSecurityService.checkInputFieldValueIsValid(
+      this.fieldSecurityService.checkFieldValueIsValid(
         field,
         fields[field.name]
       );

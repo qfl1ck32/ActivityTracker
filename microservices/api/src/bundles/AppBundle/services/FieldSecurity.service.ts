@@ -1,7 +1,7 @@
 import { ContainerInstance, Service } from "@bluelibs/core";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
-import { Field, FieldType } from "../collections";
+import { Field, FieldEnumValues, FieldType } from "../collections";
 import {
   FieldEnumValuesAreMissingException,
   FieldValueIsNotValidException,
@@ -14,7 +14,7 @@ import { FieldInput } from "./inputs";
 export class FieldSecurityService {
   constructor(protected readonly container: ContainerInstance) {}
 
-  public checkFieldIsValid(field: FieldInput) {
+  public checkFieldIsValid(field: Field | FieldInput) {
     const { name, type, enumValues } = field;
 
     if (type !== FieldType.ENUM) {
@@ -29,7 +29,7 @@ export class FieldSecurityService {
     }
   }
 
-  public checkInputFieldValueIsValid(field: FieldInput, value: any) {
+  public checkFieldValueIsValid(field: Field, value: any) {
     const { name: fieldName, type, enumValues } = field;
 
     if (value === undefined) return; // TODO: think, is this right?
@@ -52,9 +52,9 @@ export class FieldSecurityService {
   private checkEnumFieldValueIsValid(
     value: any,
     fieldName: string,
-    enumValues: string[]
+    enumValues: FieldEnumValues[]
   ) {
-    if (!enumValues?.includes(value)) {
+    if (!enumValues?.some((enumValue) => enumValue.value === value)) {
       throw new FieldValueIsNotValidException({
         fieldName,
       });
@@ -73,7 +73,10 @@ export class FieldSecurityService {
     }
   }
 
-  private checkEnumValuesAreValid(enumValues: string[], fieldName: string) {
+  private checkEnumValuesAreValid(
+    enumValues: (string | FieldEnumValues)[],
+    fieldName: string
+  ) {
     if (!enumValues?.length) {
       throw new FieldEnumValuesAreMissingException();
     }

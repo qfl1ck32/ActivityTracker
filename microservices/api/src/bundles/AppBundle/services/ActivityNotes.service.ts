@@ -9,6 +9,7 @@ import {
   ActivityLogsCollection,
   ActivityNotesCollection,
   Field,
+  FieldType,
   NoteModelsCollection,
 } from "../collections";
 import { EndUserService } from "./EndUser.service";
@@ -110,10 +111,14 @@ export class ActivityNotesService {
 
       const newValue = {};
 
+      // TODO: if it's an enum, check if we need to remove the value, or to update them. :)
       for (const fieldName of Object.keys(parsedValue)) {
         const oldFieldByName = oldFieldsByName[fieldName];
 
         const newField = newFieldsById[oldFieldByName.id];
+
+        // TODO: doesn't work if we change field types. but I don't think we should ALLOW that. :)
+        const fieldType = oldFieldByName.type;
 
         // the name has been changed
         if (newField) {
@@ -121,9 +126,17 @@ export class ActivityNotesService {
         } else {
           // the field didn't change
           // but it was deleted
-          if (!newFieldsById[oldFieldByName.id]) continue;
+          if (newFieldsById[oldFieldByName.id]) {
+            newValue[fieldName] = parsedValue[fieldName];
+          }
+        }
 
-          newValue[fieldName] = parsedValue[fieldName];
+        if (fieldType === FieldType.ENUM) {
+          if (newField) {
+            for (const enumValue of oldFieldByName.enumValues) {
+              console.log(enumValue);
+            }
+          }
         }
       }
 

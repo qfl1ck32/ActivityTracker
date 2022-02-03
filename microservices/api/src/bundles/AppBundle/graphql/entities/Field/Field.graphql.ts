@@ -3,7 +3,7 @@ export default /* GraphQL */ `
     id: String!
     name: String!
     type: FieldType!
-    enumValues: [String]
+    enumValues: [FieldEnumValues]
   }
 
   enum FieldType {
