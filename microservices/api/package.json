@@ -77,5 +77,8 @@
   },
   "bluelibs": {
     "type": "microservice"
+  },
+  "engines": {
+    "node": ">=15.6"
   }
 }

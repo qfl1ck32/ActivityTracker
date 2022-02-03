@@ -6,9 +6,11 @@ import {
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import { EndUserService, SecurityService } from ".";
-import { NoteModelsCollection } from "../collections";
+import { Field, NoteModelsCollection } from "../collections";
 import { EndUsersNoteModelsCreateInput } from "./inputs/EndUsersNoteModelsCreate.input";
 import { EndUsersNoteModelsUpdateInput } from "./inputs/EndUsersNoteModelsUpdate.input";
+
+import * as crypto from "crypto";
 
 @Service()
 export class NoteModelsService {
@@ -25,7 +27,9 @@ export class NoteModelsService {
   private securityService: SecurityService;
 
   public async create(input: EndUsersNoteModelsCreateInput, userId: ObjectId) {
-    const { name, fields } = input;
+    const { name } = input;
+
+    const inputFields = input.fields;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
@@ -35,6 +39,15 @@ export class NoteModelsService {
       name,
       endUserId
     );
+
+    const fields = [] as Field[];
+
+    for (const field of inputFields) {
+      fields.push({
+        id: crypto.randomUUID(),
+        ...field,
+      });
+    }
 
     const { insertedId } = await this.noteModelsCollection.insertOne(
       {

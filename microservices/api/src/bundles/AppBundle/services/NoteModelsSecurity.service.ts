@@ -1,19 +1,14 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { FieldSecurityService } from ".";
-import { Field, NoteModelsCollection } from "../collections";
-import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
-import { EndUsersNoteModelsCreateInput } from "./inputs";
-
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
+import { FieldSecurityService } from ".";
+import { NoteModelsCollection } from "../collections";
+import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
+import { FieldInput } from "./inputs";
+
 @Service()
 export class NoteModelsSecurityService {
   constructor(protected readonly container: ContainerInstance) {}
@@ -39,7 +34,7 @@ export class NoteModelsSecurityService {
     }
   }
 
-  public checkFieldsInputIsValid<T extends { fields: Field[] }>(input: T) {
+  public checkFieldsInputIsValid<T extends { fields: FieldInput[] }>(input: T) {
     const { fields } = input;
 
     const fieldNames = fields.map((field) => field.name);

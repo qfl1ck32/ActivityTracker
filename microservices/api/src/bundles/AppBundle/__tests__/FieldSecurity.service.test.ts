@@ -7,6 +7,7 @@ import {
   FieldTypeIsNotEnumButEnumValuesWereGivenException,
 } from "../exceptions";
 import { FieldValueIsNotValidException } from "../exceptions/FieldValueIsNotValid.exception";
+import { FieldInput } from "../services/inputs";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -16,7 +17,7 @@ describe("FieldSecurityService", () => {
   test("checkFieldIsValid()", async () => {
     const fieldSecurityService = container.get(FieldSecurityService);
 
-    const check = (field: Field) => () =>
+    const check = (field: FieldInput) => () =>
       fieldSecurityService.checkFieldIsValid(field);
 
     expect(
@@ -54,8 +55,8 @@ describe("FieldSecurityService", () => {
   test("checkFieldValueIsValid()", async () => {
     const fieldSecurityService = container.get(FieldSecurityService);
 
-    const check = (field: Field, value: any) => () =>
-      fieldSecurityService.checkFieldValueIsValid(field, value);
+    const check = (field: FieldInput, value: any) => () =>
+      fieldSecurityService.checkInputFieldValueIsValid(field, value);
 
     const name = "name";
     const fieldName = name;

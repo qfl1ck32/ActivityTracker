@@ -8,7 +8,7 @@ import { createEndUser } from "./utilities";
 // Expect: https://jestjs.io/docs/en/expect
 
 describe("NoteModelsService", () => {
-  test("create()", async () => {
+  test.only("create()", async () => {
     const noteModelsService = container.get(NoteModelsService);
 
     const { userId } = await createEndUser();
@@ -27,9 +27,11 @@ describe("NoteModelsService", () => {
     );
 
     expect(noteModel).toBeTruthy();
+
+    expect(noteModel.fields[0].id).toBeTruthy();
   });
 
-  test.only("update()", async () => {
+  test("update()", async () => {
     const noteModelsService = container.get(NoteModelsService);
 
     const { userId } = await createEndUser();

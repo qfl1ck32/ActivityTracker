@@ -1,25 +1,20 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
-import { Field, FieldType } from "../collections";
-
+import { ContainerInstance, Service } from "@bluelibs/core";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
-import { FieldEnumValuesAreNotUnique } from "../exceptions/FieldEnumValuesAreNotUnique.exception";
+import { Field, FieldType } from "../collections";
 import {
   FieldEnumValuesAreMissingException,
   FieldValueIsNotValidException,
 } from "../exceptions";
+import { FieldEnumValuesAreNotUnique } from "../exceptions/FieldEnumValuesAreNotUnique.exception";
 import { FieldTypeIsNotEnumButEnumValuesWereGivenException } from "../exceptions/FieldTypeIsNotEnumButEnumValuesWereGiven.exception";
+import { FieldInput } from "./inputs";
 
 @Service()
 export class FieldSecurityService {
   constructor(protected readonly container: ContainerInstance) {}
 
-  public checkFieldIsValid(field: Field) {
+  public checkFieldIsValid(field: FieldInput) {
     const { name, type, enumValues } = field;
 
     if (type !== FieldType.ENUM) {
@@ -34,7 +29,7 @@ export class FieldSecurityService {
     }
   }
 
-  public checkFieldValueIsValid(field: Field, value: any) {
+  public checkInputFieldValueIsValid(field: FieldInput, value: any) {
     const { name: fieldName, type, enumValues } = field;
 
     if (value === undefined) return; // TODO: think, is this right?

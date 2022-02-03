@@ -1,17 +1,18 @@
-import { NoteModelsSecurityService } from "../services/NoteModelsSecurity.service";
 import { container } from "../../../__tests__/ecosystem";
-import {
-  createEndUser,
-  createNoteModel,
-  endUsersRegisterInput,
-} from "./utilities";
-import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
+import { FieldType } from "../collections";
 import {
   FieldNamesAreNotUniqueException,
   FieldTypeIsNotEnumButEnumValuesWereGivenException,
   NoteModelNameAlreadyExistsException,
 } from "../exceptions";
-import { Field, FieldType } from "../collections";
+import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
+import { FieldInput } from "../services/inputs";
+import { NoteModelsSecurityService } from "../services/NoteModelsSecurity.service";
+import {
+  createEndUser,
+  createNoteModel,
+  endUsersRegisterInput,
+} from "./utilities";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -84,7 +85,7 @@ describe("NoteModelsSecurityService", () => {
   test("checkFieldsInputIsValid()", async () => {
     const noteModelsSecurityService = container.get(NoteModelsSecurityService);
 
-    const check = (input: { fields: Field[] }) => () =>
+    const check = (input: { fields: FieldInput[] }) => () =>
       noteModelsSecurityService.checkFieldsInputIsValid(input);
 
     expect(
