@@ -9,6 +9,7 @@ import {
   ActivityLogsCollection,
   ActivityNotesCollection,
   Field,
+  NoteModelsCollection,
 } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityNotesUpdateInput } from "./inputs";
@@ -23,6 +24,9 @@ export class ActivityNotesService {
 
   @Inject()
   private activityLogsCollection: ActivityLogsCollection;
+
+  @Inject()
+  private noteModelsCollection: NoteModelsCollection;
 
   // FIXME: why doesn't it work without (() => ...) ?
   @Inject(() => SecurityService)
@@ -61,7 +65,11 @@ export class ActivityNotesService {
     );
   }
 
-  public async syncWithNewFields(noteModelId: ObjectId) {
+  public async syncWithNewFields(
+    oldFields: Field[],
+    newFields: Field[],
+    noteModelId: ObjectId
+  ) {
     const activityLogs = await this.activityLogsCollection.query({
       $: {
         filters: {
@@ -81,12 +89,50 @@ export class ActivityNotesService {
       log.details.map((detail) => detail.note)
     );
 
+    const oldFieldsByName = {} as Record<string, Field>;
+    const newFieldsByName = {} as Record<string, Field>;
+
+    const newFieldsById = {} as Record<string, Field>;
+
+    for (const field of oldFields) {
+      oldFieldsByName[field.name] = field;
+    }
+
+    for (const field of newFields) {
+      newFieldsByName[field.name] = field;
+      newFieldsById[field.id] = field;
+    }
+
     for (const activityNote of activityNotesThatNeedUpdate) {
       const { _id, value } = activityNote;
 
-      const parsedValue = EJSON.parse(value);
+      // TODO: is this right?...
+      const parsedValue = JSON.parse(EJSON.parse(value)) as Record<string, any>;
 
-      // TODO: to be done
+      const newValue = {};
+
+      for (const fieldName of Object.keys(parsedValue)) {
+        const oldFieldByName = oldFieldsByName[fieldName];
+
+        const newField = newFieldsById[oldFieldByName.id];
+
+        if (newField) {
+          newValue[newField.name] = parsedValue[fieldName];
+        } else {
+          newValue[fieldName] = parsedValue[fieldName];
+        }
+      }
+
+      await this.activityNotesCollection.updateOne(
+        {
+          _id,
+        },
+        {
+          $set: {
+            value: EJSON.stringify(newValue),
+          },
+        }
+      );
     }
   }
 }

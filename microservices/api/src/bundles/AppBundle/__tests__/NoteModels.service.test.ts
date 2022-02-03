@@ -8,7 +8,7 @@ import { createEndUser } from "./utilities";
 // Expect: https://jestjs.io/docs/en/expect
 
 describe("NoteModelsService", () => {
-  test.only("create()", async () => {
+  test("create()", async () => {
     const noteModelsService = container.get(NoteModelsService);
 
     const { userId } = await createEndUser();

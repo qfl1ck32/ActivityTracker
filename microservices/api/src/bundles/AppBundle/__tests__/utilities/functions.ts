@@ -84,3 +84,6 @@ export const getActivityTimingByActivityLogDetailsId = async (
     .get(ActivityTimingsCollection)
     .findOne({ activityLogDetailsId });
 };
+
+export const getNoteModelById = async (noteModelId: ObjectId) =>
+  container.get(NoteModelsCollection).findOne({ _id: noteModelId });
