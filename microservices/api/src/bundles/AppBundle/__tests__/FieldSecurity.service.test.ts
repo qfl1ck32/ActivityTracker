@@ -73,6 +73,23 @@ describe("FieldSecurityService", () => {
       )
     ).toThrowError(new FieldValueIsNotValidException({ fieldName }));
 
+    expect(
+      check(
+        {
+          id: "a",
+          name,
+          type: FieldType.ENUM,
+          enumValues: [
+            {
+              id: "abc",
+              value: "test",
+            },
+          ],
+        },
+        "abc"
+      )
+    ).not.toThrow();
+
     // BOOLEAN
     expect(
       check(

@@ -38,7 +38,14 @@ export class ActivityNotesSecurityService {
 
       activityLog: {
         noteModel: {
-          fields: 1,
+          fields: {
+            id: 1,
+
+            name: 1,
+            type: 1,
+
+            enumValues: 1,
+          },
         },
       },
     });
@@ -53,15 +60,12 @@ export class ActivityNotesSecurityService {
     const fields = EJSON.parse(noteDetailsValue) as Record<string, any>;
 
     this.checkFieldsAreValid(
-      noteModelFields.map((field) => field.name),
+      noteModelFields.map((field) => field.id),
       Object.keys(fields)
     );
 
     for (const field of noteModelFields) {
-      this.fieldSecurityService.checkFieldValueIsValid(
-        field,
-        fields[field.name]
-      );
+      this.fieldSecurityService.checkFieldValueIsValid(field, fields[field.id]);
     }
   }
 

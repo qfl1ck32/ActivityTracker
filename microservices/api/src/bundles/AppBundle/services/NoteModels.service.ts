@@ -85,20 +85,6 @@ export class NoteModelsService {
   public async update(input: EndUsersNoteModelsUpdateInput, userId: ObjectId) {
     const { fields, noteModelId, ...restOfFieldsToUpdate } = input;
 
-    if (fields?.length) {
-      this.securityService.noteModels.checkFieldsInputIsValid({ fields });
-
-      const { fields: oldFields } = await this.noteModelsCollection.findOne({
-        _id: noteModelId,
-      });
-
-      await this.activityNotesService.syncWithNewFields(
-        oldFields,
-        fields,
-        noteModelId
-      );
-    }
-
     const updates = pickBy({ fields, ...restOfFieldsToUpdate }, Boolean);
 
     await this.noteModelsCollection.updateOne(
@@ -109,6 +95,12 @@ export class NoteModelsService {
         $set: updates,
       }
     );
+
+    if (fields?.length) {
+      this.securityService.noteModels.checkFieldsInputIsValid({ fields });
+
+      await this.activityNotesService.syncWithNewFields(noteModelId);
+    }
   }
 
   public async getAll(userId: ObjectId) {

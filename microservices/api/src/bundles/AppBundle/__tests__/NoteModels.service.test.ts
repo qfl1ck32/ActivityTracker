@@ -12,6 +12,10 @@ import {
 } from "./utilities";
 import { FieldInput } from "../services/inputs";
 import { EJSON } from "@bluelibs/ejson";
+import {
+  FieldNameIsNotDefinedInNoteModelException,
+  FieldValueIsNotValidException,
+} from "../exceptions";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -67,6 +71,8 @@ describe("NoteModelsService", () => {
       userId
     );
 
+    const { fields } = await getNoteModelById(noteModelId);
+
     const activityLogId = await createActivityLog(
       {
         name: "Test",
@@ -76,11 +82,45 @@ describe("NoteModelsService", () => {
       userId
     );
 
+    await expect(
+      createActivityLogDetails(
+        {
+          activityLogId,
+          noteDetailsValue: EJSON.stringify({
+            test: "invalid-id",
+          }),
+
+          startedAt: new Date(),
+          finishedAt: new Date(),
+        },
+        userId
+      )
+    ).rejects.toThrow(
+      new FieldNameIsNotDefinedInNoteModelException({ fieldName: "test" })
+    );
+
+    await expect(
+      createActivityLogDetails(
+        {
+          activityLogId,
+          noteDetailsValue: EJSON.stringify({
+            [fields[0].id]: "invalid-id",
+          }),
+
+          startedAt: new Date(),
+          finishedAt: new Date(),
+        },
+        userId
+      )
+    ).rejects.toThrow(
+      new FieldValueIsNotValidException({ fieldName: fields[0].id })
+    );
+
     const activityLogDetailsId = await createActivityLogDetails(
       {
         activityLogId,
-        noteDetailsValue: JSON.stringify({
-          test: "YES",
+        noteDetailsValue: EJSON.stringify({
+          [fields[0].id]: fields[0].enumValues[0].id,
         }),
 
         startedAt: new Date(),
@@ -91,7 +131,7 @@ describe("NoteModelsService", () => {
 
     const { fields: noteModelFields } = await getNoteModelById(noteModelId);
 
-    noteModelFields[0].name = "newName";
+    noteModelFields[0].enumValues.splice(0, 1);
 
     await noteModelsService.update(
       {
@@ -112,8 +152,7 @@ describe("NoteModelsService", () => {
 
     const value = EJSON.parse(activityNote.value);
 
-    expect(value["test"]).toBeFalsy();
-    expect(value["newName"]).toBe("YES");
+    expect(fields[0].id in value).toBeFalsy();
 
     expect(noteModel.name).toBe("NewName");
   });

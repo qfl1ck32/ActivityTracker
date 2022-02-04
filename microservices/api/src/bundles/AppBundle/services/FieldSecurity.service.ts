@@ -54,7 +54,7 @@ export class FieldSecurityService {
     fieldName: string,
     enumValues: FieldEnumValues[]
   ) {
-    if (!enumValues?.some((enumValue) => enumValue.value === value)) {
+    if (!enumValues?.some((enumValue) => enumValue.id === value)) {
       throw new FieldValueIsNotValidException({
         fieldName,
       });

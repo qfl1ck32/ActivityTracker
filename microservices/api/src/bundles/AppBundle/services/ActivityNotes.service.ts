@@ -67,11 +67,7 @@ export class ActivityNotesService {
     );
   }
 
-  public async syncWithNewFields(
-    oldFields: Field[],
-    newFields: Field[],
-    noteModelId: ObjectId
-  ) {
+  public async syncWithNewFields(noteModelId: ObjectId) {
     const activityLogs = await this.activityLogsCollection.query({
       $: {
         filters: {
@@ -87,89 +83,52 @@ export class ActivityNotesService {
       },
     });
 
+    const { fields } = await this.noteModelsCollection.findOne({
+      _id: noteModelId,
+    });
+
     const activityNotesThatNeedUpdate = activityLogs.flatMap((log) =>
       log.details.map((detail) => detail.note)
     );
 
-    const oldFieldsByName = {} as Record<string, Field>;
-    const newFieldsByName = {} as Record<string, Field>;
+    const fieldsIds = {} as Record<string, Field>;
+    const fieldsEnumValuesIdsByFieldId = {} as Record<
+      string,
+      Record<string, boolean>
+    >;
 
-    const newFieldsById = {} as Record<string, Field>;
+    for (const field of fields) {
+      fieldsIds[field.id] = field;
 
-    for (const field of oldFields) {
-      oldFieldsByName[field.name] = field;
+      if (field.enumValues) {
+        fieldsEnumValuesIdsByFieldId[field.id] = {};
+
+        for (const enumValue of field.enumValues) {
+          fieldsEnumValuesIdsByFieldId[field.id][enumValue.id] = true;
+        }
+      }
     }
 
-    for (const field of newFields) {
-      newFieldsByName[field.name] = field;
-      newFieldsById[field.id] = field;
-    }
-
-    // TODO: this looks HARSH. Maybe... an... improvement?...
     for (const activityNote of activityNotesThatNeedUpdate) {
-      const { _id, value } = activityNote;
+      const { _id } = activityNote;
 
-      const parsedValue = EJSON.parse(value) as Record<string, any>;
+      const value = EJSON.parse(activityNote.value) as Record<string, any>;
 
-      const newValue = {};
+      for (const key in value) {
+        const field = fieldsIds[key];
 
-      // TODO: if it's an enum, check if we need to remove the value, or to update them. :)
-      for (const fieldName of Object.keys(parsedValue)) {
-        const oldFieldByName = oldFieldsByName[fieldName];
+        if (!field) {
+          delete value[key];
 
-        const newField = newFieldsById[oldFieldByName.id];
-
-        let newFieldName = "";
-
-        // the name has been changed
-        if (newField) {
-          newFieldName = newField.name;
-        } else {
-          // the field didn't change
-          // but it was deleted
-          if (newFieldsById[oldFieldByName.id]) {
-            newFieldName = fieldName;
-          }
+          continue;
         }
 
-        if (!newFieldName) continue; // the field was removed, so we also remove the value in the note
+        const fieldValue = value[key];
 
-        newValue[newFieldName] = parsedValue[fieldName];
-
-        // TODO: doesn't work if we change field types. but I don't think we should ALLOW that. :)
-        if (oldFieldByName.type === FieldType.ENUM) {
-          if (!newField) break;
-
-          // TODO: these are kinda recalculated for every field. but is it better than calculating them for every field, from the beginning?
-
-          const oldEnumValuesByName = {} as Record<string, FieldEnumValues>;
-          const newEnumValuesByName = {} as Record<string, FieldEnumValues>;
-
-          const oldEnumValuesById = {} as Record<string, FieldEnumValues>;
-          const newEnumValuesById = {} as Record<string, FieldEnumValues>;
-
-          for (const enumValue of oldFieldByName.enumValues) {
-            oldEnumValuesById[enumValue.id] = enumValue;
-            oldEnumValuesByName[enumValue.value] = enumValue;
+        if (field.type === FieldType.ENUM) {
+          if (!fieldsEnumValuesIdsByFieldId[field.id][fieldValue]) {
+            delete value[key];
           }
-
-          for (const enumValue of newField.enumValues) {
-            newEnumValuesById[enumValue.id] = enumValue;
-            newEnumValuesByName[enumValue.value] = enumValue;
-          }
-
-          const fieldValue = newValue[newFieldName];
-
-          const newEnumValue =
-            newEnumValuesById[oldEnumValuesByName[fieldValue].id];
-
-          if (!newEnumValue) {
-            // the field has been deleted!
-            delete newValue[newFieldName];
-            break;
-          }
-
-          newValue[newFieldName] = newEnumValue.value;
         }
       }
 
@@ -179,7 +138,7 @@ export class ActivityNotesService {
         },
         {
           $set: {
-            value: EJSON.stringify(newValue),
+            value: EJSON.stringify(value),
           },
         }
       );

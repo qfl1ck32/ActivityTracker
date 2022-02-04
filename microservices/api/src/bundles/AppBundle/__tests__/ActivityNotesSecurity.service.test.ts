@@ -16,6 +16,7 @@ import {
   createActivityLogDetails,
   createEndUser,
   createNoteModel,
+  getNoteModelById,
 } from "./utilities";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
@@ -53,6 +54,8 @@ describe("ActivityNotesSecurityService", () => {
       },
       userId
     );
+
+    const { fields } = await getNoteModelById(noteModelId);
 
     const activityLogId = await createActivityLog(
       {
@@ -97,7 +100,7 @@ describe("ActivityNotesSecurityService", () => {
 
     // field enum value is defined
     updateInput["value"] = EJSON.stringify({
-      enumTest: "ACCEPTED_ENUM_VALUE",
+      enumTest: fields[0].enumValues[0].id,
     });
 
     await expect(check(updateInput)).resolves.not.toThrow();
@@ -164,7 +167,7 @@ describe("ActivityNotesSecurityService", () => {
     expect(
       check(
         JSON.stringify({
-          enumTest: "ACCEPTED_ENUM_VALUE",
+          enumTest: "a",
         }),
         fields
       )
@@ -173,7 +176,7 @@ describe("ActivityNotesSecurityService", () => {
     expect(
       check(
         JSON.stringify({
-          enumTest: "NOT_ACCEPTED_ENUM_VALUE",
+          enumTest: "WRONG_ENUM_VALUE_ID",
         }),
         fields
       )

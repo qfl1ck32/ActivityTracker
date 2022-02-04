@@ -8,6 +8,7 @@ import {
   createNoteModel,
   getActivityNoteByActivityLogDetailsId,
   getActivityTimingByActivityLogDetailsId,
+  getNoteModelById,
 } from "./utilities";
 import { FieldType } from "../collections";
 import { EJSON } from "@bluelibs/ejson";
@@ -39,6 +40,8 @@ describe("ActivityLogDetailsService", () => {
       },
       userId
     );
+
+    const { fields } = await getNoteModelById(noteModelId);
 
     const activityLogId = await createActivityLog(
       {
@@ -82,7 +85,7 @@ describe("ActivityLogDetailsService", () => {
     expect(note.value).toBe(JSON.stringify({}));
 
     const noteDetailsValue = EJSON.stringify({
-      "Went hardcore?": "HELL YES!",
+      "Went hardcore?": fields[0].enumValues[0].id,
     });
 
     const { _id: activityLogDetailsId2 } =

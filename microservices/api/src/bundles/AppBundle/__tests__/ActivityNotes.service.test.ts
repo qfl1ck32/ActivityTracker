@@ -1,20 +1,18 @@
-import { ActivityNotesService } from "../services/ActivityNotes.service";
+import { EJSON } from "@bluelibs/ejson";
 import { container } from "../../../__tests__/ecosystem";
+import { FieldType, NoteModelsCollection } from "../collections";
+import { FieldValueIsNotValidException } from "../exceptions";
+import { ActivityNotesService } from "../services/ActivityNotes.service";
+import { FieldInput } from "../services/inputs";
 import {
-  createEndUser,
   createActivity,
-  createNoteModel,
   createActivityLog,
   createActivityLogDetails,
+  createEndUser,
+  createNoteModel,
   getActivityNoteByActivityLogDetailsId,
   getNoteModelById,
 } from "./utilities";
-import { FieldType, NoteModelsCollection } from "../collections";
-import { EJSON } from "@bluelibs/ejson";
-import { FieldInput } from "../services/inputs";
-
-// TODO: import from /lodash-es/cloneDeep
-import { cloneDeep } from "lodash";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -51,6 +49,8 @@ describe("ActivityNotesService", () => {
       userId
     );
 
+    const { fields } = await getNoteModelById(noteModelId);
+
     const activityLogId = await createActivityLog(
       {
         activityId,
@@ -70,7 +70,7 @@ describe("ActivityNotesService", () => {
     );
 
     const value = EJSON.stringify({
-      "How it went?": "EXCELLENT",
+      "How it went?": fields[0].enumValues[1].id,
       "How many reps?": 10,
       "Did you rest?": false,
     });
@@ -88,9 +88,22 @@ describe("ActivityNotesService", () => {
     );
 
     expect(activityNote.value).toBe(value);
+
+    await expect(
+      activityNotesService.update(
+        {
+          activityLogDetailsId,
+          value: EJSON.stringify({
+            "How it went?": "Wrong id",
+          }),
+        },
+        userId
+      )
+    ).rejects.toThrow(
+      new FieldValueIsNotValidException({ fieldName: "How it went?" })
+    );
   });
 
-  // TODO: improve the tests for this one! not all edge cases are touched.
   test("syncWithNewFields()", async () => {
     const activityNotesService = container.get(ActivityNotesService);
 
@@ -107,6 +120,10 @@ describe("ActivityNotesService", () => {
 
         enumValues: ["YES", "NO"],
       },
+      {
+        name: "test2",
+        type: FieldType.BOOLEAN,
+      },
     ] as FieldInput[];
 
     const noteModelId = await createNoteModel(
@@ -117,7 +134,7 @@ describe("ActivityNotesService", () => {
       userId
     );
 
-    const { fields: oldFields } = await getNoteModelById(noteModelId);
+    const { fields } = await getNoteModelById(noteModelId);
 
     const activityLogId = await createActivityLog(
       {
@@ -128,11 +145,16 @@ describe("ActivityNotesService", () => {
       userId
     );
 
+    const enumValueFieldId = fields[0].id;
+    const enumValueFieldEnumValueId = fields[0].enumValues[0].id;
+
     const activityLogDetailsId = await createActivityLogDetails(
       {
         activityLogId,
         noteDetailsValue: JSON.stringify({
-          test: "YES",
+          [enumValueFieldId]: enumValueFieldEnumValueId,
+
+          [fields[1].id]: true,
         }),
 
         startedAt: new Date(),
@@ -141,27 +163,21 @@ describe("ActivityNotesService", () => {
       userId
     );
 
-    const newFields = cloneDeep(oldFields);
+    // simulate removing the enum value that was not used
+    fields[0].enumValues.pop();
 
-    newFields[0].name = "I just modified this";
-
-    // simulate changing the name of a field
     await noteModelsCollection.updateOne(
       {
         _id: noteModelId,
       },
       {
         $set: {
-          fields: newFields,
+          fields,
         },
       }
     );
 
-    await activityNotesService.syncWithNewFields(
-      oldFields,
-      newFields,
-      noteModelId
-    );
+    await activityNotesService.syncWithNewFields(noteModelId);
 
     let note = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId
@@ -169,51 +185,47 @@ describe("ActivityNotesService", () => {
 
     let value = EJSON.parse(note.value);
 
-    expect(value[inputFields[0].name]).toBeFalsy();
-    expect(value[newFields[0].name]).toBe("YES");
+    expect(enumValueFieldId in value).toBeTruthy();
 
-    const newNewFields = cloneDeep(newFields);
+    // simulate removing the enum value that was used
+    fields[0].enumValues.pop();
 
-    newNewFields[0].enumValues[0].value = "newEnumValue";
+    // because in reality you can't have 0 enum values
+    fields[0].enumValues.push({ id: "new", value: "nobody-cares" });
 
-    // simulate changing the name of an ENUM field
     await noteModelsCollection.updateOne(
       {
         _id: noteModelId,
       },
       {
         $set: {
-          fields: newFields,
+          fields,
         },
       }
     );
 
-    await activityNotesService.syncWithNewFields(
-      newFields,
-      newNewFields,
-      noteModelId
-    );
+    await activityNotesService.syncWithNewFields(noteModelId);
 
     note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId);
 
     value = EJSON.parse(note.value);
 
-    expect(value[inputFields[0].name]).toBeFalsy();
-    expect(value[newFields[0].name]).toBe("newEnumValue");
+    expect(enumValueFieldId in value).toBeFalsy();
 
     // simulate removing a field
+    fields.pop();
     await noteModelsCollection.updateOne(
       {
         _id: noteModelId,
       },
       {
         $set: {
-          fields: [],
+          fields,
         },
       }
     );
 
-    await activityNotesService.syncWithNewFields(newFields, [], noteModelId);
+    await activityNotesService.syncWithNewFields(noteModelId);
 
     note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId);
 
