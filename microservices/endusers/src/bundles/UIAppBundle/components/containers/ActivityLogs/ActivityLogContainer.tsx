@@ -25,6 +25,8 @@ const columns: GridColumns = [
     valueFormatter: (props) => {
       const activityNote = props.value as ActivityNote;
 
+      // TODO: decode this... based on field ids and stuff. ;-) maybe we need context?
+      console.log(EJSON.parse(activityNote.value));
       return EJSON.parse(activityNote.value);
     },
 

@@ -88,6 +88,7 @@ export class NoteModelCreateForm extends XForm {
             id: "enumValues",
             label: t("management.note_models.fields.enumValues"),
             name: ["fields", "enumValues"],
+            required: true,
             isList: true,
             nest: [],
             initialValue: [],

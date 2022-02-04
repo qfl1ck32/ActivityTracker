@@ -18,7 +18,7 @@ export class FieldSecurityService {
     const { name, type, enumValues } = field;
 
     if (type !== FieldType.ENUM) {
-      if (Boolean(enumValues)) {
+      if (enumValues.length) {
         throw new FieldTypeIsNotEnumButEnumValuesWereGivenException();
       }
     }
@@ -77,7 +77,7 @@ export class FieldSecurityService {
     enumValues: (string | FieldEnumValues)[],
     fieldName: string
   ) {
-    if (!enumValues?.length) {
+    if (!enumValues.length) {
       throw new FieldEnumValuesAreMissingException();
     }
 

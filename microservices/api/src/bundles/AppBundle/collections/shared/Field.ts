@@ -16,5 +16,5 @@ export class Field {
   type: FieldType;
 
   @Is(() => an.array().of(Schema.from(FieldEnumValues)))
-  enumValues?: FieldEnumValues[] = [];
+  enumValues: FieldEnumValues[] = [];
 }

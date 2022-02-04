@@ -14,7 +14,7 @@ export const FieldRules = sharedModel({
       model: () => FieldEnumValues,
 
       isArray: true,
-      isRequired: false,
+      defaultValue: [],
     }),
   ],
 });

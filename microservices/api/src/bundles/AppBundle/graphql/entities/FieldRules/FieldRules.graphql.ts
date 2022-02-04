@@ -1,5 +1,5 @@
 export default /* GraphQL */ `
   type FieldRules {
-    enumValues: [FieldEnumValues]
+    enumValues: [FieldEnumValues]!
   }
 `;

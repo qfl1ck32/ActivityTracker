@@ -11,11 +11,11 @@ export class NoteDetailsService {
     for (const field of noteModel.fields) {
       switch (field.type) {
         case FieldType.BOOLEAN:
-          spec[field.name] = yup.boolean().required();
+          spec[field.id] = yup.boolean().required();
           break;
 
         case FieldType.ENUM:
-          spec[field.name] = yup
+          spec[field.id] = yup
             .string()
             .oneOf(field.enumValues.map((enumValue) => enumValue.id))
             .notOneOf(['none'])
@@ -23,11 +23,11 @@ export class NoteDetailsService {
           break;
 
         case FieldType.NUMBER:
-          spec[field.name] = yup.number().required();
+          spec[field.id] = yup.number().required();
           break;
 
         case FieldType.STRING:
-          spec[field.name] = yup.string().required();
+          spec[field.id] = yup.string().required();
           break;
       }
     }

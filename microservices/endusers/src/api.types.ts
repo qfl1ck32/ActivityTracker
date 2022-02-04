@@ -350,7 +350,7 @@ export type Field = {
   id: Scalars['String'];
   name: Scalars['String'];
   type: FieldType;
-  enumValues?: Maybe<Array<Maybe<FieldEnumValues>>>;
+  enumValues: Array<Maybe<FieldEnumValues>>;
 };
 
 export type FieldEnumValues = {
@@ -365,19 +365,18 @@ export type FieldEnumValuesInput = {
 };
 
 export type FieldInput = {
-  id: Scalars['String'];
   name: Scalars['String'];
   type: FieldType;
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues: Array<Maybe<Scalars['String']>>;
 };
 
 export type FieldRules = {
   __typename?: 'FieldRules';
-  enumValues?: Maybe<Array<Maybe<FieldEnumValues>>>;
+  enumValues: Array<Maybe<FieldEnumValues>>;
 };
 
 export type FieldRulesInput = {
-  enumValues?: Maybe<Array<Maybe<FieldEnumValuesInput>>>;
+  enumValues: Array<Maybe<FieldEnumValuesInput>>;
 };
 
 export enum FieldType {

@@ -24,6 +24,7 @@ describe("FieldSecurityService", () => {
       check({
         name: "name",
         type: FieldType.ENUM,
+        enumValues: [],
       })
     ).toThrowError(new FieldEnumValuesAreMissingException());
 
@@ -68,6 +69,7 @@ describe("FieldSecurityService", () => {
           id: "a",
           name,
           type: FieldType.ENUM,
+          enumValues: [],
         },
         "test"
       )
@@ -97,6 +99,7 @@ describe("FieldSecurityService", () => {
           id: "a",
           name,
           type: FieldType.BOOLEAN,
+          enumValues: [],
         },
         true
       )
@@ -108,6 +111,7 @@ describe("FieldSecurityService", () => {
           id: "a",
           name,
           type: FieldType.BOOLEAN,
+          enumValues: [],
         },
         false
       )
@@ -119,6 +123,7 @@ describe("FieldSecurityService", () => {
           id: "a",
           name,
           type: FieldType.BOOLEAN,
+          enumValues: [],
         },
         "test"
       )
@@ -130,6 +135,7 @@ describe("FieldSecurityService", () => {
           id: "a",
           name,
           type: FieldType.STRING,
+          enumValues: [],
         },
         "test"
       )

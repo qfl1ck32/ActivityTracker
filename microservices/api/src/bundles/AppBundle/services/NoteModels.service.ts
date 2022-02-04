@@ -1,19 +1,12 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
+// TODO :(
+import * as crypto from "crypto";
+import { pickBy } from "lodash";
 import { ActivityNotesService, EndUserService, SecurityService } from ".";
 import { Field, NoteModelsCollection } from "../collections";
 import { EndUsersNoteModelsCreateInput } from "./inputs/EndUsersNoteModelsCreate.input";
 import { EndUsersNoteModelsUpdateInput } from "./inputs/EndUsersNoteModelsUpdate.input";
-
-// TODO :(
-import * as crypto from "crypto";
-
-import { pickBy } from "lodash";
 
 @Service()
 export class NoteModelsService {

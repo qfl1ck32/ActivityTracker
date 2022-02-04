@@ -6,5 +6,5 @@ import { FieldEnumValuesInput } from "./FieldEnumValues.input";
 @Schema()
 export class FieldRulesInput {
   @Is(() => an.array().of(Schema.from(FieldEnumValuesInput)))
-  enumValues?: FieldEnumValuesInput[] = [];
+  enumValues: FieldEnumValuesInput[] = [];
 }

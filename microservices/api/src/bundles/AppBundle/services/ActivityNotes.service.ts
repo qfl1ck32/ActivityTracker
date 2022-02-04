@@ -100,12 +100,10 @@ export class ActivityNotesService {
     for (const field of fields) {
       fieldsIds[field.id] = field;
 
-      if (field.enumValues) {
-        fieldsEnumValuesIdsByFieldId[field.id] = {};
+      fieldsEnumValuesIdsByFieldId[field.id] = {};
 
-        for (const enumValue of field.enumValues) {
-          fieldsEnumValuesIdsByFieldId[field.id][enumValue.id] = true;
-        }
+      for (const enumValue of field.enumValues) {
+        fieldsEnumValuesIdsByFieldId[field.id][enumValue.id] = true;
       }
     }
 

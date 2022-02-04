@@ -36,11 +36,6 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
       throw new Error('You already have a field with this name.');
     }
 
-    // TODO: should this be handled in the form?
-    if (field.type !== FieldType.ENUM) {
-      delete field.enumValues;
-    }
-
     setFields((prev) => prev.concat(field));
   };
 

@@ -1,7 +1,7 @@
 import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { TextFieldProps, MenuItem, TextField } from '@mui/material';
+import { TextFieldProps, MenuItem, TextField, Checkbox, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FieldType, NoteModel } from 'src/api.types';
@@ -35,30 +35,38 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({ on
 
         switch (field.type) {
           case FieldType.BOOLEAN: {
-            props['type'] = 'text';
+            props['type'] = 'checkbox';
+            break;
           }
 
           case FieldType.ENUM: {
             props['select'] = true;
             props['defaultValue'] = 'none';
+            break;
           }
 
           case FieldType.NUMBER: {
             props['type'] = 'number';
+            break;
           }
 
           case FieldType.STRING: {
             props['type'] = 'text';
+            break;
           }
+        }
+
+        if (field.type === FieldType.BOOLEAN) {
+          return <FormControlLabel label={field.name} control={<Checkbox {...register(field.id)} />} />;
         }
 
         const Field: React.FC = ({ children }) => (
           <TextField
             {...props}
             label={field.name}
-            {...register(field.name)}
-            error={Boolean(errors[field.name])}
-            helperText={errors[field.name]?.message}
+            {...register(field.id)}
+            error={Boolean(errors[field.id])}
+            helperText={errors[field.id]?.message}
           >
             {children}
           </TextField>
@@ -71,9 +79,9 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({ on
                 Select a value
               </MenuItem>
 
-              {field.enumValues?.map((enumValue) => (
-                <MenuItem key={enumValue} value={enumValue}>
-                  {enumValue}
+              {field.enumValues.map((enumValue) => (
+                <MenuItem key={enumValue.id} value={enumValue.id}>
+                  {enumValue.value}
                 </MenuItem>
               ))}
             </Field>
