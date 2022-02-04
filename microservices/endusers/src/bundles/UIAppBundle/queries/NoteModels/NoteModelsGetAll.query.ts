@@ -6,9 +6,14 @@ export const NoteModelsGetAll = gql`
       _id
       name
       fields {
+        id
         name
         type
-        enumValues
+
+        enumValues {
+          id
+          value
+        }
       }
 
       createdAt

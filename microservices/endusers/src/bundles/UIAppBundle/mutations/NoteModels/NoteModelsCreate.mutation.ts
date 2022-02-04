@@ -7,8 +7,12 @@ export const CreateNoteModel = gql`
       name
 
       fields {
+        id
         type
-        enumValues
+        enumValues {
+          id
+          value
+        }
         name
       }
 

@@ -17,7 +17,7 @@ export class NoteDetailsService {
         case FieldType.ENUM:
           spec[field.name] = yup
             .string()
-            .oneOf(field.enumValues as string[])
+            .oneOf(field.enumValues.map((enumValue) => enumValue.id))
             .notOneOf(['none'])
             .required();
           break;

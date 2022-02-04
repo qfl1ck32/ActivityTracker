@@ -332,6 +332,12 @@ export type EndUsersNoteModelsCreateInput = {
   fields: Array<Maybe<FieldInput>>;
 };
 
+export type EndUsersNoteModelsUpdateInput = {
+  noteModelId: Scalars['ObjectId'];
+  fields: Array<Maybe<FieldInput>>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type EndUsersRegisterInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
@@ -341,12 +347,25 @@ export type EndUsersRegisterInput = {
 
 export type Field = {
   __typename?: 'Field';
+  id: Scalars['String'];
   name: Scalars['String'];
   type: FieldType;
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues?: Maybe<Array<Maybe<FieldEnumValues>>>;
+};
+
+export type FieldEnumValues = {
+  __typename?: 'FieldEnumValues';
+  id: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type FieldEnumValuesInput = {
+  id: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type FieldInput = {
+  id: Scalars['String'];
   name: Scalars['String'];
   type: FieldType;
   enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -354,11 +373,11 @@ export type FieldInput = {
 
 export type FieldRules = {
   __typename?: 'FieldRules';
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues?: Maybe<Array<Maybe<FieldEnumValues>>>;
 };
 
 export type FieldRulesInput = {
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues?: Maybe<Array<Maybe<FieldEnumValuesInput>>>;
 };
 
 export enum FieldType {
@@ -417,10 +436,11 @@ export type Mutation = {
   UsersInsertOne?: Maybe<User>;
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
-  EndUsersActivityLogDetailsCreate: Scalars['ObjectId'];
+  EndUsersActivityLogDetailsCreate: ActivityLogDetail;
   EndUsersActivityLogsCreate: ActivityLog;
   EndUsersActivityNotesUpdate?: Maybe<Scalars['Boolean']>;
   EndUsersNoteModelsCreate: NoteModel;
+  EndUsersNoteModelsUpdate?: Maybe<Scalars['Boolean']>;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;
@@ -610,6 +630,11 @@ export type MutationEndUsersActivityNotesUpdateArgs = {
 
 export type MutationEndUsersNoteModelsCreateArgs = {
   input: EndUsersNoteModelsCreateInput;
+};
+
+
+export type MutationEndUsersNoteModelsUpdateArgs = {
+  input: EndUsersNoteModelsUpdateInput;
 };
 
 
