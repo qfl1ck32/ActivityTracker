@@ -7,6 +7,7 @@ import {
   createEndUser,
   createNoteModel,
   endUsersRegisterInput,
+  getNoteModelById,
 } from "./utilities";
 import {
   EndUserDoesNotOwnActivityLogDetailsException,
@@ -100,6 +101,8 @@ describe("ActivityLogDetailsSecurityService", () => {
       userId
     );
 
+    const { fields } = await getNoteModelById(noteModelId);
+
     const activityLogId = await createActivityLog(
       {
         activityId,
@@ -125,7 +128,7 @@ describe("ActivityLogDetailsSecurityService", () => {
         ...partialInput,
 
         noteDetailsValue: JSON.stringify({
-          "test field": "test",
+          [fields[0].id]: "test",
         }),
       })
     ).rejects.toThrowError(
@@ -137,7 +140,7 @@ describe("ActivityLogDetailsSecurityService", () => {
         ...partialInput,
 
         noteDetailsValue: JSON.stringify({
-          "test field": true,
+          [fields[0].id]: true,
         }),
       })
     ).resolves.not.toThrow();

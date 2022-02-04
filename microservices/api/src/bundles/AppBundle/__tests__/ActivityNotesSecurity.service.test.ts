@@ -91,7 +91,7 @@ describe("ActivityNotesSecurityService", () => {
 
     // field enum value is not defined
     updateInput["value"] = EJSON.stringify({
-      enumTest: "NOT_ACCEPTED_ENUM_VALUE",
+      [fields[0].id]: "NOT_ACCEPTED_ENUM_VALUE",
     });
 
     await expect(check(updateInput)).rejects.toThrowError(
@@ -100,14 +100,16 @@ describe("ActivityNotesSecurityService", () => {
 
     // field enum value is defined
     updateInput["value"] = EJSON.stringify({
-      enumTest: fields[0].enumValues[0].id,
+      [fields[0].id]: fields[0].enumValues[0].id,
     });
 
     await expect(check(updateInput)).resolves.not.toThrow();
 
+    // TODO: do we need to check with invalid field name?
+
     // field boolean value is wrong
     updateInput["value"] = EJSON.stringify({
-      booleanTest: "invalid boolean value",
+      [fields[1].id]: "invalid boolean value",
     });
 
     await expect(check(updateInput)).rejects.toThrowError(
@@ -115,7 +117,7 @@ describe("ActivityNotesSecurityService", () => {
     );
 
     updateInput["value"] = EJSON.stringify({
-      booleanTest: new Date(),
+      [fields[1].id]: new Date(),
     });
 
     await expect(check(updateInput)).rejects.toThrowError(
@@ -124,13 +126,13 @@ describe("ActivityNotesSecurityService", () => {
 
     // field boolean value is valid
     updateInput["value"] = EJSON.stringify({
-      booleanTest: true,
+      [fields[1].id]: true,
     });
 
     await expect(check(updateInput)).resolves.not.toThrow();
 
     updateInput["value"] = EJSON.stringify({
-      booleanTest: false,
+      [fields[1].id]: false,
     });
 
     await expect(check(updateInput)).resolves.not.toThrow();
@@ -149,6 +151,7 @@ describe("ActivityNotesSecurityService", () => {
 
     const fields = [
       {
+        id: "fieldId",
         name: "enumTest",
         type: FieldType.ENUM,
         enumValues: [
@@ -167,7 +170,7 @@ describe("ActivityNotesSecurityService", () => {
     expect(
       check(
         JSON.stringify({
-          enumTest: "a",
+          fieldId: "a",
         }),
         fields
       )
@@ -176,7 +179,7 @@ describe("ActivityNotesSecurityService", () => {
     expect(
       check(
         JSON.stringify({
-          enumTest: "WRONG_ENUM_VALUE_ID",
+          fieldId: "WRONG_ENUM_VALUE_ID",
         }),
         fields
       )

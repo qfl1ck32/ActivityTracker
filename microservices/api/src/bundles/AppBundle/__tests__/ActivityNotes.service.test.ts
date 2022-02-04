@@ -1,7 +1,10 @@
 import { EJSON } from "@bluelibs/ejson";
 import { container } from "../../../__tests__/ecosystem";
 import { FieldType, NoteModelsCollection } from "../collections";
-import { FieldValueIsNotValidException } from "../exceptions";
+import {
+  FieldNameIsNotDefinedInNoteModelException,
+  FieldValueIsNotValidException,
+} from "../exceptions";
 import { ActivityNotesService } from "../services/ActivityNotes.service";
 import { FieldInput } from "../services/inputs";
 import {
@@ -70,9 +73,9 @@ describe("ActivityNotesService", () => {
     );
 
     const value = EJSON.stringify({
-      "How it went?": fields[0].enumValues[1].id,
-      "How many reps?": 10,
-      "Did you rest?": false,
+      [fields[0].id]: fields[0].enumValues[1].id,
+      [fields[1].id]: 10,
+      [fields[2].id]: false,
     });
 
     await activityNotesService.update(
@@ -94,13 +97,29 @@ describe("ActivityNotesService", () => {
         {
           activityLogDetailsId,
           value: EJSON.stringify({
-            "How it went?": "Wrong id",
+            [fields[0].id]: "Wrong id",
           }),
         },
         userId
       )
     ).rejects.toThrow(
       new FieldValueIsNotValidException({ fieldName: "How it went?" })
+    );
+
+    await expect(
+      activityNotesService.update(
+        {
+          activityLogDetailsId,
+          value: EJSON.stringify({
+            "inexisting-field": "Wrong id",
+          }),
+        },
+        userId
+      )
+    ).rejects.toThrow(
+      new FieldNameIsNotDefinedInNoteModelException({
+        fieldName: "inexisting-field",
+      })
     );
   });
 

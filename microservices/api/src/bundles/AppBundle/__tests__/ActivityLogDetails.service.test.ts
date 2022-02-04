@@ -84,8 +84,9 @@ describe("ActivityLogDetailsService", () => {
 
     expect(note.value).toBe(JSON.stringify({}));
 
+    // TODO: maybe test with wrong field name?
     const noteDetailsValue = EJSON.stringify({
-      "Went hardcore?": fields[0].enumValues[0].id,
+      [fields[0].id]: fields[0].enumValues[0].id,
     });
 
     const { _id: activityLogDetailsId2 } =
