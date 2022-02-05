@@ -33,10 +33,6 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ onSubmit }) => {
     name: 'enumValues',
   });
 
-  useEffect(() => {
-    append('');
-  }, []);
-
   const onFinish = (e: FormEvent<HTMLFormElement>) => {
     handleSubmit((data: any) => {
       try {

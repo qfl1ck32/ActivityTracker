@@ -10,14 +10,16 @@ import { ToastContainer } from 'react-toastify'
 
 import { injectStyle } from "react-toastify/dist/inject-style"
 
-injectStyle()
-
 const App = createApp({
   kernel,
 });
 
 const WrappedApp = (props: AppProps) => {
   const app = App(props as any); // TODO: fix type
+
+  useEffect(() => {
+    injectStyle()
+  }, [])
 
   return (
     <Fragment>

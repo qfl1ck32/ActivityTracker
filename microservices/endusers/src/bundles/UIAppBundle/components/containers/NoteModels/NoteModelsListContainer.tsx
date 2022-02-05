@@ -38,16 +38,19 @@ const columns: GridColumns = [
 
       const [open, setOpen] = useState(false)
 
+      const noteModel = params.row as NoteModel
 
       return (
         <Box>
           <Button onClick={() => setOpen(true)}>See</Button>
           <NoteModelsEditModal {...{
-        open,
-        onClose: () => setOpen(false),
+            open,
+            onClose: () => setOpen(false),
 
-        initialFields: fields
-      }} />
+            initialFields: fields,
+
+            defaultValues: noteModel
+          }} />
         </Box>
       )
     },

@@ -99,7 +99,7 @@ const columns: GridColumns = [
 
     },
 
-    width: 600,
+    width: 1200,
   },
 
   {

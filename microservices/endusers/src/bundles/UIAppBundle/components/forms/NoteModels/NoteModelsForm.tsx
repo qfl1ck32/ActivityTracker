@@ -70,7 +70,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
         <List>
           {fields.map((field, idx) => (
             <ListItem key={idx}>
-              <AddFieldComponent {...{ field, onDelete: onRemoveField }} />
+              <AddFieldComponent {...{ field, onDelete: onRemoveField, type }} />
             </ListItem>
           ))}
         </List>

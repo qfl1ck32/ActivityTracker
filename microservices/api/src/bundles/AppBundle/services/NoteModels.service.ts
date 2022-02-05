@@ -83,6 +83,32 @@ export class NoteModelsService {
 
     await this.securityService.noteModels.checkEndUserOwnsNoteModel(noteModelId, endUserId)
 
+    // TODO separate...... and please, separate the new inputs & stuff.
+    if (fields?.length) {
+
+      const { fields: noteModelFields } = await this.noteModelsCollection.findOne({_id: noteModelId})
+
+      const oldIds = {} as Record<string, boolean>
+
+      for (const field of noteModelFields) {
+        oldIds[field.id] = true;
+      }
+
+      for (const field of fields) {
+        if (field.id && !oldIds[field.id]) {
+          throw new Error("Wrong input, basically")
+        }
+      }
+
+      for (const field of fields) {
+        if (!field.id) {
+          field.id = crypto.randomUUID()
+        }
+      }
+
+      this.securityService.noteModels.checkFieldsInputIsValid({ fields: fields as Field[] });
+    }
+
     const updates = pickBy({ fields, ...restOfFieldsToUpdate }, Boolean);
 
     await this.noteModelsCollection.updateOne(
@@ -95,10 +121,10 @@ export class NoteModelsService {
     );
 
     if (fields?.length) {
-      this.securityService.noteModels.checkFieldsInputIsValid({ fields });
-
       await this.activityNotesService.syncWithNewFields(noteModelId);
     }
+
+    return this.noteModelsCollection.findOne({_id: noteModelId})
   }
 
   public async getAll(userId: ObjectId) {

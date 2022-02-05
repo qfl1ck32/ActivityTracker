@@ -336,7 +336,7 @@ export type EndUsersNoteModelsCreateInput = {
 
 export type EndUsersNoteModelsUpdateInput = {
   noteModelId: Scalars['ObjectId'];
-  fields: Array<Maybe<FieldInput>>;
+  fields: Array<Maybe<FieldInputWithEnumValues>>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -367,9 +367,17 @@ export type FieldEnumValuesInput = {
 };
 
 export type FieldInput = {
+  id?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   type: FieldType;
   enumValues: Array<Maybe<Scalars['String']>>;
+};
+
+export type FieldInputWithEnumValues = {
+  id?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  type: FieldType;
+  enumValues: Array<Maybe<FieldEnumValuesInput>>;
 };
 
 export type FieldRules = {
@@ -441,7 +449,7 @@ export type Mutation = {
   EndUsersActivityLogsCreate: ActivityLog;
   EndUsersActivityNotesUpdate: ActivityNote;
   EndUsersNoteModelsCreate: NoteModel;
-  EndUsersNoteModelsUpdate?: Maybe<Scalars['Boolean']>;
+  EndUsersNoteModelsUpdate: NoteModel;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;

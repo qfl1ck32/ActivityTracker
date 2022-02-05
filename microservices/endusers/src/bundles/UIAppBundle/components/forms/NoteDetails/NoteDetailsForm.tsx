@@ -73,7 +73,7 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
         }
 
         if (field.type === FieldType.BOOLEAN) {
-          return <FormControlLabel key={field.id} label={field.name} control={<Checkbox {...register(field.id)} />} />;
+          return <FormControlLabel key={field.id} label={field.name} control={<Checkbox {...register(field.id)} defaultChecked={defaultValues[field.id]} />} />;
         }
 
         const Field: React.FC = ({ children }) => (
