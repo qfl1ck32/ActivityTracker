@@ -1,6 +1,7 @@
 import { ActivityLogsService } from "../services/ActivityLogs.service";
 import { container } from "../../../__tests__/ecosystem";
 import { createActivity, createEndUser, createNoteModel } from "./utilities";
+import { FieldType } from "../collections";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -17,7 +18,13 @@ describe("ActivityLogsService", () => {
     const noteModelId = await createNoteModel(
       {
         name: "noteModel",
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );

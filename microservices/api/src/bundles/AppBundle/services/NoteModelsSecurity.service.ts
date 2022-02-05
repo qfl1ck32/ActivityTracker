@@ -7,6 +7,7 @@ import { Field, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
+import { NoteModelsFieldsAreMissingException } from "../exceptions/NoteModelsFieldsAreMissing.exception";
 import { NoteModelsTypeOfExistingFieldCanNotBeChangedException } from "../exceptions/NoteModelsTypeOfExistingFieldCanNotBeChanged.exception";
 import { NoteModelsUpdateFieldsInputIsInvalidException } from "../exceptions/NoteModelsUpdateFieldsInputIsInvalid.exception";
 import { FieldInput } from "./inputs";
@@ -44,6 +45,10 @@ export class NoteModelsSecurityService {
     noteModelId?: ObjectId
   ) {
     const { fields } = input;
+
+    if (fields.length === 0) {
+      throw new NoteModelsFieldsAreMissingException();
+    }
 
     if (noteModelId) {
       const { fields: noteModelFields } =

@@ -50,10 +50,9 @@ export class NoteModelsService {
         ...restOfField,
 
         enumValues: enumValues.map((value) => ({
-              id: crypto.randomUUID(),
-              value,
-            }))
-          
+          id: crypto.randomUUID(),
+          value,
+        })),
       });
     }
 
@@ -66,7 +65,7 @@ export class NoteModelsService {
       {
         context: {
           userId,
-        }  as IExecutionContext,
+        } as IExecutionContext,
       }
     );
 
@@ -78,17 +77,22 @@ export class NoteModelsService {
   public async update(input: EndUsersNoteModelsUpdateInput, userId: ObjectId) {
     const { fields, noteModelId, ...restOfFieldsToUpdate } = input;
 
-    const endUserId = await this.endUserService.getIdByOwnerId(userId)
+    const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
-    await this.securityService.noteModels.checkEndUserOwnsNoteModel(noteModelId, endUserId)
+    await this.securityService.noteModels.checkEndUserOwnsNoteModel(
+      noteModelId,
+      endUserId
+    );
 
-    // TODO separate...... and please, separate the new inputs & stuff.
-    if (fields?.length) {
-      await this.securityService.noteModels.checkFieldsInputIsValid({ fields: fields as Field[] }, noteModelId);
+    if (fields) {
+      await this.securityService.noteModels.checkFieldsInputIsValid(
+        { fields: fields as Field[] },
+        noteModelId
+      );
 
       for (const field of fields) {
         if (!field.id) {
-          field.id = crypto.randomUUID()
+          field.id = crypto.randomUUID();
         }
       }
     }
@@ -108,7 +112,7 @@ export class NoteModelsService {
       await this.activityNotesService.syncWithNewFields(noteModelId);
     }
 
-    return this.noteModelsCollection.findOne({_id: noteModelId})
+    return this.noteModelsCollection.findOne({ _id: noteModelId });
   }
 
   public async getAll(userId: ObjectId) {

@@ -37,7 +37,13 @@ describe("ActivityLogDetailsSecurityService", () => {
     const noteModelId = await createNoteModel(
       {
         name: "my note model",
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );
@@ -95,7 +101,13 @@ describe("ActivityLogDetailsSecurityService", () => {
     const noteModelId = await createNoteModel(
       {
         name: "my note model",
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );

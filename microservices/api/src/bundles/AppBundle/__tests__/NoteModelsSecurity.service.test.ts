@@ -5,6 +5,7 @@ import {
   FieldNamesAreNotUniqueException,
   FieldTypeIsNotEnumButEnumValuesWereGivenException,
   NoteModelNameAlreadyExistsException,
+  NoteModelsFieldsAreMissingException,
   NoteModelsUpdateFieldsInputIsInvalidException,
 } from "../exceptions";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
@@ -31,7 +32,13 @@ describe("NoteModelsSecurityService", () => {
     const noteModelId = await createNoteModel(
       {
         name: "abc",
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );
@@ -73,7 +80,13 @@ describe("NoteModelsSecurityService", () => {
     await createNoteModel(
       {
         name,
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );
@@ -140,6 +153,12 @@ describe("NoteModelsSecurityService", () => {
         ],
       })
     ).resolves.not.toThrow();
+
+    await expect(
+      check({
+        fields: [],
+      })
+    ).rejects.toThrow(new NoteModelsFieldsAreMissingException());
 
     const { userId } = await createEndUser();
 

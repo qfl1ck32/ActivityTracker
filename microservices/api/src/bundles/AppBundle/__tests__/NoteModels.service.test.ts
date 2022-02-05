@@ -1,6 +1,9 @@
-import { NoteModelsService } from "../services/NoteModels.service";
+import { EJSON } from "@bluelibs/ejson";
 import { container } from "../../../__tests__/ecosystem";
 import { FieldType } from "../collections";
+import { NoteModelsFieldsAreMissingException } from "../exceptions";
+import { FieldInput } from "../services/inputs";
+import { NoteModelsService } from "../services/NoteModels.service";
 import {
   createActivity,
   createActivityLog,
@@ -11,12 +14,6 @@ import {
   getNoteModelById,
   updateActivityNote,
 } from "./utilities";
-import { FieldInput } from "../services/inputs";
-import { EJSON } from "@bluelibs/ejson";
-import {
-  FieldNameIsNotDefinedInNoteModelException,
-  FieldValueIsNotValidException,
-} from "../exceptions";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -28,6 +25,16 @@ describe("NoteModelsService", () => {
     const noteModelsService = container.get(NoteModelsService);
 
     const { userId } = await createEndUser();
+
+    await expect(
+      noteModelsService.create(
+        {
+          name: "test",
+          fields: [],
+        },
+        userId
+      )
+    ).rejects.toThrow(new NoteModelsFieldsAreMissingException());
 
     const noteModel = await noteModelsService.create(
       {
@@ -139,6 +146,17 @@ describe("NoteModelsService", () => {
     const { fields: noteModelFields } = await getNoteModelById(noteModelId);
 
     noteModelFields[0].enumValues.splice(0, 1);
+
+    await expect(
+      noteModelsService.update(
+        {
+          name: "test",
+          fields: [],
+          noteModelId,
+        },
+        userId
+      )
+    ).rejects.toThrow(new NoteModelsFieldsAreMissingException());
 
     await noteModelsService.update(
       {

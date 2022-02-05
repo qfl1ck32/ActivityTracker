@@ -9,6 +9,7 @@ import {
 import { ActivityLogsService } from "../services";
 import { ActivityLogAlreadyExistsForGivenActivityException } from "../exceptions/ActivityLogAlreadyExistsForGivenActivity.exception";
 import { EndUserDoesNotOwnActivityLogException } from "../exceptions";
+import { FieldType } from "../collections";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -36,7 +37,13 @@ describe("ActivityLogsSecurityService", () => {
     const noteModelId = await createNoteModel(
       {
         name: "my note model",
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );
@@ -74,7 +81,13 @@ describe("ActivityLogsSecurityService", () => {
     const noteModelId = await createNoteModel(
       {
         name: "my note model",
-        fields: [],
+        fields: [
+          {
+            name: "dummy",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
       },
       userId
     );

@@ -21,6 +21,11 @@ export const noteModel: IBundleLinkCollectionOption = {
 export const details: IBundleLinkCollectionOption = {
   collection: () => ActivityLogDetailsCollection,
   inversedBy: "activityLog",
+
+  // TODO: is this the best place?
+  filters: {
+    isDeleted: undefined,
+  },
 };
 
 export const endUser: IBundleLinkCollectionOption = {
