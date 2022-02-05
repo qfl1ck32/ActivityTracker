@@ -32,7 +32,7 @@ export class FieldSecurityService {
   public checkFieldValueIsValid(field: Field, value: any) {
     const { name: fieldName, type, enumValues } = field;
 
-    if (value === undefined) return; // TODO: think, is this right?
+    if (value == null) return;
 
     switch (type) {
       case FieldType.ENUM:
@@ -42,7 +42,7 @@ export class FieldSecurityService {
         return this.checkBooleanFieldValueIsValid(value, fieldName);
 
       case FieldType.STRING:
-        return; // TODO: any type of check here?
+        return;
 
       case FieldType.NUMBER:
         return this.checkNumberFieldValueIsValid(value, fieldName);

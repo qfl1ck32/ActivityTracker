@@ -1,7 +1,7 @@
 import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { TextFieldProps, MenuItem, TextField, Checkbox, FormControlLabel } from '@mui/material';
+import { TextFieldProps, MenuItem, TextField, Checkbox, FormControlLabel, Select } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FieldType, NoteModel } from 'src/api.types';
@@ -55,7 +55,7 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
 
           case FieldType.ENUM: {
             props['select'] = true;
-            props['defaultValue'] = defaultValues[field.id] ?? 'none';
+            props['defaultValue'] = defaultValues[field.id];
             break;
           }
 
@@ -95,17 +95,16 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
 
         if (field.type === FieldType.ENUM) {
           return (
-            <Field key={field.id}>
-              <MenuItem disabled value="none">
+            <Select {...register(field.id)} defaultValue={defaultValues[field.id] || ''} displayEmpty key={field.id}>
+              <MenuItem disabled value="">
                 Select a value
               </MenuItem>
-
               {field.enumValues.map((enumValue) => (
                 <MenuItem key={enumValue.id} value={enumValue.id}>
                   {enumValue.value}
                 </MenuItem>
               ))}
-            </Field>
+            </Select>
           );
         } else {
           return <Field key={field.id} />;

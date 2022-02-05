@@ -17,17 +17,19 @@ export class NoteDetailsService {
         case FieldType.ENUM:
           spec[field.id] = yup
             .string()
-            .oneOf(field.enumValues.map((enumValue) => enumValue.id))
-            .notOneOf(['none'])
-            .required();
+            .oneOf(field.enumValues.map((enumValue) => enumValue.id).concat(null as any))
+            .nullable();
           break;
 
         case FieldType.NUMBER:
-          spec[field.id] = yup.number().required();
+          spec[field.id] = yup
+            .number()
+            .transform((v, o) => (o === '' ? null : v))
+            .nullable();
           break;
 
         case FieldType.STRING:
-          spec[field.id] = yup.string().required();
+          spec[field.id] = yup.string().nullable();
           break;
       }
     }
