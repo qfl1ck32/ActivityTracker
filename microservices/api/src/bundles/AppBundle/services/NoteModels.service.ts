@@ -74,7 +74,6 @@ export class NoteModelsService {
     });
   }
 
-  // TODO: test that id adds ids to enumValues & fields!!!
   public async update(input: EndUsersNoteModelsUpdateInput, userId: ObjectId) {
     const { fields, noteModelId, ...restOfFieldsToUpdate } = input;
 
