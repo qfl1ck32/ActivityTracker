@@ -30,10 +30,10 @@ export const VerifyEmailContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!router.next.isReady) return;
+    if (!router.next.query.token) return;
     
     verifyEmail();
-  }, [router.next.isReady]);
+  }, [router.next.query.token]);
 
   if (!router.next.isReady) return <h5>Loading...</h5>;
 
