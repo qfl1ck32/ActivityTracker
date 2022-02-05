@@ -7,6 +7,7 @@ import { Field, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
+import { NoteModelsTypeOfExistingFieldCanNotBeChangedException } from "../exceptions/NoteModelsTypeOfExistingFieldCanNotBeChanged.exception";
 import { NoteModelsUpdateFieldsInputIsInvalidException } from "../exceptions/NoteModelsUpdateFieldsInputIsInvalid.exception";
 import { FieldInput } from "./inputs";
 
@@ -35,26 +36,39 @@ export class NoteModelsSecurityService {
     }
   }
 
-  public async checkFieldsInputIsValid<T extends { fields: (Field | FieldInput)[] }>(
+  public async checkFieldsInputIsValid<
+    T extends { fields: (Field | FieldInput)[] }
+  >(
     input: T,
 
     noteModelId?: ObjectId
   ) {
-    const { fields } = input
+    const { fields } = input;
 
     if (noteModelId) {
-      const { fields: noteModelFields } = await this.noteModelsCollection.findOne({_id: noteModelId})
+      const { fields: noteModelFields } =
+        await this.noteModelsCollection.findOne({ _id: noteModelId });
 
-      const oldIds = {} as Record<string, boolean>
+      const oldIds = {} as Record<string, Field>;
 
       for (const field of noteModelFields) {
-        oldIds[field.id] = true;
+        oldIds[field.id] = field;
       }
 
       for (const field of fields) {
+        const currentField = field as Field;
+        const previousField = oldIds[(field as Field).id];
 
-        if ((field as Field).id && !oldIds[(field as Field).id]) {
-          throw new NoteModelsUpdateFieldsInputIsInvalidException()
+        if (currentField.id && !previousField) {
+          throw new NoteModelsUpdateFieldsInputIsInvalidException();
+        }
+
+        if (
+          currentField.id &&
+          previousField &&
+          currentField.type !== previousField.type
+        ) {
+          throw new NoteModelsTypeOfExistingFieldCanNotBeChangedException();
         }
       }
     }

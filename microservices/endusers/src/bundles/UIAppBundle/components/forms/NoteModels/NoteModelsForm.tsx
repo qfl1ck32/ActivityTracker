@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, List, TextField, Typography } from '@mui/material';
+import { Fragment } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Field, FieldInput } from 'src/api.types';
 import { FormContext } from 'src/bundles/UIAppBundle/types';
@@ -64,7 +65,12 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
         <List>
           {fields.map((item, idx) => {
             return (
-              <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, context }} />
+              <Fragment key={idx}>
+                <Box>
+                  <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, context }} />
+                </Box>
+                <Button onClick={() => remove(idx)}>Remove Field</Button>
+              </Fragment>
             );
           })}
           <div>

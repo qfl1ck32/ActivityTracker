@@ -12,3 +12,4 @@ export * from "./FieldTypeIsNotEnumButEnumValuesWereGiven.exception";
 export * from "./NoteModelNameAlreadyExists.exception";
 export * from "./NoteModelsUpdateFieldsInputIsInvalid.exception";
 export * from "./ActivityLogDetailsTimingHasAlreadyBeenFinished.exception";
+export * from "./NoteModelsTypeOfExistingFieldCanNotBeChanged.exception";

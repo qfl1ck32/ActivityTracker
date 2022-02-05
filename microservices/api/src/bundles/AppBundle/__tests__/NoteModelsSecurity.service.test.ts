@@ -8,6 +8,7 @@ import {
   NoteModelsUpdateFieldsInputIsInvalidException,
 } from "../exceptions";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
+import { NoteModelsTypeOfExistingFieldCanNotBeChangedException } from "../exceptions/NoteModelsTypeOfExistingFieldCanNotBeChanged.exception";
 import { NoteModelsService } from "../services";
 import { FieldInput } from "../services/inputs";
 import { NoteModelsSecurityService } from "../services/NoteModelsSecurity.service";
@@ -88,9 +89,12 @@ describe("NoteModelsSecurityService", () => {
   test("checkFieldsInputIsValid()", async () => {
     const noteModelsSecurityService = container.get(NoteModelsSecurityService);
 
-    const noteModelsService = container.get(NoteModelsService)
+    const noteModelsService = container.get(NoteModelsService);
 
-    const check = (input: { fields: (Field | FieldInput)[] }, noteModelId?: ObjectId) => noteModelsSecurityService.checkFieldsInputIsValid(input, noteModelId);
+    const check = (
+      input: { fields: (Field | FieldInput)[] },
+      noteModelId?: ObjectId
+    ) => noteModelsSecurityService.checkFieldsInputIsValid(input, noteModelId);
 
     await expect(
       check({
@@ -98,12 +102,12 @@ describe("NoteModelsSecurityService", () => {
           {
             name: "abc",
             type: FieldType.NUMBER,
-            enumValues: []
+            enumValues: [],
           },
           {
             name: "abc",
             type: FieldType.STRING,
-            enumValues: []
+            enumValues: [],
           },
         ],
       })
@@ -120,7 +124,9 @@ describe("NoteModelsSecurityService", () => {
           },
         ],
       })
-    ).rejects.toThrowError(new FieldTypeIsNotEnumButEnumValuesWereGivenException());
+    ).rejects.toThrowError(
+      new FieldTypeIsNotEnumButEnumValuesWereGivenException()
+    );
 
     await expect(
       check({
@@ -135,33 +141,54 @@ describe("NoteModelsSecurityService", () => {
       })
     ).resolves.not.toThrow();
 
-      const { userId } = await createEndUser()
-    
-    const noteModel = await noteModelsService.create({
-      name: "test",
+    const { userId } = await createEndUser();
 
-      fields: [
-        {
-          name: "myField",
-          type: FieldType.BOOLEAN,
-          enumValues: []
-        }
-      ]
-    }, userId)
+    const noteModel = await noteModelsService.create(
+      {
+        name: "test",
 
-    const { _id: noteModelId, fields } = noteModel
+        fields: [
+          {
+            name: "myField",
+            type: FieldType.BOOLEAN,
+            enumValues: [],
+          },
+        ],
+      },
+      userId
+    );
+
+    const { _id: noteModelId, fields } = noteModel;
 
     fields.push({
       id: "id-that-should-not-be-here",
       name: "test",
       type: FieldType.BOOLEAN,
-       enumValues: []
-    })
+      enumValues: [],
+    });
 
     await expect(
-      check({
-        fields
-      }, noteModelId)
-    ).rejects.toThrow(new NoteModelsUpdateFieldsInputIsInvalidException())
+      check(
+        {
+          fields,
+        },
+        noteModelId
+      )
+    ).rejects.toThrow(new NoteModelsUpdateFieldsInputIsInvalidException());
+
+    fields.pop();
+
+    fields[0].type = FieldType.STRING;
+
+    await expect(
+      check(
+        {
+          fields,
+        },
+        noteModelId
+      )
+    ).rejects.toThrow(
+      new NoteModelsTypeOfExistingFieldCanNotBeChangedException()
+    );
   });
 });

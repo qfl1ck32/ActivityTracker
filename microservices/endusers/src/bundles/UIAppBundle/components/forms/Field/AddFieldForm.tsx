@@ -42,12 +42,14 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
       </div>
 
       <div>
+        {/* TODO: maybe add a note - "You can not update the type of the fields." */}
         <TextField
           select
           defaultValue={watch(`fields.${index}.type`) ?? 'none'}
           error={Boolean(errors.fields?.[index].type)}
           helperText={errors.fields?.[index].type?.message}
           {...register(`fields.${index}.type`)}
+          disabled={context === 'edit'}
         >
           <MenuItem disabled value="none">
             Select a type
