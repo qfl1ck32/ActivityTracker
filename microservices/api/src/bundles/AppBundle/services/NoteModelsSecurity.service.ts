@@ -34,10 +34,29 @@ export class NoteModelsSecurityService {
     }
   }
 
-  public checkFieldsInputIsValid<T extends { fields: (Field | FieldInput)[] }>(
-    input: T
+  public async checkFieldsInputIsValid<T extends { fields: (Field | FieldInput)[] }>(
+    input: T,
+
+    noteModelId?: ObjectId
   ) {
-    const { fields } = input;
+    const { fields } = input
+
+    if (noteModelId) {
+      const { fields: noteModelFields } = await this.noteModelsCollection.findOne({_id: noteModelId})
+
+      const oldIds = {} as Record<string, boolean>
+
+      for (const field of noteModelFields) {
+        oldIds[field.id] = true;
+      }
+
+      for (const field of fields) {
+
+        if ((field as Field).id && !oldIds[(field as Field).id]) {
+          throw new Error("Wrong input, basically")
+        }
+      }
+    }
 
     const fieldNames = fields.map((field) => field.name);
 

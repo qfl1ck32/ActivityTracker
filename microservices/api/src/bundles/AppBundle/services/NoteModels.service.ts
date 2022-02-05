@@ -33,7 +33,7 @@ export class NoteModelsService {
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
-    this.securityService.noteModels.checkFieldsInputIsValid(input);
+    await this.securityService.noteModels.checkFieldsInputIsValid(input);
 
     await this.securityService.noteModels.checkEndUserDoesNotHaveNoteModelWithTheSameName(
       name,
@@ -49,12 +49,11 @@ export class NoteModelsService {
         id: crypto.randomUUID(),
         ...restOfField,
 
-        enumValues: enumValues
-          ? enumValues.map((value) => ({
+        enumValues: enumValues.map((value) => ({
               id: crypto.randomUUID(),
               value,
             }))
-          : undefined,
+          
       });
     }
 
@@ -85,28 +84,13 @@ export class NoteModelsService {
 
     // TODO separate...... and please, separate the new inputs & stuff.
     if (fields?.length) {
-
-      const { fields: noteModelFields } = await this.noteModelsCollection.findOne({_id: noteModelId})
-
-      const oldIds = {} as Record<string, boolean>
-
-      for (const field of noteModelFields) {
-        oldIds[field.id] = true;
-      }
-
-      for (const field of fields) {
-        if (field.id && !oldIds[field.id]) {
-          throw new Error("Wrong input, basically")
-        }
-      }
-
       for (const field of fields) {
         if (!field.id) {
           field.id = crypto.randomUUID()
         }
       }
 
-      this.securityService.noteModels.checkFieldsInputIsValid({ fields: fields as Field[] });
+      await this.securityService.noteModels.checkFieldsInputIsValid({ fields: fields as Field[] }, noteModelId);
     }
 
     const updates = pickBy({ fields, ...restOfFieldsToUpdate }, Boolean);
