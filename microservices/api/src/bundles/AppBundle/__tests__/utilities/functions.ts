@@ -1,5 +1,6 @@
 import {
   ActivitiesCollection,
+  ActivityLogDetailsCollection,
   ActivityNotesCollection,
   ActivityTimingsCollection,
   EndUsersCollection,
@@ -22,6 +23,7 @@ import {
   EndUsersActivityLogDetailsCreateInput,
   EndUsersActivityNotesUpdateInput,
 } from "@bundles/AppBundle/services/inputs";
+import { EndUsersActivityLogDetailsFinishInput } from "@bundles/AppBundle/services/inputs/EndUsersActivityLogDetailsFinish.input";
 
 // create
 export const createEndUser = async (
@@ -92,9 +94,29 @@ export const getActivityTimingByActivityLogDetailsId = async (
 export const getNoteModelById = async (noteModelId: ObjectId) =>
   container.get(NoteModelsCollection).findOne({ _id: noteModelId });
 
+export const getActivityLogDetail = async (activityLogDetailId: ObjectId) =>
+  container.get(ActivityLogDetailsCollection).queryOne({
+    $: {
+      filters: {
+        _id: activityLogDetailId,
+      },
+    },
+
+    timing: {
+      finishedAt: 1,
+
+      isFinished: 1,
+    },
+  });
+
 // update
 
 export const updateActivityNote = async (
   input: EndUsersActivityNotesUpdateInput,
   userId: ObjectId
 ) => container.get(ActivityNotesService).update(input, userId);
+
+export const finishActivity = async (
+  input: EndUsersActivityLogDetailsFinishInput,
+  userId: ObjectId
+) => container.get(ActivityLogDetailsService).finish(input, userId);

@@ -1,25 +1,16 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
-import { EJSON, ObjectId } from "@bluelibs/ejson";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
+import { ObjectId } from "@bluelibs/ejson";
 import { IExecutionContext } from "@bluelibs/mongo-bundle";
-import { QuerySubBodyType, QueryBodyType } from "@bluelibs/nova";
+import { QueryBodyType } from "@bluelibs/nova";
 import {
-  ActivityLog,
   ActivityLogDetail,
   ActivityLogDetailsCollection,
-  ActivityLogsCollection,
   ActivityNotesCollection,
   ActivityTimingsCollection,
-  Field,
-  FieldEnumValues,
-  FieldType,
 } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityLogDetailsCreateInput } from "./inputs";
+import { EndUsersActivityLogDetailsFinishInput } from "./inputs/EndUsersActivityLogDetailsFinish.input";
 import { SecurityService } from "./Security.service";
 
 @Service()
@@ -39,6 +30,8 @@ export class ActivityLogDetailsService {
 
         startedAt: 1,
         finishedAt: 1,
+
+        isFinished: 1,
       },
 
       createdAt: 1,
@@ -62,9 +55,6 @@ export class ActivityLogDetailsService {
   @Inject()
   private endUserService: EndUserService;
 
-  @Inject()
-  private activityLogsCollection: ActivityLogsCollection;
-
   public async create(
     input: EndUsersActivityLogDetailsCreateInput,
     userId: ObjectId
@@ -83,6 +73,8 @@ export class ActivityLogDetailsService {
         {
           name: "random", // TODO: we should delete this
           endUserId,
+
+          startedAt: new Date(), // TODO:is it good?
         },
         {
           context: { userId } as IExecutionContext,
@@ -145,5 +137,42 @@ export class ActivityLogDetailsService {
     });
   }
 
-  // public async finish()
+  public async finish(
+    input: EndUsersActivityLogDetailsFinishInput,
+    userId: ObjectId
+  ) {
+    const { activityLogDetailsId } = input;
+
+    const endUserId = await this.endUserService.getIdByOwnerId(userId);
+
+    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetails(
+      activityLogDetailsId,
+      endUserId
+    );
+
+    await this.securityService.activityLogDetails.checkActivityLogDetailIsNotFinished(
+      activityLogDetailsId
+    );
+
+    await this.activityTimingsCollection.updateOne(
+      {
+        activityLogDetailsId,
+      },
+      {
+        $set: {
+          finishedAt: new Date(), // TODO: good??
+        },
+      }
+    );
+
+    return this.activityLogDetailsCollection.queryOne({
+      $: {
+        filters: {
+          _id: activityLogDetailsId,
+        },
+      },
+
+      ...this.queryBody,
+    });
+  }
 }

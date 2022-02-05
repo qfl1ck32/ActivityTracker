@@ -64,6 +64,20 @@ export class ActivityTimingList extends XList<ActivityTiming> {
         },
       },
       {
+        id: "isFinished",
+        title: t("management.activity_timings.fields.isFinished"),
+        key: "management.activity_timings.fields.isFinished",
+        dataIndex: ["isFinished"],
+        sorter: true,
+        render: (value, model) => {
+          const props = {
+            type: "boolean",
+            value,
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdAt",
         title: t("management.activity_timings.fields.createdAt"),
         key: "management.activity_timings.fields.createdAt",
@@ -197,6 +211,7 @@ export class ActivityTimingList extends XList<ActivityTiming> {
       name: 1,
       startedAt: 1,
       finishedAt: 1,
+      isFinished: 1,
       createdAt: 1,
       updatedAt: 1,
       endUser: {

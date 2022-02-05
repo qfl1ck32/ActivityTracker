@@ -7,7 +7,9 @@ import {
   createEndUser,
   createNoteModel,
   endUsersRegisterInput,
+  finishActivity,
   getNoteModelById,
+  updateActivityNote,
 } from "./utilities";
 import {
   EndUserDoesNotOwnActivityLogDetailsException,
@@ -15,6 +17,8 @@ import {
 } from "../exceptions";
 import { FieldType } from "../collections";
 import { EndUsersActivityLogDetailsCreateInput } from "../services/inputs";
+import { ObjectId } from "@bluelibs/ejson";
+import { ActivityLogDetailsTimingHasAlreadyBeenFinishedException } from "../exceptions/ActivityLogDetailsTimingHasAlreadyBeenFinished.exception";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -72,5 +76,57 @@ describe("ActivityLogDetailsSecurityService", () => {
         anotherEndUserId
       )
     ).rejects.toThrowError(new EndUserDoesNotOwnActivityLogDetailsException());
+  });
+
+  test("checkActivityLogDetailIsNotFinished()", async () => {
+    const activityLogDetailsSecurityService = container.get(
+      ActivityLogDetailsSecurityService
+    );
+
+    const check = (activityLogDetailsId: ObjectId) =>
+      activityLogDetailsSecurityService.checkActivityLogDetailIsNotFinished(
+        activityLogDetailsId
+      );
+
+    const { userId, endUserId } = await createEndUser();
+
+    const activityId = await createActivity();
+
+    const noteModelId = await createNoteModel(
+      {
+        name: "my note model",
+        fields: [],
+      },
+      userId
+    );
+
+    const activityLogId = await createActivityLog(
+      {
+        activityId,
+        name: "my activity log",
+        noteModelId,
+      },
+      userId
+    );
+
+    const activityLogDetailsId = await createActivityLogDetails(
+      {
+        activityLogId,
+      },
+      userId
+    );
+
+    await expect(check(activityLogDetailsId)).resolves.not.toThrow();
+
+    await finishActivity(
+      {
+        activityLogDetailsId,
+      },
+      userId
+    );
+
+    await expect(check(activityLogDetailsId)).rejects.toThrow(
+      new ActivityLogDetailsTimingHasAlreadyBeenFinishedException()
+    );
   });
 });

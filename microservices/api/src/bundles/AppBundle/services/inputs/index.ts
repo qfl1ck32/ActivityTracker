@@ -26,3 +26,4 @@ export * from "./EndUsersActivityLogsGetOne.input";
 export * from "./EndUsersNoteModelsUpdate.input";
 export * from "./FieldEnumValues.input";
 export * from "./FieldInputWithEnumValues.input";
+export * from "./EndUsersActivityLogDetailsFinish.input";

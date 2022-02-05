@@ -5,6 +5,7 @@ import {
   createActivityLog,
   createEndUser,
   createNoteModel,
+  getActivityLogDetail,
   getActivityNoteByActivityLogDetailsId,
   getActivityTimingByActivityLogDetailsId,
 } from "./utilities";
@@ -62,6 +63,9 @@ describe("ActivityLogDetailsService", () => {
 
     expect(timing).toBeTruthy();
 
+    expect(timing.startedAt).toBeTruthy();
+    expect(timing.finishedAt).toBeFalsy();
+
     let note = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId
     );
@@ -69,5 +73,56 @@ describe("ActivityLogDetailsService", () => {
     expect(note).toBeTruthy();
 
     expect(note.value).toBe(JSON.stringify({}));
+  });
+
+  test("finish()", async () => {
+    const activityLogDetailsService = container.get(ActivityLogDetailsService);
+
+    const { userId } = await createEndUser();
+
+    const activityId = await createActivity();
+
+    const noteModelId = await createNoteModel(
+      {
+        name: "For Calisthenics",
+        fields: [
+          {
+            name: "Went hardcore?",
+            type: FieldType.ENUM,
+            enumValues: ["YES", "HELL YES!"],
+          },
+        ],
+      },
+      userId
+    );
+
+    const activityLogId = await createActivityLog(
+      {
+        name: "Calisthenics",
+        activityId,
+        noteModelId,
+      },
+      userId
+    );
+
+    let activityLogDetail = await activityLogDetailsService.create(
+      {
+        activityLogId,
+      },
+      userId
+    );
+
+    expect(activityLogDetail.timing.isFinished).toBe(false);
+    expect(activityLogDetail.timing.finishedAt).toBeFalsy();
+
+    await activityLogDetailsService.finish(
+      { activityLogDetailsId: activityLogDetail._id },
+      userId
+    );
+
+    activityLogDetail = await getActivityLogDetail(activityLogDetail._id);
+
+    expect(activityLogDetail.timing.finishedAt).toBeTruthy();
+    expect(activityLogDetail.timing.isFinished).toBe(true);
   });
 });

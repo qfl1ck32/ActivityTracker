@@ -21,6 +21,7 @@ export default /* GraphQL */ `
     endUser: EndUser!
     endUserId: ObjectId!
     finishedAt: Date
+    isFinished: Boolean!
     name: String!
     startedAt: Date!
 

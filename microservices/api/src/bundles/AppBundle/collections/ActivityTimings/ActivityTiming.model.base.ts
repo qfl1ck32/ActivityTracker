@@ -40,6 +40,8 @@ export class ActivityTiming {
   @Is(a.date().nullable())
   finishedAt?: Date;
 
+  isFinished: boolean;
+
   @Is(a.string().required())
   name: string;
 

@@ -36,25 +36,6 @@ export class ActivityLogDetailCreateForm extends XForm {
       },
 
       {
-        id: "isFinished",
-        label: t("management.activity_log_details.fields.isFinished"),
-        name: ["isFinished"],
-        required: true,
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <Ant.Radio.Group>
-              <Ant.Radio value={false} key={0}>
-                No
-              </Ant.Radio>
-              <Ant.Radio value={true} key={1}>
-                Yes
-              </Ant.Radio>
-            </Ant.Radio.Group>
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
         id: "timingId",
         label: t("management.activity_log_details.fields.timing"),
         name: ["timingId"],
