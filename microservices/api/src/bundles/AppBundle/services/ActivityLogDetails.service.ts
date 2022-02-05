@@ -69,7 +69,7 @@ export class ActivityLogDetailsService {
     input: EndUsersActivityLogDetailsCreateInput,
     userId: ObjectId
   ) {
-    const { activityLogId, startedAt, finishedAt, noteDetailsValue } = input;
+    const { activityLogId } = input;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
@@ -78,23 +78,10 @@ export class ActivityLogDetailsService {
       endUserId
     );
 
-    this.securityService.date.checkDatesAreInChronologicalOrder(
-      startedAt,
-      finishedAt
-    );
-
-    if (noteDetailsValue) {
-      await this.securityService.activityLogDetails.checkCreateInputIsValid(
-        input
-      );
-    }
-
     const activityTimingsInsertResponse =
       await this.activityTimingsCollection.insertOne(
         {
           name: "random", // TODO: we should delete this
-          startedAt,
-          finishedAt,
           endUserId,
         },
         {
@@ -105,7 +92,7 @@ export class ActivityLogDetailsService {
     const activityNoteInsertResponse =
       await this.activityNotesCollection.insertOne(
         {
-          value: noteDetailsValue || "{}",
+          value: "{}",
           endUserId,
         },
         {
@@ -151,11 +138,12 @@ export class ActivityLogDetailsService {
       $: {
         filters: {
           _id: activityLogDetailsId,
-        }
+        },
       },
 
-      ...this.queryBody
-    })
-
+      ...this.queryBody,
+    });
   }
+
+  // public async finish()
 }

@@ -35,39 +35,4 @@ export class ActivityLogDetailsSecurityService {
       throw new EndUserDoesNotOwnActivityLogDetailsException();
     }
   }
-
-  public async checkCreateInputIsValid(
-    input: EndUsersActivityLogDetailsCreateInput
-  ) {
-    const { activityLogId, noteDetailsValue } = input;
-
-    if (!noteDetailsValue) return;
-
-    const {
-      noteModel: { fields: noteModelFields },
-    } = await this.activityLogsCollection.queryOne({
-      $: {
-        filters: {
-          _id: activityLogId,
-        },
-      },
-
-      noteModel: {
-        fields: {
-          id: 1,
-
-          name: 1,
-
-          type: 1,
-
-          enumValues: 1,
-        },
-      },
-    });
-
-    this.activityNotesSecurityService.checkNoteDetailsValueIsValid(
-      noteDetailsValue,
-      noteModelFields
-    );
-  }
 }

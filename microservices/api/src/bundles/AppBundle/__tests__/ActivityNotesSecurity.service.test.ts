@@ -49,7 +49,7 @@ describe("ActivityNotesSecurityService", () => {
           {
             name: "booleanTest",
             type: FieldType.BOOLEAN,
-            enumValues: []
+            enumValues: [],
           },
         ],
       },
@@ -70,8 +70,6 @@ describe("ActivityNotesSecurityService", () => {
     const activityLogDetailsId = await createActivityLogDetails(
       {
         activityLogId,
-        startedAt: new Date(),
-        finishedAt: new Date(),
       },
       userId
     );

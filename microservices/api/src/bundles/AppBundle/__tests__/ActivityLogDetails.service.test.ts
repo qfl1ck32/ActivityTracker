@@ -1,6 +1,5 @@
 import { ActivityLogDetailsService } from "../services/ActivityLogDetails.service";
 import { container } from "../../../__tests__/ecosystem";
-import { DateService } from "../services";
 import {
   createActivity,
   createActivityLog,
@@ -8,10 +7,8 @@ import {
   createNoteModel,
   getActivityNoteByActivityLogDetailsId,
   getActivityTimingByActivityLogDetailsId,
-  getNoteModelById,
 } from "./utilities";
 import { FieldType } from "../collections";
-import { EJSON } from "@bluelibs/ejson";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
 // API: https://jestjs.io/docs/en/api
@@ -20,8 +17,6 @@ import { EJSON } from "@bluelibs/ejson";
 describe("ActivityLogDetailsService", () => {
   test("create()", async () => {
     const activityLogDetailsService = container.get(ActivityLogDetailsService);
-
-    const dateService = container.get(DateService);
 
     const { userId } = await createEndUser();
 
@@ -41,8 +36,6 @@ describe("ActivityLogDetailsService", () => {
       userId
     );
 
-    const { fields } = await getNoteModelById(noteModelId);
-
     const activityLogId = await createActivityLog(
       {
         name: "Calisthenics",
@@ -52,29 +45,24 @@ describe("ActivityLogDetailsService", () => {
       userId
     );
 
-    const startedAt = dateService.toDayJS().toDate();
-    const finishedAt = dateService.toDayJS().add(1, "minute").toDate();
+    const activityLogDetail = await activityLogDetailsService.create(
+      {
+        activityLogId,
+      },
+      userId
+    );
 
-    const { _id: activityLogDetailsId } =
-      await activityLogDetailsService.create(
-        {
-          activityLogId,
-          startedAt,
-          finishedAt,
-        },
-        userId
-      );
+    expect(activityLogDetail).toBeTruthy();
 
-    expect(activityLogDetailsId).toBeTruthy();
+    // expect(activityLogDetail.isFinished).toBeFalsy()
+
+    const { _id: activityLogDetailsId } = activityLogDetail;
 
     const timing = await getActivityTimingByActivityLogDetailsId(
       activityLogDetailsId
     );
 
     expect(timing).toBeTruthy();
-
-    expect(timing.startedAt).toStrictEqual(startedAt);
-    expect(timing.finishedAt).toStrictEqual(finishedAt);
 
     let note = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId
@@ -83,25 +71,5 @@ describe("ActivityLogDetailsService", () => {
     expect(note).toBeTruthy();
 
     expect(note.value).toBe(JSON.stringify({}));
-
-    // TODO: maybe test with wrong field name?
-    const noteDetailsValue = EJSON.stringify({
-      [fields[0].id]: fields[0].enumValues[0].id,
-    });
-
-    const { _id: activityLogDetailsId2 } =
-      await activityLogDetailsService.create(
-        {
-          activityLogId,
-          startedAt,
-          finishedAt,
-          noteDetailsValue,
-        },
-        userId
-      );
-
-    note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId2);
-
-    expect(note.value).toBe(noteDetailsValue);
   });
 });

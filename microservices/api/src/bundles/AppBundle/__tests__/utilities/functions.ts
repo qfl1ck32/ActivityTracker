@@ -8,6 +8,7 @@ import {
 import {
   ActivityLogDetailsService,
   ActivityLogsService,
+  ActivityNotesService,
   EndUserService,
   NoteModelsService,
 } from "../../services";
@@ -17,7 +18,10 @@ import { endUsersRegisterInput } from "./inputs";
 import { EndUsersNoteModelsCreateInput } from "@bundles/AppBundle/services/inputs/EndUsersNoteModelsCreate.input";
 import { ObjectId } from "@bluelibs/ejson";
 import { EndUsersActivityLogsCreateInput } from "@bundles/AppBundle/services/inputs/EndUsersActivityLogsCreate.input";
-import { EndUsersActivityLogDetailsCreateInput } from "@bundles/AppBundle/services/inputs";
+import {
+  EndUsersActivityLogDetailsCreateInput,
+  EndUsersActivityNotesUpdateInput,
+} from "@bundles/AppBundle/services/inputs";
 
 // create
 export const createEndUser = async (
@@ -87,3 +91,10 @@ export const getActivityTimingByActivityLogDetailsId = async (
 
 export const getNoteModelById = async (noteModelId: ObjectId) =>
   container.get(NoteModelsCollection).findOne({ _id: noteModelId });
+
+// update
+
+export const updateActivityNote = async (
+  input: EndUsersActivityNotesUpdateInput,
+  userId: ObjectId
+) => container.get(ActivityNotesService).update(input, userId);

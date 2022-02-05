@@ -41,6 +41,9 @@ export class ActivityLog {
   @Is(an.objectId().required())
   endUserId: ObjectId;
 
+  @Is(a.boolean().required())
+  isFinished: boolean;
+
   @Is(a.string().required())
   name: string;
 

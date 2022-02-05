@@ -12,7 +12,7 @@ export class Field {
   @Is(a.string().required())
   name: string;
 
-  @Is(a.string().oneOf(Object.values(FieldType)).required())
+  @Is(a.string().oneOf(Object.values(FieldType).concat(null)).required())
   type: FieldType;
 
   @Is(() => an.array().of(Schema.from(FieldEnumValues)))

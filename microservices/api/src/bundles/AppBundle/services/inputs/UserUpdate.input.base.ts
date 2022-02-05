@@ -20,6 +20,6 @@ export class UserUpdateInput {
   @Is(() => Schema.from(UserProfileInput))
   profile?: UserProfileInput;
 
-  @Is(an.array().of(a.string().oneOf(Object.values(UserRole))))
+  @Is(an.array().of(a.string().oneOf(Object.values(UserRole).concat(null))))
   roles?: UserRole[] = [];
 }

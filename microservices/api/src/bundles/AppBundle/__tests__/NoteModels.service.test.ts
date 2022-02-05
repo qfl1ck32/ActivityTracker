@@ -9,6 +9,7 @@ import {
   createNoteModel,
   getActivityNoteByActivityLogDetailsId,
   getNoteModelById,
+  updateActivityNote,
 } from "./utilities";
 import { FieldInput } from "../services/inputs";
 import { EJSON } from "@bluelibs/ejson";
@@ -35,7 +36,7 @@ describe("NoteModelsService", () => {
           {
             name: "isThisOk",
             type: FieldType.BOOLEAN,
-            enumValues: []
+            enumValues: [],
           },
         ],
       },
@@ -83,52 +84,57 @@ describe("NoteModelsService", () => {
       userId
     );
 
-    await expect(
-      createActivityLogDetails(
-        {
-          activityLogId,
-          noteDetailsValue: EJSON.stringify({
-            test: "invalid-id",
-          }),
-
-          startedAt: new Date(),
-          finishedAt: new Date(),
-        },
-        userId
-      )
-    ).rejects.toThrow(
-      new FieldNameIsNotDefinedInNoteModelException({ fieldName: "test" })
-    );
-
-    await expect(
-      createActivityLogDetails(
-        {
-          activityLogId,
-          noteDetailsValue: EJSON.stringify({
-            [fields[0].id]: "invalid-id",
-          }),
-
-          startedAt: new Date(),
-          finishedAt: new Date(),
-        },
-        userId
-      )
-    ).rejects.toThrow(
-      new FieldValueIsNotValidException({ fieldName: fields[0].id })
-    );
-
     const activityLogDetailsId = await createActivityLogDetails(
       {
         activityLogId,
-        noteDetailsValue: EJSON.stringify({
-          [fields[0].id]: fields[0].enumValues[0].id,
-        }),
-
-        startedAt: new Date(),
-        finishedAt: new Date(),
       },
       userId
     );
+
+    await updateActivityNote(
+      {
+        activityLogDetailsId,
+        value: EJSON.stringify({
+          [fields[0].id]: fields[0].enumValues[0].id,
+        }),
+      },
+      userId
+    );
+
+    // TODO: why do we have all these HERE?
+    // await expect(
+    //   createActivityLogDetails(
+    //     {
+    //       activityLogId,
+    //       noteDetailsValue: EJSON.stringify({
+    //         test: "invalid-id",
+    //       }),
+
+    //       startedAt: new Date(),
+    //       finishedAt: new Date(),
+    //     },
+    //     userId
+    //   )
+    // ).rejects.toThrow(
+    //   new FieldNameIsNotDefinedInNoteModelException({ fieldName: "test" })
+    // );
+
+    // await expect(
+    //   createActivityLogDetails(
+    //     {
+    //       activityLogId,
+    //       noteDetailsValue: EJSON.stringify({
+    //         [fields[0].id]: "invalid-id",
+    //       }),
+
+    //       startedAt: new Date(),
+    //       finishedAt: new Date(),
+    //     },
+    //     userId
+    //   )
+    // ).rejects.toThrow(
+    //   new FieldValueIsNotValidException({ fieldName: fields[0].id })
+    // );
 
     const { fields: noteModelFields } = await getNoteModelById(noteModelId);
 

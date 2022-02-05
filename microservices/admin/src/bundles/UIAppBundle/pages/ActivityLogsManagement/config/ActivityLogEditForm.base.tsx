@@ -34,6 +34,25 @@ export class ActivityLogEditForm extends XForm {
       },
 
       {
+        id: "isFinished",
+        label: t("management.activity_logs.fields.isFinished"),
+        name: ["isFinished"],
+        required: true,
+        render: (props) => (
+          <Ant.Form.Item {...props}>
+            <Ant.Radio.Group>
+              <Ant.Radio value={false} key={0}>
+                No
+              </Ant.Radio>
+              <Ant.Radio value={true} key={1}>
+                Yes
+              </Ant.Radio>
+            </Ant.Radio.Group>
+          </Ant.Form.Item>
+        ),
+      },
+
+      {
         id: "activityId",
         label: t("management.activity_logs.fields.activity"),
         name: ["activityId"],
@@ -84,6 +103,7 @@ export class ActivityLogEditForm extends XForm {
     return {
       _id: 1,
       name: 1,
+      isFinished: 1,
       activity: {
         _id: 1,
         name: 1,

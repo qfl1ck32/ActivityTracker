@@ -63,7 +63,7 @@ export class User {
   @Is(
     an
       .array()
-      .of(a.string().oneOf(Object.values(UserRole)))
+      .of(a.string().oneOf(Object.values(UserRole).concat(null)))
       .required()
   )
   roles: UserRole[];

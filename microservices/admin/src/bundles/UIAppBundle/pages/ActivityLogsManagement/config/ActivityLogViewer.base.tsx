@@ -38,6 +38,18 @@ export class ActivityLogViewer extends XViewer {
         },
       },
       {
+        id: "isFinished",
+        label: t("management.activity_logs.fields.isFinished"),
+        dataIndex: ["isFinished"],
+        render: (value) => {
+          const props = {
+            type: "boolean",
+            value,
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdAt",
         label: t("management.activity_logs.fields.createdAt"),
         dataIndex: ["createdAt"],
@@ -188,6 +200,7 @@ export class ActivityLogViewer extends XViewer {
     return {
       _id: 1,
       name: 1,
+      isFinished: 1,
       createdAt: 1,
       updatedAt: 1,
       activity: {

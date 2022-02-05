@@ -15,6 +15,7 @@ import {
   createNoteModel,
   getActivityNoteByActivityLogDetailsId,
   getNoteModelById,
+  updateActivityNote,
 } from "./utilities";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
@@ -42,12 +43,12 @@ describe("ActivityNotesService", () => {
           {
             name: "How many reps?",
             type: FieldType.NUMBER,
-            enumValues: []
+            enumValues: [],
           },
           {
             name: "Did you rest?",
             type: FieldType.BOOLEAN,
-            enumValues: []
+            enumValues: [],
           },
         ],
       },
@@ -68,8 +69,6 @@ describe("ActivityNotesService", () => {
     const activityLogDetailsId = await createActivityLogDetails(
       {
         activityLogId,
-        startedAt: new Date(),
-        finishedAt: new Date(),
       },
       userId
     );
@@ -144,7 +143,7 @@ describe("ActivityNotesService", () => {
       {
         name: "test2",
         type: FieldType.BOOLEAN,
-        enumValues: []
+        enumValues: [],
       },
     ] as FieldInput[];
 
@@ -173,14 +172,18 @@ describe("ActivityNotesService", () => {
     const activityLogDetailsId = await createActivityLogDetails(
       {
         activityLogId,
-        noteDetailsValue: JSON.stringify({
+      },
+      userId
+    );
+
+    await updateActivityNote(
+      {
+        activityLogDetailsId,
+        value: JSON.stringify({
           [enumValueFieldId]: enumValueFieldEnumValueId,
 
           [fields[1].id]: true,
         }),
-
-        startedAt: new Date(),
-        finishedAt: new Date(),
       },
       userId
     );
