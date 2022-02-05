@@ -80,3 +80,5 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
     </Box>
   );
 };
+
+// TODO: create a form instead of fields.map.blablabla, so I can update the name and enum values and so on!!
