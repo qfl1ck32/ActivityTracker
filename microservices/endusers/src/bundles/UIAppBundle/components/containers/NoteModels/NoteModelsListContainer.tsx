@@ -5,11 +5,15 @@ import { Box, Button } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { Field, NoteModel, Query } from 'src/api.types';
-import { INoteModelCreated, INoteModelUpdated, NoteModelCreatedEvent, NoteModelUpdatedEvent } from 'src/bundles/UIAppBundle/events';
+import {
+  INoteModelCreated,
+  INoteModelUpdated,
+  NoteModelCreatedEvent,
+  NoteModelUpdatedEvent,
+} from 'src/bundles/UIAppBundle/events';
 import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
-import { NoteModelsEditModal } from '../..';
+import { NoteModelsEditDialog } from '../..';
 import { DataGridContainer } from '../DataGrid';
-
 
 const columns: GridColumns = [
   {
@@ -35,23 +39,25 @@ const columns: GridColumns = [
     renderCell: (params) => {
       const fields = params.value as Field[];
 
-      const [open, setOpen] = useState(false)
+      const [open, setOpen] = useState(false);
 
-      const noteModel = params.row as NoteModel
+      const noteModel = params.row as NoteModel;
 
       return (
         <Box>
           <Button onClick={() => setOpen(true)}>See</Button>
-          <NoteModelsEditModal {...{
-            open,
-            onClose: () => setOpen(false),
+          <NoteModelsEditDialog
+            {...{
+              open,
+              onClose: () => setOpen(false),
 
-            initialFields: fields,
+              initialFields: fields,
 
-            defaultValues: noteModel
-          }} />
+              defaultValues: noteModel,
+            }}
+          />
         </Box>
-      )
+      );
     },
   },
 
@@ -91,17 +97,17 @@ export const NoteModelsListContainer: React.FC = () => {
 
   useEffect(() => {
     const listener: EventHandlerType<INoteModelUpdated> = (e) => {
-      setNoteModels(previous => {
-        const noteModels = [...previous]
+      setNoteModels((previous) => {
+        const noteModels = [...previous];
 
-        const { noteModel } = e.data
+        const { noteModel } = e.data;
 
-        const oldNoteModelIndex = noteModels.findIndex(model => model._id === noteModel._id)
+        const oldNoteModelIndex = noteModels.findIndex((model) => model._id === noteModel._id);
 
-        noteModels.splice(oldNoteModelIndex, 1, noteModel)
+        noteModels.splice(oldNoteModelIndex, 1, noteModel);
 
-        return noteModels
-      })
+        return noteModels;
+      });
     };
 
     eventManager.addListener(NoteModelUpdatedEvent, listener);
@@ -109,7 +115,7 @@ export const NoteModelsListContainer: React.FC = () => {
     return () => {
       eventManager.removeListener(NoteModelUpdatedEvent as any, listener); // TODO as any ? fix from bluelibs
     };
-  }, [])
+  }, []);
 
   const UIComponents = useUIComponents();
 

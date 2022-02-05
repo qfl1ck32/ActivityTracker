@@ -16,7 +16,7 @@ export type NoteDetailsFormProps = {
 
   defaultValues?: any;
 
-  type: "edit" | "create"
+  type: 'edit' | 'create';
 };
 
 export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
@@ -40,9 +40,6 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
 
     defaultValues,
   });
-
-  console.log("Vine cu ")
-  console.log(defaultValues)
 
   return (
     <form onSubmit={handleSubmit(onSubmit as any)}>
@@ -73,7 +70,13 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
         }
 
         if (field.type === FieldType.BOOLEAN) {
-          return <FormControlLabel key={field.id} label={field.name} control={<Checkbox {...register(field.id)} defaultChecked={defaultValues[field.id]} />} />;
+          return (
+            <FormControlLabel
+              key={field.id}
+              label={field.name}
+              control={<Checkbox {...register(field.id)} defaultChecked={defaultValues[field.id]} />}
+            />
+          );
         }
 
         const Field: React.FC = ({ children }) => (
@@ -109,7 +112,7 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
       })}
 
       <LoadingButton loading={isSubmitting} type="submit">
-        {type === "create" ? "Create" : "Edit"}
+        {type === 'create' ? 'Create' : 'Edit'}
       </LoadingButton>
     </form>
   );

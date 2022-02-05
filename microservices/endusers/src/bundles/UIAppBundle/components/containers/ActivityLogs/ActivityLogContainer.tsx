@@ -5,16 +5,17 @@ import { Box, Button, Typography } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
-import {
-  ActivityLog, ActivityNote,
-  ActivityTiming,
-  EndUsersActivityLogsGetOneInput, Query
-} from 'src/api.types';
+import { ActivityLog, ActivityNote, ActivityTiming, EndUsersActivityLogsGetOneInput, Query } from 'src/api.types';
 import { useActivityLog } from 'src/bundles/UIAppBundle/contexts';
-import { ActivityLogDetailCreatedEvent, ActivityNoteUpdatedEvent, IActivityLogDetailCreated, IActivityNoteUpdated } from 'src/bundles/UIAppBundle/events';
+import {
+  ActivityLogDetailCreatedEvent,
+  ActivityNoteUpdatedEvent,
+  IActivityLogDetailCreated,
+  IActivityNoteUpdated,
+} from 'src/bundles/UIAppBundle/events';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
-import { ActivityLogDetailsCreateModal, ActivityNotesEditModal, DataGridContainer } from '../..';
-
+import { ActivityNotesEditDialog, DataGridContainer } from '../..';
+import { ActivityLogDetailsCreateDialog } from '../../dialogs/ActivityLogDetails/ActivityLogDetailsCreateDialog';
 
 const columns: GridColumns = [
   {
@@ -28,23 +29,22 @@ const columns: GridColumns = [
     field: 'note',
     headerName: 'Note',
 
-    // TODO: obviously, remove this from here.
     renderCell: (props) => {
       const activityNote = props.value as ActivityNote;
 
-      const activityLogDetailsId = props.id.toString()
+      const activityLogDetailsId = props.id.toString();
 
-      const [open, setOpen] = useState(false)
+      const [open, setOpen] = useState(false);
 
       return (
         <div>
           <Button onClick={() => setOpen(true)}>Open</Button>
-          <ActivityNotesEditModal {...{ open, onClose: () => setOpen(false), activityNote, activityLogDetailsId }} />
+          <ActivityNotesEditDialog {...{ open, onClose: () => setOpen(false), activityNote, activityLogDetailsId }} />
         </div>
-      )
+      );
     },
 
-    width: 1200,
+    width: 200,
   },
 
   {
@@ -75,9 +75,9 @@ const columns: GridColumns = [
 export const ActivityLogContainer: React.FC = () => {
   const router = useRouter();
 
-  const [activityLog, setActivityLog] = useActivityLog()
+  const [activityLog, setActivityLog] = useActivityLog();
 
-  const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
+  const [isCreateEditDialogOpened, setIsCreateEditDialogOpened] = useState(false);
 
   const UIComponents = useUIComponents();
 
@@ -123,15 +123,15 @@ export const ActivityLogContainer: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const listener: EventHandlerType<IActivityNoteUpdated> = e => {
-      setActivityLog(previousActivityLog => {
+    const listener: EventHandlerType<IActivityNoteUpdated> = (e) => {
+      setActivityLog((previousActivityLog) => {
         const activityLog = previousActivityLog as ActivityLog;
 
-        const details = cloneDeep(activityLog.details)
+        const details = cloneDeep(activityLog.details);
 
-        const { value, activityLogDetailsId } = e.data.activityNote
+        const { value, activityLogDetailsId } = e.data.activityNote;
 
-        const detail = details.find(detail => detail._id === activityLogDetailsId)
+        const detail = details.find((detail) => detail._id === activityLogDetailsId);
 
         if (detail) {
           detail.note.value = value;
@@ -142,15 +142,15 @@ export const ActivityLogContainer: React.FC = () => {
 
           details,
         };
-      })
-    }
+      });
+    };
 
-    eventManager.addListener(ActivityNoteUpdatedEvent, listener)
+    eventManager.addListener(ActivityNoteUpdatedEvent, listener);
 
     return () => {
-      eventManager.removeListener(ActivityNoteUpdatedEvent as any, listener)
-    }
-  })
+      eventManager.removeListener(ActivityNoteUpdatedEvent as any, listener);
+    };
+  });
 
   if (activityLogError) return <UIComponents.Error error={activityLogError} />;
 
@@ -164,10 +164,10 @@ export const ActivityLogContainer: React.FC = () => {
     <Box>
       <Typography variant="h6">{activityLog.name}</Typography>
 
-      <ActivityLogDetailsCreateModal
+      <ActivityLogDetailsCreateDialog
         {...{
-          open: isCreateModalOpened,
-          onClose: () => setIsCreateModalOpened(false),
+          open: isCreateEditDialogOpened,
+          onClose: () => setIsCreateEditDialogOpened(false),
           createContainerProps: { activityLog },
         }}
       />
@@ -179,7 +179,7 @@ export const ActivityLogContainer: React.FC = () => {
           columns,
           onDelete,
           toolbarProps: {
-            onCreatePress: () => setIsCreateModalOpened(true),
+            onCreatePress: () => setIsCreateEditDialogOpened(true),
           },
         }}
       />
