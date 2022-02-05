@@ -1,3 +1,10 @@
+import { CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
+
 export const Loading: React.FC = () => {
-  return <h3>Loading...</h3>;
+  return (
+    <Box display="flex" justifyContent="center">
+      <CircularProgress />
+    </Box>
+  )
 };

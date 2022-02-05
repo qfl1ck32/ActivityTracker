@@ -4,9 +4,13 @@ import { createApp } from '@bluelibs/x-ui-next';
 import { kernel } from '../startup/kernel';
 import { AppProps } from 'next/dist/pages/_app';
 import { Header } from 'src/bundles/UIAppBundle/components';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import { ToastContainer } from 'react-toastify'
+
+import { injectStyle } from "react-toastify/dist/inject-style"
+
+injectStyle()
 
 const App = createApp({
   kernel,
