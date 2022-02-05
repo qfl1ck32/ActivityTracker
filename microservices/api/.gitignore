@@ -10,3 +10,4 @@ yarn.lock
 typeDocs
 .vscode
 .env
+.env.test

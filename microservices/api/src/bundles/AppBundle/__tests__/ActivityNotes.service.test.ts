@@ -144,6 +144,7 @@ describe("ActivityNotesService", () => {
       {
         name: "test2",
         type: FieldType.BOOLEAN,
+        enumValues: []
       },
     ] as FieldInput[];
 
