@@ -169,8 +169,8 @@ describe("NoteModelsSecurityService", () => {
         fields: [
           {
             name: "myField",
-            type: FieldType.BOOLEAN,
-            enumValues: [],
+            type: FieldType.ENUM,
+            enumValues: ["test"],
           },
         ],
       },
@@ -195,6 +195,17 @@ describe("NoteModelsSecurityService", () => {
       )
     ).rejects.toThrow(new NoteModelsUpdateFieldsInputIsInvalidException());
 
+    delete fields[1].id;
+
+    await expect(
+      check(
+        {
+          fields,
+        },
+        noteModelId
+      )
+    ).resolves.not.toThrow();
+
     fields.pop();
 
     fields[0].type = FieldType.STRING;
@@ -209,5 +220,32 @@ describe("NoteModelsSecurityService", () => {
     ).rejects.toThrow(
       new NoteModelsTypeOfExistingFieldCanNotBeChangedException()
     );
+
+    fields[0].type = FieldType.ENUM;
+
+    fields[0].enumValues.push({
+      id: "should-not-be-here",
+      value: "dummy",
+    });
+
+    await expect(
+      check(
+        {
+          fields,
+        },
+        noteModelId
+      )
+    ).rejects.toThrow(new NoteModelsUpdateFieldsInputIsInvalidException());
+
+    delete fields[0].enumValues[1].id;
+
+    await expect(
+      check(
+        {
+          fields,
+        },
+        noteModelId
+      )
+    ).resolves.not.toThrow();
   });
 });

@@ -1,7 +1,10 @@
 import { EJSON } from "@bluelibs/ejson";
 import { container } from "../../../__tests__/ecosystem";
 import { FieldType } from "../collections";
-import { NoteModelsFieldsAreMissingException } from "../exceptions";
+import {
+  NoteModelsFieldsAreMissingException,
+  NoteModelsUpdateFieldsInputIsInvalidException,
+} from "../exceptions";
 import { FieldInput } from "../services/inputs";
 import { NoteModelsService } from "../services/NoteModels.service";
 import {
@@ -19,7 +22,7 @@ import {
 // API: https://jestjs.io/docs/en/api
 // Expect: https://jestjs.io/docs/en/expect
 
-// TODO: test it nicer
+// TODO: test it nicer? :))
 describe("NoteModelsService", () => {
   test("create()", async () => {
     const noteModelsService = container.get(NoteModelsService);
@@ -42,8 +45,8 @@ describe("NoteModelsService", () => {
         fields: [
           {
             name: "isThisOk",
-            type: FieldType.BOOLEAN,
-            enumValues: [],
+            type: FieldType.ENUM,
+            enumValues: ["TEST"],
           },
         ],
       },
@@ -54,6 +57,9 @@ describe("NoteModelsService", () => {
 
     expect(noteModel.fields[0].id).toBeTruthy();
     expect(noteModel.fields[0].id).toHaveLength(36); // UUID :)
+
+    expect(noteModel.fields[0].enumValues[0].id).toBeTruthy();
+    expect(noteModel.fields[0].enumValues[0].id).toHaveLength(36);
   });
 
   test("update()", async () => {
@@ -108,45 +114,6 @@ describe("NoteModelsService", () => {
       userId
     );
 
-    // TODO: why do we have all these HERE?
-    // await expect(
-    //   createActivityLogDetails(
-    //     {
-    //       activityLogId,
-    //       noteDetailsValue: EJSON.stringify({
-    //         test: "invalid-id",
-    //       }),
-
-    //       startedAt: new Date(),
-    //       finishedAt: new Date(),
-    //     },
-    //     userId
-    //   )
-    // ).rejects.toThrow(
-    //   new FieldNameIsNotDefinedInNoteModelException({ fieldName: "test" })
-    // );
-
-    // await expect(
-    //   createActivityLogDetails(
-    //     {
-    //       activityLogId,
-    //       noteDetailsValue: EJSON.stringify({
-    //         [fields[0].id]: "invalid-id",
-    //       }),
-
-    //       startedAt: new Date(),
-    //       finishedAt: new Date(),
-    //     },
-    //     userId
-    //   )
-    // ).rejects.toThrow(
-    //   new FieldValueIsNotValidException({ fieldName: fields[0].id })
-    // );
-
-    const { fields: noteModelFields } = await getNoteModelById(noteModelId);
-
-    noteModelFields[0].enumValues.splice(0, 1);
-
     await expect(
       noteModelsService.update(
         {
@@ -157,6 +124,29 @@ describe("NoteModelsService", () => {
         userId
       )
     ).rejects.toThrow(new NoteModelsFieldsAreMissingException());
+
+    const { fields: noteModelFields } = await getNoteModelById(noteModelId);
+
+    noteModelFields[0].enumValues.splice(0, 1);
+
+    noteModelFields[0].enumValues.push({
+      id: "should-not-be-here",
+
+      value: "lol",
+    });
+
+    await expect(
+      noteModelsService.update(
+        {
+          name: "newName",
+          fields: noteModelFields,
+          noteModelId,
+        },
+        userId
+      )
+    ).rejects.toThrow(new NoteModelsUpdateFieldsInputIsInvalidException());
+
+    delete noteModelFields[0].enumValues[1].id;
 
     await noteModelsService.update(
       {
@@ -170,6 +160,14 @@ describe("NoteModelsService", () => {
     const noteModel = await getNoteModelById(noteModelId);
 
     expect(noteModel.fields).toStrictEqual(noteModelFields);
+
+    expect(noteModel.fields.some((field) => !field.id)).toBe(false); // a.k.a. all fields have an id
+
+    expect(
+      noteModel.fields.some((field) =>
+        field.enumValues.some((enumValue) => !enumValue.id)
+      )
+    ); // a.k.a. all enumValues from all fields have ids
 
     const activityNote = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId

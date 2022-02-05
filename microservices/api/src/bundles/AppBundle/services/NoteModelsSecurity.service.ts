@@ -3,7 +3,7 @@ import { ObjectId } from "@bluelibs/ejson";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
 import { FieldSecurityService } from ".";
-import { Field, NoteModelsCollection } from "../collections";
+import { Field, FieldEnumValues, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
@@ -75,6 +75,22 @@ export class NoteModelsSecurityService {
           currentField.type !== previousField.type
         ) {
           throw new NoteModelsTypeOfExistingFieldCanNotBeChangedException();
+        }
+
+        const oldEnumValues = {} as Record<string, FieldEnumValues>;
+
+        if (!previousField) continue;
+
+        for (const enumValue of previousField.enumValues) {
+          oldEnumValues[enumValue.id] = enumValue;
+        }
+
+        for (const enumValue of currentField.enumValues) {
+          const previousEnumValue = oldEnumValues[enumValue.id];
+
+          if (enumValue.id && !previousEnumValue) {
+            throw new NoteModelsUpdateFieldsInputIsInvalidException();
+          }
         }
       }
     }
