@@ -7,7 +7,7 @@ import { EndUsersNoteModelsCreateInput, Field, FieldInput, FieldType } from 'src
 import { AddFieldForm } from '../..';
 import { createSchema } from './schemas';
 
-export type FieldOrFieldInput = Field | FieldInput
+export type FieldOrFieldInput = Field | FieldInput;
 
 // TODO: fix any :(
 export type NoteModelsFormProps = {
@@ -16,7 +16,7 @@ export type NoteModelsFormProps = {
   isSubmitting: boolean;
 
   defaultValues?: any;
-  type: "edit" | "create"
+  type: 'edit' | 'create';
 };
 
 export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
@@ -25,8 +25,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
 
   type,
 
-  defaultValues = {}
-
+  defaultValues = {},
 }) => {
   const {
     register,
@@ -37,19 +36,17 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   } = useForm({
     resolver: yupResolver(createSchema),
 
-    defaultValues
+    defaultValues,
   });
 
   const { fields, append, remove } = useFieldArray<any, any, any>({
     control,
-    name: "fields"
-  })
+    name: 'fields',
+  });
 
   const addNewField = () => {
-    append({
-
-    })
-  }
+    append({});
+  };
 
   return (
     <Box>
@@ -57,7 +54,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
         <TextField label="name" {...register('name')} error={Boolean(errors.name)} helperText={errors.name?.message} />
 
         <LoadingButton loading={isSubmitting} type="submit">
-          {type === "create" ? "Create" : "Edit"}
+          {type === 'create' ? 'Create' : 'Edit'}
         </LoadingButton>
       </form>
 
@@ -65,7 +62,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
         <Typography variant="h5">Fields already added</Typography>
         <List>
           {fields.map((item, idx) => {
-            return <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove }} />
+            return <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, type }} />;
           })}
           <div>
             <Button onClick={addNewField}>Add New Field</Button>

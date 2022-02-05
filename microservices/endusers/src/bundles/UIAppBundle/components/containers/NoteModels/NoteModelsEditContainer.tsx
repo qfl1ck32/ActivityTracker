@@ -5,7 +5,7 @@ import { EndUsersNoteModelsUpdateInput, Field, NoteModel } from 'src/api.types';
 import { UpdateNoteModels } from 'src/bundles/UIAppBundle/mutations';
 import { NoteModelsForm } from '../../forms';
 
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 import { GQLService } from 'src/bundles/UIAppBundle/services';
 import { NoteModelUpdatedEvent } from 'src/bundles/UIAppBundle/events';
 
@@ -13,7 +13,7 @@ export type NoteModelsEditContainerProps = {
   initialFields: Field[];
 
   defaultValues: any;
-}
+};
 
 export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = ({ initialFields, defaultValues }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -25,16 +25,16 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
 
   const eventManager = useEventManager();
 
-  const gqlService = use(GQLService)
+  const gqlService = use(GQLService);
 
   const onSubmit = async (input: NoteModel) => {
     setSubmitting(true);
 
     const { name, fields } = input;
 
-    setSubmitting(false)
+    setSubmitting(false);
 
-    gqlService.deepCleanTypename(fields)
+    gqlService.deepCleanTypename(fields);
 
     try {
       const { data } = await updateNoteModel({
@@ -44,16 +44,18 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
 
             fields,
 
-            noteModelId: defaultValues.id
-          }
-        }
-      })
+            noteModelId: defaultValues.id,
+          },
+        },
+      });
 
-      eventManager.emit(new NoteModelUpdatedEvent({
-        noteModel: data?.EndUsersNoteModelsUpdate as NoteModel
-      }))
+      eventManager.emit(
+        new NoteModelUpdatedEvent({
+          noteModel: data?.EndUsersNoteModelsUpdate as NoteModel,
+        })
+      );
 
-      toast.info("You have successfully edited the note model")
+      toast.info('You have successfully edited the note model');
     } catch (err: any) {
       toast.error(err.toString());
     } finally {
@@ -61,5 +63,5 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, type: "edit", defaultValues }} />;
+  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, type: 'edit', defaultValues }} />;
 };

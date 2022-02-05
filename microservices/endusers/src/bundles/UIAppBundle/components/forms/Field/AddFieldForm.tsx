@@ -6,18 +6,20 @@ import { Control, useFieldArray, UseFormRegister, UseFormWatch } from 'react-hoo
 import { FieldType } from 'src/api.types';
 
 export type AddFieldFormProps = {
-  control: Control<any, object>
+  control: Control<any, object>;
 
   index: number;
 
   errors: any;
 
-  register: UseFormRegister<any>
+  register: UseFormRegister<any>;
 
   watch: UseFormWatch<any>;
+
+  type: 'edit' | 'create';
 };
 
-export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, errors, register, watch }) => {
+export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, errors, register, watch, type }) => {
   const {
     fields: enumValues,
     append,
@@ -41,7 +43,7 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
       <div>
         <TextField
           select
-          defaultValue={watch(`fields.${index}.type`) ?? "none"}
+          defaultValue={watch(`fields.${index}.type`) ?? 'none'}
           error={Boolean(errors.fields?.[index].type)}
           helperText={errors.fields?.[index].type?.message}
           {...register(`fields.${index}.type`)}
@@ -60,14 +62,20 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
       {watch(`fields.${index}.type`) === FieldType.ENUM && (
         <Fragment>
           <List>
-            {enumValues.map((item, enumValueIdx) => (
-              <ListItem key={item.id}>
-                <TextField placeholder="Enter your value here..." {...register(`fields.${index}.enumValues.${enumValueIdx}`)} />
-                <IconButton onClick={() => remove(enumValueIdx)}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItem>
-            ))}
+            {enumValues.map((item, enumValueIdx) => {
+              const fieldName = `fields.${index}.enumValues.${enumValueIdx}`;
+              return (
+                <ListItem key={item.id}>
+                  <TextField
+                    placeholder="Enter your value here..."
+                    {...register(`${fieldName}${type === 'edit' ? '.value' : ''}`)}
+                  />
+                  <IconButton onClick={() => remove(enumValueIdx)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItem>
+              );
+            })}
           </List>
 
           <div>
