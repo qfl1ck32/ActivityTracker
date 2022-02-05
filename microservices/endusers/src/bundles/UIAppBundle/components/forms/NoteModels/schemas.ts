@@ -4,13 +4,24 @@ import * as yup from 'yup';
 export const createSchema = yup.object({
   name: yup.string().required(),
 
-  fields: yup.array().of(yup.object({
-    id: yup.string(),
+  fields: yup
+    .array()
+    .of(
+      yup.object({
+        id: yup.string(),
 
-    name: yup.string().required(),
+        name: yup.string().required(),
 
-    type: yup.string().oneOf(Object.values(FieldType)).required(),
+        type: yup.string().oneOf(Object.values(FieldType)).required(),
 
-    enumValues: yup.array().of(yup.mixed())
-  })).required(),
+        enumValues: yup.array().of(
+          yup.object({
+            id: yup.string(),
+
+            value: yup.string().required(),
+          })
+        ),
+      })
+    )
+    .required(),
 });

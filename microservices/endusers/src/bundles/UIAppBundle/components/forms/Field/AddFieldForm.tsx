@@ -35,8 +35,8 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
       <div>
         <TextField
           label="Field name"
-          error={Boolean(errors.fields?.[index].name)}
-          helperText={errors.fields?.[index].name?.message}
+          error={Boolean(errors.fields?.[index]?.name)}
+          helperText={errors.fields?.[index]?.name?.message}
           {...register(`fields.${index}.name`)}
         />
       </div>
@@ -46,10 +46,10 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
         <TextField
           select
           defaultValue={watch(`fields.${index}.type`) ?? 'none'}
-          error={Boolean(errors.fields?.[index].type)}
-          helperText={errors.fields?.[index].type?.message}
+          error={Boolean(errors.fields?.[index]?.type)}
+          helperText={errors.fields?.[index]?.type?.message}
           {...register(`fields.${index}.type`)}
-          disabled={context === 'edit'}
+          disabled={context === 'edit' && watch(`fields.${index}.id`)}
         >
           <MenuItem disabled value="none">
             Select a type
@@ -71,6 +71,8 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
                 <ListItem key={item.id}>
                   <TextField
                     placeholder="Enter your value here..."
+                    error={Boolean(errors.fields?.[index]?.enumValues?.[enumValueIdx]?.value)}
+                    helperText={errors.fields?.[index]?.enumValues?.[enumValueIdx]?.value?.message}
                     {...register(`${fieldName}${context === 'edit' ? '.value' : ''}`)}
                   />
                   <IconButton onClick={() => remove(enumValueIdx)}>

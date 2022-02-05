@@ -74,6 +74,7 @@ export class NoteModelsService {
     });
   }
 
+  // TODO: test that id adds ids to enumValues & fields!!!
   public async update(input: EndUsersNoteModelsUpdateInput, userId: ObjectId) {
     const { fields, noteModelId, ...restOfFieldsToUpdate } = input;
 
@@ -83,6 +84,8 @@ export class NoteModelsService {
       noteModelId,
       endUserId
     );
+
+    console.log(fields);
 
     if (fields) {
       await this.securityService.noteModels.checkFieldsInputIsValid(
@@ -94,6 +97,11 @@ export class NoteModelsService {
         if (!field.id) {
           field.id = crypto.randomUUID();
         }
+
+        field.enumValues.map((value) => ({
+          id: value.id ?? crypto.randomUUID(),
+          value,
+        }));
       }
     }
 

@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, List, TextField, Typography } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Field, FieldInput } from 'src/api.types';
 import { FormContext } from 'src/bundles/UIAppBundle/types';
@@ -50,6 +50,12 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
     append({});
   };
 
+  useEffect(() => {
+    if (!defaultValues) {
+      addNewField();
+    }
+  }, []);
+
   return (
     <Box>
       <form onSubmit={handleSubmit(onSubmit as any)}>
@@ -69,7 +75,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
                 <Box>
                   <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, context }} />
                 </Box>
-                <Button onClick={() => remove(idx)}>Remove Field</Button>
+                {fields.length > 1 && <Button onClick={() => remove(idx)}>Remove Field</Button>}
               </Fragment>
             );
           })}

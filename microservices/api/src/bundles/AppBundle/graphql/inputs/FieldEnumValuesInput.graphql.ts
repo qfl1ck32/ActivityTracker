@@ -1,6 +1,6 @@
 export default /* GraphQL */ `
   input FieldEnumValuesInput {
-    id: String!
+    id: String
     value: String!
   }
 `;
