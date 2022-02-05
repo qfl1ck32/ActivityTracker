@@ -7,6 +7,7 @@ import { Field, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";
 import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelNameAlreadyExists.exception";
+import { NoteModelsUpdateFieldsInputIsInvalidException } from "../exceptions/NoteModelsUpdateFieldsInputIsInvalid.exception";
 import { FieldInput } from "./inputs";
 
 @Service()
@@ -53,7 +54,7 @@ export class NoteModelsSecurityService {
       for (const field of fields) {
 
         if ((field as Field).id && !oldIds[(field as Field).id]) {
-          throw new Error("Wrong input, basically")
+          throw new NoteModelsUpdateFieldsInputIsInvalidException()
         }
       }
     }

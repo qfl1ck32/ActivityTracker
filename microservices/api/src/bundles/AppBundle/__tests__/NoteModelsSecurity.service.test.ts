@@ -1,11 +1,14 @@
+import { ObjectId } from "@bluelibs/ejson";
 import { container } from "../../../__tests__/ecosystem";
-import { FieldType } from "../collections";
+import { Field, FieldType } from "../collections";
 import {
   FieldNamesAreNotUniqueException,
   FieldTypeIsNotEnumButEnumValuesWereGivenException,
   NoteModelNameAlreadyExistsException,
+  NoteModelsUpdateFieldsInputIsInvalidException,
 } from "../exceptions";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
+import { NoteModelsService } from "../services";
 import { FieldInput } from "../services/inputs";
 import { NoteModelsSecurityService } from "../services/NoteModelsSecurity.service";
 import {
@@ -85,10 +88,11 @@ describe("NoteModelsSecurityService", () => {
   test("checkFieldsInputIsValid()", async () => {
     const noteModelsSecurityService = container.get(NoteModelsSecurityService);
 
-    const check = (input: { fields: FieldInput[] }) => () =>
-      noteModelsSecurityService.checkFieldsInputIsValid(input);
+    const noteModelsService = container.get(NoteModelsService)
 
-    expect(
+    const check = (input: { fields: (Field | FieldInput)[] }, noteModelId?: ObjectId) => noteModelsSecurityService.checkFieldsInputIsValid(input, noteModelId);
+
+    await expect(
       check({
         fields: [
           {
@@ -103,9 +107,9 @@ describe("NoteModelsSecurityService", () => {
           },
         ],
       })
-    ).toThrowError(new FieldNamesAreNotUniqueException());
+    ).rejects.toThrowError(new FieldNamesAreNotUniqueException());
 
-    expect(
+    await expect(
       check({
         fields: [
           {
@@ -116,9 +120,9 @@ describe("NoteModelsSecurityService", () => {
           },
         ],
       })
-    ).toThrowError(new FieldTypeIsNotEnumButEnumValuesWereGivenException());
+    ).rejects.toThrowError(new FieldTypeIsNotEnumButEnumValuesWereGivenException());
 
-    expect(
+    await expect(
       check({
         fields: [
           {
@@ -129,6 +133,35 @@ describe("NoteModelsSecurityService", () => {
           },
         ],
       })
-    ).not.toThrow();
+    ).resolves.not.toThrow();
+
+      const { userId } = await createEndUser()
+    
+    const noteModel = await noteModelsService.create({
+      name: "test",
+
+      fields: [
+        {
+          name: "myField",
+          type: FieldType.BOOLEAN,
+          enumValues: []
+        }
+      ]
+    }, userId)
+
+    const { _id: noteModelId, fields } = noteModel
+
+    fields.push({
+      id: "id-that-should-not-be-here",
+      name: "test",
+      type: FieldType.BOOLEAN,
+       enumValues: []
+    })
+
+    await expect(
+      check({
+        fields
+      }, noteModelId)
+    ).rejects.toThrow(new NoteModelsUpdateFieldsInputIsInvalidException())
   });
 });

@@ -10,3 +10,4 @@ export * from "./FieldValueIsNotValid.exception";
 export * from "./FieldNameIsNotDefinedInNoteModel.exception";
 export * from "./FieldTypeIsNotEnumButEnumValuesWereGiven.exception";
 export * from "./NoteModelNameAlreadyExists.exception";
+export * from "./NoteModelsUpdateFieldsInputIsInvalid.exception";
