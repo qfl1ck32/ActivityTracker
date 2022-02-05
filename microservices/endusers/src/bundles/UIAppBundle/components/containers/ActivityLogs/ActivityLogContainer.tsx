@@ -1,30 +1,20 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
-import { EJSON } from '@bluelibs/ejson';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityLog,
-  ActivityLogDetail,
-  ActivityNote,
+  ActivityLog, ActivityNote,
   ActivityTiming,
-  EndUsersActivityLogsGetOneInput,
-  EndUsersActivityNotesUpdateInput,
-  FieldType,
-  Mutation,
-  Query,
+  EndUsersActivityLogsGetOneInput, Query
 } from 'src/api.types';
 import { useActivityLog } from 'src/bundles/UIAppBundle/contexts';
 import { ActivityLogDetailCreatedEvent, ActivityNoteUpdatedEvent, IActivityLogDetailCreated, IActivityNoteUpdated } from 'src/bundles/UIAppBundle/events';
-import { ActivityNotesUpdate } from 'src/bundles/UIAppBundle/mutations';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
-import { ActivityNoteDetailNoteValuesType } from 'src/bundles/UIAppBundle/types';
-import { ActivityLogDetailsCreateModal, DataGridContainer, NoteDetailsForm } from '../..';
+import { ActivityLogDetailsCreateModal, ActivityNotesEditModal, DataGridContainer } from '../..';
 
-import { toast } from 'react-toastify'
 
 const columns: GridColumns = [
   {
@@ -44,59 +34,14 @@ const columns: GridColumns = [
 
       const activityLogDetailsId = props.id.toString()
 
-      const [isSubmitting, setIsSubmitting] = useState(false)
+      const [open, setOpen] = useState(false)
 
-      const [activityLog] = useActivityLog()
-
-      const eventManager = useEventManager()
-
-      const UIComponents = useUIComponents()
-
-      const value = EJSON.parse(activityNote.value) as ActivityNoteDetailNoteValuesType;
-
-      const [updateActivityNote] = useMutation<{ EndUsersActivityNotesUpdate: Mutation['EndUsersActivityNotesUpdate'] }, { input: EndUsersActivityNotesUpdateInput }>(ActivityNotesUpdate)
-
-      const onSubmit = async (value: Record<string, any>) => {
-        setIsSubmitting(true)
-
-        try {
-          const { data } = await updateActivityNote({
-            variables: {
-              input: {
-                activityLogDetailsId,
-                value: EJSON.stringify(value)
-              }
-            }
-          })
-
-          await eventManager.emit(new ActivityNoteUpdatedEvent({
-            activityNote: data?.EndUsersActivityNotesUpdate as ActivityNote
-          }))
-
-          toast.info("You have successfully updated the note!")
-        }
-
-        catch (err: any) {
-          toast.error(err.toString())
-        }
-
-        finally {
-          setIsSubmitting(false)
-        }
-      }
-
-      return isSubmitting ? <UIComponents.Loading /> :
-
-        <NoteDetailsForm
-          isSubmitting={isSubmitting}
-          type="edit"
-          onSubmit={onSubmit}
-          noteModel={
-            activityLog.noteModel
-          }
-          defaultValues={value}
-        />
-
+      return (
+        <div>
+          <Button onClick={() => setOpen(true)}>Open</Button>
+          <ActivityNotesEditModal {...{ open, onClose: () => setOpen(false), activityNote, activityLogDetailsId }} />
+        </div>
+      )
     },
 
     width: 1200,

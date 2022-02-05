@@ -6,3 +6,4 @@ export * from './NoteModels';
 export * from './ActivityLogDetails';
 export * from './DataGrid';
 export * from './VerifyEmail'
+export * from "./ActivityNotes"
