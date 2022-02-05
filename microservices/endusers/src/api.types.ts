@@ -177,6 +177,7 @@ export type ActivityTiming = {
   endUser: EndUser;
   endUserId: Scalars['ObjectId'];
   finishedAt?: Maybe<Scalars['Date']>;
+  isFinished: Scalars['Boolean'];
   name: Scalars['String'];
   startedAt: Scalars['Date'];
   /** Represents the last time when the object was updated */
@@ -309,9 +310,10 @@ export type EndUserUpdateInput = {
 
 export type EndUsersActivityLogDetailsCreateInput = {
   activityLogId: Scalars['ObjectId'];
-  startedAt: Scalars['Date'];
-  finishedAt: Scalars['Date'];
-  noteDetailsValue?: Maybe<Scalars['String']>;
+};
+
+export type EndUsersActivityLogDetailsFinishInput = {
+  activityLogDetailsId: Scalars['ObjectId'];
 };
 
 export type EndUsersActivityLogsCreateInput = {
@@ -336,7 +338,7 @@ export type EndUsersNoteModelsCreateInput = {
 
 export type EndUsersNoteModelsUpdateInput = {
   noteModelId: Scalars['ObjectId'];
-  fields: Array<Maybe<FieldInputWithEnumValues>>;
+  fields?: Maybe<Array<Maybe<FieldInputWithEnumValues>>>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -446,6 +448,7 @@ export type Mutation = {
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
   EndUsersActivityLogDetailsCreate: ActivityLogDetail;
+  EndUsersActivityLogDetailsFinish: ActivityLogDetail;
   EndUsersActivityLogsCreate: ActivityLog;
   EndUsersActivityNotesUpdate: ActivityNote;
   EndUsersNoteModelsCreate: NoteModel;
@@ -624,6 +627,11 @@ export type MutationUsersDeleteOneArgs = {
 
 export type MutationEndUsersActivityLogDetailsCreateArgs = {
   input: EndUsersActivityLogDetailsCreateInput;
+};
+
+
+export type MutationEndUsersActivityLogDetailsFinishArgs = {
+  input: EndUsersActivityLogDetailsFinishInput;
 };
 
 
