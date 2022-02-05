@@ -4,6 +4,7 @@ import { capitalize } from 'lodash-es';
 import { Fragment } from 'react';
 import { Control, useFieldArray, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { FieldType } from 'src/api.types';
+import { FormContext } from 'src/bundles/UIAppBundle/types';
 
 export type AddFieldFormProps = {
   control: Control<any, object>;
@@ -16,10 +17,10 @@ export type AddFieldFormProps = {
 
   watch: UseFormWatch<any>;
 
-  type: 'edit' | 'create';
+  context: FormContext;
 };
 
-export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, errors, register, watch, type }) => {
+export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, errors, register, watch, context }) => {
   const {
     fields: enumValues,
     append,
@@ -68,7 +69,7 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
                 <ListItem key={item.id}>
                   <TextField
                     placeholder="Enter your value here..."
-                    {...register(`${fieldName}${type === 'edit' ? '.value' : ''}`)}
+                    {...register(`${fieldName}${context === 'edit' ? '.value' : ''}`)}
                   />
                   <IconButton onClick={() => remove(enumValueIdx)}>
                     <DeleteIcon />

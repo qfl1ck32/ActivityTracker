@@ -63,5 +63,5 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, type: 'edit', defaultValues }} />;
+  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, context: 'edit', defaultValues }} />;
 };

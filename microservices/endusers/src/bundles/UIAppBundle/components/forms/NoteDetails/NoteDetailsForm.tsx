@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FieldType, NoteModel } from 'src/api.types';
 import { NoteDetailsService } from 'src/bundles/UIAppBundle/services';
+import { FormContext } from 'src/bundles/UIAppBundle/types';
 
 export type NoteDetailsFormProps = {
   onSubmit: (data: Object) => Promise<void>;
@@ -16,7 +17,7 @@ export type NoteDetailsFormProps = {
 
   defaultValues?: any;
 
-  type: 'edit' | 'create';
+  context: FormContext;
 };
 
 export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
@@ -24,7 +25,7 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
   noteModel,
   isSubmitting,
 
-  type,
+  context,
   defaultValues = {},
 }) => {
   const noteDetailsService = use(NoteDetailsService);
@@ -112,7 +113,7 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
       })}
 
       <LoadingButton loading={isSubmitting} type="submit">
-        {type === 'create' ? 'Create' : 'Edit'}
+        {context === 'create' ? 'Create' : 'Edit'}
       </LoadingButton>
     </form>
   );

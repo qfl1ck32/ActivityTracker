@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, List, ListItem, TextField, Typography } from '@mui/material';
-import { Fragment, SetStateAction, useEffect } from 'react';
+import { Box, Button, List, TextField, Typography } from '@mui/material';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { EndUsersNoteModelsCreateInput, Field, FieldInput, FieldType } from 'src/api.types';
+import { Field, FieldInput } from 'src/api.types';
+import { FormContext } from 'src/bundles/UIAppBundle/types';
 import { AddFieldForm } from '../..';
 import { createSchema } from './schemas';
 
@@ -16,14 +16,15 @@ export type NoteModelsFormProps = {
   isSubmitting: boolean;
 
   defaultValues?: any;
-  type: 'edit' | 'create';
+
+  context: FormContext;
 };
 
 export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   onSubmit,
   isSubmitting,
 
-  type,
+  context,
 
   defaultValues = {},
 }) => {
@@ -54,7 +55,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
         <TextField label="name" {...register('name')} error={Boolean(errors.name)} helperText={errors.name?.message} />
 
         <LoadingButton loading={isSubmitting} type="submit">
-          {type === 'create' ? 'Create' : 'Edit'}
+          {context === 'create' ? 'Create' : 'Edit'}
         </LoadingButton>
       </form>
 
@@ -62,7 +63,9 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
         <Typography variant="h5">Fields already added</Typography>
         <List>
           {fields.map((item, idx) => {
-            return <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, type }} />;
+            return (
+              <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, context }} />
+            );
           })}
           <div>
             <Button onClick={addNewField}>Add New Field</Button>

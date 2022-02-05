@@ -45,7 +45,7 @@ const columns: GridColumns = [
 
       return (
         <Box>
-          <Button onClick={() => setOpen(true)}>See</Button>
+          <Button onClick={() => setOpen(true)}>Open</Button>
           <NoteModelsEditDialog
             {...{
               open,
