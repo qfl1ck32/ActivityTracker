@@ -1,12 +1,16 @@
 import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useUIComponents } from '@bluelibs/x-ui-next';
+import { Box, Button } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import { NoteModel, Query } from 'src/api.types';
+import { Field, NoteModel, Query } from 'src/api.types';
 import { INoteModelCreated, NoteModelCreatedEvent } from 'src/bundles/UIAppBundle/events';
 import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
+import { NoteModelsCreateContainer } from '.';
+import { NoteModelsEditModal } from '../..';
 import { DataGridContainer } from '../DataGrid';
+import { NoteModelsEditContainer } from './NoteModelsEditContainer';
 
 const columns: GridColumns = [
   {
@@ -30,7 +34,22 @@ const columns: GridColumns = [
     width: 250,
 
     renderCell: (params) => {
-      return JSON.stringify(params.value);
+      const fields = params.value as Field[];
+
+      const [open, setOpen] = useState(false)
+
+
+      return (
+        <Box>
+          <Button onClick={() => setOpen(true)}>See</Button>
+          <NoteModelsEditModal {...{
+        open,
+        onClose: () => setOpen(false),
+
+        initialFields: fields
+      }} />
+        </Box>
+      )
     },
   },
 

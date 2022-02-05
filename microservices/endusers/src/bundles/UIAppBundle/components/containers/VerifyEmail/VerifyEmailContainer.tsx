@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 
+import { toast } from 'react-toastify'
+
 export const VerifyEmailContainer: React.FC = () => {
   const router = useRouter();
   const [isVerified, setIsVerified] = useState(false);
@@ -17,7 +19,7 @@ export const VerifyEmailContainer: React.FC = () => {
 
       await guardian.load();
 
-      alert('You have successfully verified your e-mail');
+      toast.info('You have successfully verified your e-mail');
 
       setIsVerified(true);
 
@@ -25,7 +27,7 @@ export const VerifyEmailContainer: React.FC = () => {
         router.go(Routes.Home);
       }, 2500);
     } catch (err: any) {
-      alert(err.toString());
+      toast.error(err.toString());
     }
   };
 

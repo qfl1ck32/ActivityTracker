@@ -7,6 +7,8 @@ import { ActivityLogsCreate } from 'src/bundles/UIAppBundle/mutations';
 import { ActivitiesGetAll, NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
 import { ActivityLogsCreateForm } from '../..';
 
+import { toast } from 'react-toastify'
+
 export const ActivityLogsCreateContainer: React.FC = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [noteModels, setNoteModels] = useState<NoteModel[]>([]);
@@ -48,9 +50,9 @@ export const ActivityLogsCreateContainer: React.FC = () => {
         })
       );
 
-      alert('You have successfully created an activity log!');
+      toast.info('You have successfully created an activity log!');
     } catch (err: any) {
-      alert(err.toString());
+      toast.error(err.toString());
     } finally {
       setIsSubmitting(false);
     }

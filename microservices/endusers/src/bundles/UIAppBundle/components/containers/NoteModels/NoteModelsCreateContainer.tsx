@@ -1,10 +1,12 @@
 import { useMutation } from '@apollo/client';
 import { useEventManager } from '@bluelibs/x-ui-next';
 import { useState } from 'react';
-import { EndUsersNoteModelsCreateInput, Field, FieldInput, Mutation, NoteModel } from 'src/api.types';
+import { EndUsersNoteModelsCreateInput, FieldInput, NoteModel } from 'src/api.types';
 import { NoteModelCreatedEvent } from 'src/bundles/UIAppBundle/events';
 import { CreateNoteModel } from 'src/bundles/UIAppBundle/mutations';
-import { NoteModelsCreateForm } from '../../forms';
+import { NoteModelsForm } from '../../forms';
+
+import { toast } from 'react-toastify'
 
 export const NoteModelsCreateContainer: React.FC = () => {
   const [fields, setFields] = useState<FieldInput[]>([]);
@@ -32,7 +34,7 @@ export const NoteModelsCreateContainer: React.FC = () => {
         },
       });
 
-      alert('You have successfully created a new note model');
+      toast.info('You have successfully created a new note model');
 
       eventManager.emit(
         new NoteModelCreatedEvent({
@@ -40,11 +42,11 @@ export const NoteModelsCreateContainer: React.FC = () => {
         })
       );
     } catch (err: any) {
-      alert(err.toString());
+      toast.error(err.toString());
     } finally {
       setSubmitting(false);
     }
   };
 
-  return <NoteModelsCreateForm {...{ onSubmit, fields, setFields, isSubmitting: submitting }} />;
+  return <NoteModelsForm {...{ onSubmit, fields, setFields: setFields as any, isSubmitting: submitting, type: "create" }} />;
 };

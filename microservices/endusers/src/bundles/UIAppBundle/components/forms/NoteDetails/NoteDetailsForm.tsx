@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { FieldType, NoteModel } from 'src/api.types';
 import { NoteDetailsService } from 'src/bundles/UIAppBundle/services';
 
-export type NoteDetailsCreateFormProps = {
+export type NoteDetailsFormProps = {
   onSubmit: (data: Object) => Promise<void>;
 
   isSubmitting: boolean;
@@ -15,13 +15,17 @@ export type NoteDetailsCreateFormProps = {
   noteModel: NoteModel;
 
   defaultValues?: any;
+
+  type: "edit" | "create"
 };
 
-export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
+export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
   onSubmit,
   noteModel,
   isSubmitting,
-  defaultValues,
+
+  type,
+  defaultValues = {},
 }) => {
   const noteDetailsService = use(NoteDetailsService);
 
@@ -37,6 +41,9 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
     defaultValues,
   });
 
+  console.log("Vine cu ")
+  console.log(defaultValues)
+
   return (
     <form onSubmit={handleSubmit(onSubmit as any)}>
       {noteModel.fields.map((field) => {
@@ -50,7 +57,7 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
 
           case FieldType.ENUM: {
             props['select'] = true;
-            props['defaultValue'] = 'none';
+            props['defaultValue'] = defaultValues[field.id] ?? 'none';
             break;
           }
 
@@ -66,11 +73,12 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
         }
 
         if (field.type === FieldType.BOOLEAN) {
-          return <FormControlLabel label={field.name} control={<Checkbox {...register(field.id)} />} />;
+          return <FormControlLabel key={field.id} label={field.name} control={<Checkbox {...register(field.id)} />} />;
         }
 
         const Field: React.FC = ({ children }) => (
           <TextField
+            key={field.id}
             {...props}
             label={field.name}
             {...register(field.id)}
@@ -83,7 +91,7 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
 
         if (field.type === FieldType.ENUM) {
           return (
-            <Field>
+            <Field key={field.id}>
               <MenuItem disabled value="none">
                 Select a value
               </MenuItem>
@@ -96,12 +104,12 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
             </Field>
           );
         } else {
-          return <Field />;
+          return <Field key={field.id} />;
         }
       })}
 
       <LoadingButton loading={isSubmitting} type="submit">
-        Create
+        {type === "create" ? "Create" : "Edit"}
       </LoadingButton>
     </form>
   );

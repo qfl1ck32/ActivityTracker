@@ -7,11 +7,13 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import env from 'src/env';
 import { ActivityLogDetailsComponent } from '../..';
 
-import { ActivityLog, EndUsersActivityLogDetailsCreateInput, Mutation } from 'src/api.types';
+import { ActivityLog, ActivityLogDetail, EndUsersActivityLogDetailsCreateInput, Mutation } from 'src/api.types';
 import { useMutation } from '@apollo/client';
 import { ActivityLogDetailsCreate } from 'src/bundles/UIAppBundle/mutations';
 import { useEventManager } from '@bluelibs/x-ui-next';
 import { ActivityLogDetailCreatedEvent } from 'src/bundles/UIAppBundle/events';
+
+import { toast } from 'react-toastify'
 
 export type ActivityLogDetailsCreateContainerProps = {
   activityLog: ActivityLog;
@@ -62,13 +64,13 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
 
       await eventManager.emit(
         new ActivityLogDetailCreatedEvent({
-          activityLogDetail: data?.EndUsersActivityLogDetailsCreate,
+          activityLogDetail: data?.EndUsersActivityLogDetailsCreate as ActivityLogDetail
         })
       );
 
-      alert('You have successfully created the activity log details');
+      toast.info('You have successfully created the activity log details');
     } catch (err: any) {
-      alert(err.toString());
+      toast.error(err.toString());
     } finally {
       setIsSubmitting(false);
     }

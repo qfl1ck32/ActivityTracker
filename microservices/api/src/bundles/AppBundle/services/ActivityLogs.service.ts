@@ -125,7 +125,7 @@ export class ActivityLogsService {
       endUserId
     );
 
-    const activityLog = await this.activityLogsCollection.queryOne({
+    return this.activityLogsCollection.queryOne({
       $: {
         filters: {
           _id: activityLogId,
@@ -156,56 +156,6 @@ export class ActivityLogsService {
         ...this.activityLogDetailsService.queryBody,
       },
     });
-
-    this.makeActivityLogDetailsNotes(activityLog);
-
-    console.log(activityLog.details[0].note);
-
-    return activityLog;
   }
 
-  public makeActivityLogDetailsNotes(activityLog: Partial<ActivityLog>) {
-    const fields = activityLog.noteModel.fields;
-
-    const fieldsById = {} as Record<string, Field>;
-    const enumValuesByIdByFieldId = {} as Record<
-      string,
-      Record<string, FieldEnumValues>
-    >;
-
-    for (const field of fields) {
-      fieldsById[field.id] = field;
-
-      enumValuesByIdByFieldId[field.id] = {};
-
-      for (const enumValue of field.enumValues) {
-        enumValuesByIdByFieldId[field.id][enumValue.id] = enumValue;
-      }
-    }
-
-    for (const detail of activityLog.details) {
-      const note = detail.note;
-
-      const parsedValue = EJSON.parse(note.value);
-
-      for (const key in parsedValue) {
-        const value = parsedValue[key];
-
-        const field = fieldsById[key];
-
-        const translatedValue =
-          field.type === FieldType.ENUM
-            ? enumValuesByIdByFieldId[key][value].value
-            : value;
-
-        parsedValue[key] = {
-          value,
-          translatedValue,
-          field,
-        };
-      }
-
-      note.value = EJSON.stringify(parsedValue);
-    }
-  }
 }

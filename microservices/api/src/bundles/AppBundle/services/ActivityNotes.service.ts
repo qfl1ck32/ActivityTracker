@@ -65,7 +65,18 @@ export class ActivityNotesService {
       {
         context: { userId } as IExecutionContext,
       }
-    );
+    )
+
+    return this.activityNotesCollection.queryOne({
+      $: {
+        filters: {
+          activityLogDetailsId
+        }
+      },
+
+      activityLogDetailsId: 1,
+      value: 1,
+    })
   }
 
   public async syncWithNewFields(noteModelId: ObjectId) {

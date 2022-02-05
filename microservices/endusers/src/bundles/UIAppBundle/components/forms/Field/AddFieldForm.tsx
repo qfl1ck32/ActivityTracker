@@ -4,11 +4,12 @@ import { Button, IconButton, List, ListItem, MenuItem, TextField } from '@mui/ma
 import { capitalize } from 'lodash-es';
 import { FormEvent, Fragment, useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { FieldInput, FieldType } from 'src/api.types';
+import { Field, FieldType } from 'src/api.types';
+import { FieldOrFieldInput } from '..';
 import { schema } from './schema';
 
 export type AddFieldFormProps = {
-  onSubmit: (data: FieldInput) => void;
+  onSubmit: (data: FieldOrFieldInput) => void;
 };
 
 export const AddFieldForm: React.FC<AddFieldFormProps> = ({ onSubmit }) => {
@@ -43,10 +44,10 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ onSubmit }) => {
 
         reset({
           name: '',
-          enumValues: [''],
+          enumValues: [],
         });
       } catch (err: any) {
-        alert(err);
+        alert(err); // TODO: toast?
       }
     })(e);
   };

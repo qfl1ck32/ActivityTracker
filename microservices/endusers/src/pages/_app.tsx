@@ -6,6 +6,8 @@ import { AppProps } from 'next/dist/pages/_app';
 import { Header } from 'src/bundles/UIAppBundle/components';
 import { Fragment } from 'react';
 
+import { ToastContainer } from 'react-toastify'
+
 const App = createApp({
   kernel,
 });
@@ -17,6 +19,11 @@ const WrappedApp = (props: AppProps) => {
     <Fragment>
       <Header />
       {app}
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar={true}
+      />
     </Fragment>
   );
 };

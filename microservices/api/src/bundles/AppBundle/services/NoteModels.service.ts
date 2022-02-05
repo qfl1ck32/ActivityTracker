@@ -79,6 +79,10 @@ export class NoteModelsService {
   public async update(input: EndUsersNoteModelsUpdateInput, userId: ObjectId) {
     const { fields, noteModelId, ...restOfFieldsToUpdate } = input;
 
+    const endUserId = await this.endUserService.getIdByOwnerId(userId)
+
+    await this.securityService.noteModels.checkEndUserOwnsNoteModel(noteModelId, endUserId)
+
     const updates = pickBy({ fields, ...restOfFieldsToUpdate }, Boolean);
 
     await this.noteModelsCollection.updateOne(

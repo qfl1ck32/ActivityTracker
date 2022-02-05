@@ -8,10 +8,15 @@ import { EJSON, ObjectId } from "@bluelibs/ejson";
 import { IExecutionContext } from "@bluelibs/mongo-bundle";
 import { QuerySubBodyType, QueryBodyType } from "@bluelibs/nova";
 import {
+  ActivityLog,
   ActivityLogDetail,
   ActivityLogDetailsCollection,
+  ActivityLogsCollection,
   ActivityNotesCollection,
   ActivityTimingsCollection,
+  Field,
+  FieldEnumValues,
+  FieldType,
 } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityLogDetailsCreateInput } from "./inputs";
@@ -56,6 +61,9 @@ export class ActivityLogDetailsService {
 
   @Inject()
   private endUserService: EndUserService;
+
+  @Inject()
+  private activityLogsCollection: ActivityLogsCollection;
 
   public async create(
     input: EndUsersActivityLogDetailsCreateInput,
@@ -143,10 +151,11 @@ export class ActivityLogDetailsService {
       $: {
         filters: {
           _id: activityLogDetailsId,
-        },
+        }
       },
 
-      ...this.queryBody,
-    });
+      ...this.queryBody
+    })
+
   }
 }

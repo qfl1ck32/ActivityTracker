@@ -7,21 +7,31 @@ import { EndUsersNoteModelsCreateInput, Field, FieldInput } from 'src/api.types'
 import { AddFieldComponent, AddFieldForm } from '../..';
 import { createSchema } from './schemas';
 
+export type FieldOrFieldInput = Field | FieldInput
 
-export type NoteModelsCreateFormProps = {
-  onSubmit: (data: EndUsersNoteModelsCreateInput) => Promise<void>;
+// TODO: fix any :(
+export type NoteModelsFormProps = {
+  onSubmit: (data: any) => Promise<void>;
 
-  fields: FieldInput[];
-  setFields: React.Dispatch<SetStateAction<FieldInput[]>>;
+  fields: FieldOrFieldInput[];
+  setFields: React.Dispatch<SetStateAction<FieldOrFieldInput[]>>;
 
   isSubmitting: boolean;
+
+  defaultValues?: any;
+  type: "edit" | "create"
 };
 
-export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
+export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   onSubmit,
   fields,
   setFields,
   isSubmitting,
+
+  type,
+
+  defaultValues = {}
+
 }) => {
   const {
     register,
@@ -29,9 +39,11 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
     handleSubmit,
   } = useForm({
     resolver: yupResolver(createSchema),
+
+    defaultValues
   });
 
-  const onAddNewField = (field: FieldInput) => {
+  const onAddNewField = (field: FieldOrFieldInput) => {
     if (fields.some((_field) => _field.name === field.name)) {
       throw new Error('You already have a field with this name.');
     }
@@ -39,7 +51,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
     setFields((prev) => prev.concat(field));
   };
 
-  const onRemoveField = (field: FieldInput) => {
+  const onRemoveField = (field: FieldOrFieldInput) => {
     setFields((prev) => prev.filter((currentField) => currentField.name !== field.name));
   };
 
@@ -49,7 +61,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
         <TextField label="name" {...register('name')} error={Boolean(errors.name)} helperText={errors.name?.message} />
 
         <LoadingButton loading={isSubmitting} type="submit">
-          Create
+          {type === "create" ? "Create" : "Edit"}
         </LoadingButton>
       </form>
 

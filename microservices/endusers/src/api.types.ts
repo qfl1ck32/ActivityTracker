@@ -439,7 +439,7 @@ export type Mutation = {
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
   EndUsersActivityLogDetailsCreate: ActivityLogDetail;
   EndUsersActivityLogsCreate: ActivityLog;
-  EndUsersActivityNotesUpdate?: Maybe<Scalars['Boolean']>;
+  EndUsersActivityNotesUpdate: ActivityNote;
   EndUsersNoteModelsCreate: NoteModel;
   EndUsersNoteModelsUpdate?: Maybe<Scalars['Boolean']>;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;

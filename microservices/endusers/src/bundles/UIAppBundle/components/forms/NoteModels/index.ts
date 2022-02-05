@@ -1,1 +1,1 @@
-export * from './NoteModelsCreateForm';
+export * from './NoteModelsForm';

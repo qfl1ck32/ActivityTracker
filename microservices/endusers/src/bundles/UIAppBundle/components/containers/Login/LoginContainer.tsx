@@ -5,6 +5,8 @@ import { Routes } from "src/bundles/UIAppBundle";
 import { useAppGuardian } from "src/bundles/UIAppBundle/services";
 import { LoginForm } from "../../forms";
 
+import { toast } from 'react-toastify'
+
 export const LoginContainer: React.FC = () => {
   const guardian = useAppGuardian();
 
@@ -20,9 +22,9 @@ export const LoginContainer: React.FC = () => {
     try {
       const { username, password } = data;
       await guardian.login(username, password);
-      alert("Successfully logged in");
+      toast.info("Successfully logged in!");
     } catch (err: any) {
-      alert("Error: " + err.toString());
+      toast.error(err.toString());
     }
   };
 

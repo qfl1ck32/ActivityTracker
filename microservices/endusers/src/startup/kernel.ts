@@ -2,8 +2,7 @@ import { Kernel } from '@bluelibs/core';
 import { XUINextBundle } from '@bluelibs/x-ui-next';
 import { Loading } from '@bluelibs/x-ui-react-bundle/dist/react/components';
 import { ThemeProvider } from '@emotion/react';
-import { Container, createTheme } from '@mui/material';
-import { Header } from 'src/bundles/UIAppBundle/components';
+import { createTheme } from '@mui/material';
 import { UIAppBundle } from '../bundles/UIAppBundle/UIAppBundle';
 import env from '../env';
 
