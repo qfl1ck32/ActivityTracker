@@ -1,18 +1,33 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, Typography } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
-import { ActivityLog, ActivityNote, ActivityTiming, EndUsersActivityLogsGetOneInput, Query } from 'src/api.types';
+import { toast } from 'react-toastify';
+import {
+  ActivityLog,
+  ActivityLogDetail,
+  ActivityNote,
+  ActivityTiming,
+  EndUsersActivityLogDetailsCreateInput,
+  EndUsersActivityLogDetailsFinishInput,
+  EndUsersActivityLogsGetOneInput,
+  Mutation,
+  Query,
+} from 'src/api.types';
 import { useActivityLog } from 'src/bundles/UIAppBundle/contexts';
 import {
   ActivityLogDetailCreatedEvent,
+  ActivityLogDetailFinishedvent,
   ActivityNoteUpdatedEvent,
   IActivityLogDetailCreated,
+  IActivityLogDetailFinished,
   IActivityNoteUpdated,
 } from 'src/bundles/UIAppBundle/events';
+import { ActivityLogDetailsCreate, ActivityLogDetailsFinish } from 'src/bundles/UIAppBundle/mutations';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
 import { ActivityNotesEditDialog, DataGridContainer } from '../..';
 import { ActivityLogDetailsCreateDialog } from '../../dialogs/ActivityLogDetails/ActivityLogDetailsCreateDialog';
@@ -48,15 +63,67 @@ const columns: GridColumns = [
   },
 
   {
+    field: 'finish',
+    headerName: 'Finish',
+
+    // TODO: handle better...
+    // idea: useSomething() that receives an id / object and has all logic inside it, and you can just use it?
+    renderCell: (params) => {
+      const [isSubmitting, setIsSubmitting] = useState(false);
+
+      const activityLogDetail = params.row;
+
+      const [finishActivityLogDetails] = useMutation<
+        { EndUsersActivityLogDetailsFinish: Mutation['EndUsersActivityLogDetailsFinish'] },
+        { input: EndUsersActivityLogDetailsFinishInput }
+      >(ActivityLogDetailsFinish);
+
+      const eventManager = useEventManager();
+
+      const onClick = async () => {
+        setIsSubmitting(true);
+
+        try {
+          const { data } = await finishActivityLogDetails({
+            variables: {
+              input: {
+                activityLogDetailsId: activityLogDetail.id,
+              },
+            },
+          });
+
+          eventManager.emit(
+            new ActivityLogDetailFinishedvent({
+              activityLogDetail: data?.EndUsersActivityLogDetailsFinish as ActivityLogDetail,
+            })
+          );
+
+          toast.info('You have successfully finished the activity.');
+        } catch (err: any) {
+          toast.error(err.toString());
+        } finally {
+          setIsSubmitting(false);
+        }
+      };
+
+      return (
+        <LoadingButton disabled={activityLogDetail.timing.isFinished} loading={isSubmitting} onClick={onClick}>
+          Finish
+        </LoadingButton>
+      );
+    },
+  },
+
+  {
     field: 'timing',
     headerName: 'Timing',
 
     valueFormatter: (props) => {
       const activityTiming = props.value as ActivityTiming;
 
-      return `${new Date(activityTiming.startedAt).toLocaleTimeString()} -- ${new Date(
-        activityTiming.finishedAt
-      ).toLocaleTimeString()}`;
+      return `${new Date(activityTiming.startedAt).toLocaleTimeString()} -- ${
+        activityTiming.isFinished ? new Date(activityTiming.finishedAt).toLocaleTimeString() : 'Ongoing'
+      }`;
     },
 
     width: 500,
@@ -77,9 +144,11 @@ export const ActivityLogContainer: React.FC = () => {
 
   const [activityLog, setActivityLog] = useActivityLog();
 
-  const [isCreateEditDialogOpened, setIsCreateEditDialogOpened] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const UIComponents = useUIComponents();
+
+  const eventManager = useEventManager();
 
   const activityLogId = router.next.query.id;
 
@@ -96,7 +165,34 @@ export const ActivityLogContainer: React.FC = () => {
     onCompleted: (data) => setActivityLog(data.EndUsersActivityLogsGetOne),
   });
 
-  const eventManager = useEventManager();
+  const [createActivityLogDetails] = useMutation<
+    { EndUsersActivityLogDetailsCreate: Mutation['EndUsersActivityLogDetailsCreate'] },
+    { input: EndUsersActivityLogDetailsCreateInput }
+  >(ActivityLogDetailsCreate);
+
+  const onCreateActivityLogDetails = async () => {
+    try {
+      const { data } = await createActivityLogDetails({
+        variables: {
+          input: {
+            activityLogId: activityLog._id,
+          },
+        },
+      });
+
+      await eventManager.emit(
+        new ActivityLogDetailCreatedEvent({
+          activityLogDetail: data?.EndUsersActivityLogDetailsCreate as ActivityLogDetail,
+        })
+      );
+
+      toast.info('You have successfully created the activity log details');
+    } catch (err: any) {
+      toast.error(err.toString());
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const listener: EventHandlerType<IActivityLogDetailCreated> = (e) => {
@@ -152,6 +248,34 @@ export const ActivityLogContainer: React.FC = () => {
     };
   });
 
+  useEffect(() => {
+    const listener: EventHandlerType<IActivityLogDetailFinished> = (e) => {
+      setActivityLog((previousActivityLog) => {
+        const activityLog = previousActivityLog as ActivityLog;
+
+        const details = cloneDeep(activityLog.details);
+
+        const { activityLogDetail } = e.data;
+
+        const detailIndex = details.findIndex((detail) => detail._id === activityLogDetail._id);
+
+        details.splice(detailIndex, 1, activityLogDetail);
+
+        return {
+          ...activityLog,
+
+          details,
+        };
+      });
+    };
+
+    eventManager.addListener(ActivityLogDetailFinishedvent, listener);
+
+    return () => {
+      eventManager.removeListener(ActivityLogDetailFinishedvent as any, listener);
+    };
+  });
+
   if (activityLogError) return <UIComponents.Error error={activityLogError} />;
 
   if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
@@ -164,14 +288,6 @@ export const ActivityLogContainer: React.FC = () => {
     <Box>
       <Typography variant="h6">{activityLog.name}</Typography>
 
-      <ActivityLogDetailsCreateDialog
-        {...{
-          open: isCreateEditDialogOpened,
-          onClose: () => setIsCreateEditDialogOpened(false),
-          createContainerProps: { activityLog },
-        }}
-      />
-
       <DataGridContainer
         {...{
           rows: activityLog.details,
@@ -179,7 +295,7 @@ export const ActivityLogContainer: React.FC = () => {
           columns,
           onDelete,
           toolbarProps: {
-            onCreatePress: () => setIsCreateEditDialogOpened(true),
+            onCreatePress: onCreateActivityLogDetails,
           },
         }}
       />

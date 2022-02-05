@@ -18,6 +18,8 @@ export const ActivityLogDetailsFragment = gql`
 
       startedAt
       finishedAt
+
+      isFinished
     }
   }
 `;

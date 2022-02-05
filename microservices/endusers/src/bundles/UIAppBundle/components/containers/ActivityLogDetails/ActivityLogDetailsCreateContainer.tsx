@@ -13,12 +13,17 @@ import { ActivityLogDetailsCreate } from 'src/bundles/UIAppBundle/mutations';
 import { useEventManager } from '@bluelibs/x-ui-next';
 import { ActivityLogDetailCreatedEvent } from 'src/bundles/UIAppBundle/events';
 
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 export type ActivityLogDetailsCreateContainerProps = {
   activityLog: ActivityLog;
 };
 
+/**
+ * @deprecated
+ * @param param0
+ * @returns
+ */
 export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreateContainerProps> = ({
   activityLog,
 }) => {
@@ -54,17 +59,13 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
         variables: {
           input: {
             activityLogId: activityLog._id,
-            finishedAt,
-            startedAt,
-
-            noteDetailsValue: JSON.stringify(noteDetailsValue),
           },
         },
       });
 
       await eventManager.emit(
         new ActivityLogDetailCreatedEvent({
-          activityLogDetail: data?.EndUsersActivityLogDetailsCreate as ActivityLogDetail
+          activityLogDetail: data?.EndUsersActivityLogDetailsCreate as ActivityLogDetail,
         })
       );
 
@@ -76,33 +77,33 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
     }
   };
 
-  const start = () => {
-    setTimeout(() => {
-      setHasStarted(true);
-      setHasFinished(false);
+  // const start = () => {
+  //   setTimeout(() => {
+  //     setHasStarted(true);
+  //     setHasFinished(false);
 
-      setStartedAt(new Date());
+  //     setStartedAt(new Date());
 
-      setShowingActivityLogDetailsComponent(false);
+  //     setShowingActivityLogDetailsComponent(false);
 
-      //   startAudio.play();
-    }, startCountdown * 1000);
-  };
+  //     //   startAudio.play();
+  //   }, startCountdown * 1000);
+  // };
 
-  const stop = () => {
-    setHasFinished(true);
-    setHasStarted(false);
+  // const stop = () => {
+  //   setHasFinished(true);
+  //   setHasStarted(false);
 
-    setFinishedAt(new Date());
+  //   setFinishedAt(new Date());
 
-    setShowingActivityLogDetailsComponent(true);
+  //   setShowingActivityLogDetailsComponent(true);
 
-    // stopAudio.play();
-  };
+  //   // stopAudio.play();
+  // };
 
   return (
     <Box>
-      <Button disabled={hasStarted} onClick={start}>
+      {/* <Button disabled={hasStarted} onClick={start}>
         Start
       </Button>
 
@@ -114,7 +115,7 @@ export const ActivityLogDetailsCreateContainer: React.FC<ActivityLogDetailsCreat
         <ActivityLogDetailsComponent {...{ activityLog, startedAt, finishedAt, onSubmit, isSubmitting }} />
       )}
 
-      <h5>{transcript}</h5>
+      <h5>{transcript}</h5> */}
     </Box>
   );
 };
