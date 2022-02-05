@@ -1,18 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
+import { Box, List, ListItem, TextField, Typography } from '@mui/material';
 import { SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
-import { EndUsersNoteModelsCreateInput, Field, FieldType } from 'src/api.types';
+import { EndUsersNoteModelsCreateInput, Field, FieldInput } from 'src/api.types';
 import { AddFieldComponent, AddFieldForm } from '../..';
 import { createSchema } from './schemas';
 
-import { Container, TextField, Typography, List, ListItem, Box } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 
 export type NoteModelsCreateFormProps = {
   onSubmit: (data: EndUsersNoteModelsCreateInput) => Promise<void>;
 
-  fields: Field[];
-  setFields: React.Dispatch<SetStateAction<Field[]>>;
+  fields: FieldInput[];
+  setFields: React.Dispatch<SetStateAction<FieldInput[]>>;
 
   isSubmitting: boolean;
 };
@@ -31,7 +31,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
     resolver: yupResolver(createSchema),
   });
 
-  const onAddNewField = (field: Field) => {
+  const onAddNewField = (field: FieldInput) => {
     if (fields.some((_field) => _field.name === field.name)) {
       throw new Error('You already have a field with this name.');
     }
@@ -39,7 +39,7 @@ export const NoteModelsCreateForm: React.FC<NoteModelsCreateFormProps> = ({
     setFields((prev) => prev.concat(field));
   };
 
-  const onRemoveField = (field: Field) => {
+  const onRemoveField = (field: FieldInput) => {
     setFields((prev) => prev.filter((currentField) => currentField.name !== field.name));
   };
 

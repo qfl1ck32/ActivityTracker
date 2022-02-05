@@ -1,13 +1,13 @@
-import { Field as FieldType } from 'src/api.types';
+import { FieldInput } from 'src/api.types';
 
 import { Container, Typography, IconButton } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export type AddFieldComponentProps = {
-  field: FieldType;
+  field: FieldInput;
 
-  onDelete?: (field: FieldType) => void;
+  onDelete?: (field: FieldInput) => void;
 };
 
 export const AddFieldComponent: React.FC<AddFieldComponentProps> = ({ field, onDelete }) => {

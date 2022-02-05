@@ -1,13 +1,13 @@
 import { useMutation } from '@apollo/client';
 import { useEventManager } from '@bluelibs/x-ui-next';
 import { useState } from 'react';
-import { EndUsersNoteModelsCreateInput, Field, Mutation, NoteModel } from 'src/api.types';
+import { EndUsersNoteModelsCreateInput, Field, FieldInput, Mutation, NoteModel } from 'src/api.types';
 import { NoteModelCreatedEvent } from 'src/bundles/UIAppBundle/events';
 import { CreateNoteModel } from 'src/bundles/UIAppBundle/mutations';
 import { NoteModelsCreateForm } from '../../forms';
 
 export const NoteModelsCreateContainer: React.FC = () => {
-  const [fields, setFields] = useState<Field[]>([]);
+  const [fields, setFields] = useState<FieldInput[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
   const [createNoteModel] = useMutation<
