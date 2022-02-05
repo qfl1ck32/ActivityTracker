@@ -9,7 +9,6 @@ import { NoteModelsForm } from '../../forms';
 import { toast } from 'react-toastify'
 
 export const NoteModelsCreateContainer: React.FC = () => {
-  const [fields, setFields] = useState<FieldInput[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
   const [createNoteModel] = useMutation<
@@ -23,14 +22,9 @@ export const NoteModelsCreateContainer: React.FC = () => {
     setSubmitting(true);
 
     try {
-      const { name } = input;
-
       const { data } = await createNoteModel({
         variables: {
-          input: {
-            fields,
-            name,
-          },
+          input
         },
       });
 
@@ -48,5 +42,5 @@ export const NoteModelsCreateContainer: React.FC = () => {
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, fields, setFields: setFields as any, isSubmitting: submitting, type: "create" }} />;
+  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, type: "create" }} />;
 };

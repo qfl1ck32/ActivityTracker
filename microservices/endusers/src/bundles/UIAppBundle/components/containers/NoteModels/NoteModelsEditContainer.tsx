@@ -1,11 +1,13 @@
 import { useMutation } from '@apollo/client';
-import { useEventManager } from '@bluelibs/x-ui-next';
+import { use, useEventManager } from '@bluelibs/x-ui-next';
 import { useState } from 'react';
 import { EndUsersNoteModelsUpdateInput, Field, NoteModel } from 'src/api.types';
-import { CreateNoteModel, UpdateNoteModels } from 'src/bundles/UIAppBundle/mutations';
+import { UpdateNoteModels } from 'src/bundles/UIAppBundle/mutations';
 import { NoteModelsForm } from '../../forms';
 
 import { toast } from 'react-toastify'
+import { GQLService } from 'src/bundles/UIAppBundle/services';
+import { NoteModelUpdatedEvent } from 'src/bundles/UIAppBundle/events';
 
 export type NoteModelsEditContainerProps = {
   initialFields: Field[];
@@ -14,7 +16,6 @@ export type NoteModelsEditContainerProps = {
 }
 
 export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = ({ initialFields, defaultValues }) => {
-  const [fields, setFields] = useState<Field[]>(initialFields);
   const [submitting, setSubmitting] = useState(false);
 
   const [updateNoteModel] = useMutation<
@@ -24,52 +25,35 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
 
   const eventManager = useEventManager();
 
+  const gqlService = use(GQLService)
+
   const onSubmit = async (input: NoteModel) => {
     setSubmitting(true);
 
-    const { name } = input;
+    const { name, fields } = input;
 
-    console.log(defaultValues)
+    setSubmitting(false)
+
+    gqlService.deepCleanTypename(fields)
 
     try {
-
-      // TODO: use something that does this.
-      console.log(fields)
-
-      const goodFields = fields.map(({__typename, ...field}) => {
-        const enumValues = field.enumValues?.map(({__typename, ...value}) => value)
-
-        return {
-          ...field,
-          enumValues
-        }
-      })
-
-      // console.log({
-      //   name,
-      //   fields: goodFields
-      // })
-
-      // setSubmitting(false)
-      // return;
-
       const { data } = await updateNoteModel({
         variables: {
           input: {
             name,
 
-            fields: goodFields,
+            fields,
 
             noteModelId: defaultValues.id
           }
         }
       })
 
-      console.log(data?.EndUsersNoteModelsUpdate);
+      eventManager.emit(new NoteModelUpdatedEvent({
+        noteModel: data?.EndUsersNoteModelsUpdate as NoteModel
+      }))
 
       toast.info("You have successfully edited the note model")
-
-      //  toast.info("You have successfully edited the note model.")
     } catch (err: any) {
       toast.error(err.toString());
     } finally {
@@ -77,5 +61,5 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, fields, setFields: setFields as any, isSubmitting: submitting, type: "edit", defaultValues }} />;
+  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, type: "edit", defaultValues }} />;
 };

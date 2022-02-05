@@ -5,12 +5,11 @@ import { Box, Button } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { Field, NoteModel, Query } from 'src/api.types';
-import { INoteModelCreated, NoteModelCreatedEvent } from 'src/bundles/UIAppBundle/events';
+import { INoteModelCreated, INoteModelUpdated, NoteModelCreatedEvent, NoteModelUpdatedEvent } from 'src/bundles/UIAppBundle/events';
 import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
-import { NoteModelsCreateContainer } from '.';
 import { NoteModelsEditModal } from '../..';
 import { DataGridContainer } from '../DataGrid';
-import { NoteModelsEditContainer } from './NoteModelsEditContainer';
+
 
 const columns: GridColumns = [
   {
@@ -89,6 +88,28 @@ export const NoteModelsListContainer: React.FC = () => {
       eventManager.removeListener(NoteModelCreatedEvent as any, listener); // TODO as any ? fix from bluelibs
     };
   }, []);
+
+  useEffect(() => {
+    const listener: EventHandlerType<INoteModelUpdated> = (e) => {
+      setNoteModels(previous => {
+        const noteModels = [...previous]
+
+        const { noteModel } = e.data
+
+        const oldNoteModelIndex = noteModels.findIndex(model => model._id === noteModel._id)
+
+        noteModels.splice(oldNoteModelIndex, 1, noteModel)
+
+        return noteModels
+      })
+    };
+
+    eventManager.addListener(NoteModelUpdatedEvent, listener);
+
+    return () => {
+      eventManager.removeListener(NoteModelUpdatedEvent as any, listener); // TODO as any ? fix from bluelibs
+    };
+  }, [])
 
   const UIComponents = useUIComponents();
 

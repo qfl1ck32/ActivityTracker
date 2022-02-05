@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { Box, List, ListItem, TextField, Typography } from '@mui/material';
-import { SetStateAction } from 'react';
-import { useForm } from 'react-hook-form';
-import { EndUsersNoteModelsCreateInput, Field, FieldInput } from 'src/api.types';
-import { AddFieldComponent, AddFieldForm } from '../..';
+import { Box, Button, List, ListItem, TextField, Typography } from '@mui/material';
+import { Fragment, SetStateAction, useEffect } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { EndUsersNoteModelsCreateInput, Field, FieldInput, FieldType } from 'src/api.types';
+import { AddFieldForm } from '../..';
 import { createSchema } from './schemas';
 
 export type FieldOrFieldInput = Field | FieldInput
@@ -12,9 +12,6 @@ export type FieldOrFieldInput = Field | FieldInput
 // TODO: fix any :(
 export type NoteModelsFormProps = {
   onSubmit: (data: any) => Promise<void>;
-
-  fields: FieldOrFieldInput[];
-  setFields: React.Dispatch<SetStateAction<FieldOrFieldInput[]>>;
 
   isSubmitting: boolean;
 
@@ -24,8 +21,6 @@ export type NoteModelsFormProps = {
 
 export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   onSubmit,
-  fields,
-  setFields,
   isSubmitting,
 
   type,
@@ -36,6 +31,8 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   const {
     register,
     formState: { errors },
+    control,
+    watch,
     handleSubmit,
   } = useForm({
     resolver: yupResolver(createSchema),
@@ -43,17 +40,16 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
     defaultValues
   });
 
-  const onAddNewField = (field: FieldOrFieldInput) => {
-    if (fields.some((_field) => _field.name === field.name)) {
-      throw new Error('You already have a field with this name.');
-    }
+  const { fields, append, remove } = useFieldArray<any, any, any>({
+    control,
+    name: "fields"
+  })
 
-    setFields((prev) => prev.concat(field));
-  };
+  const addNewField = () => {
+    append({
 
-  const onRemoveField = (field: FieldOrFieldInput) => {
-    setFields((prev) => prev.filter((currentField) => currentField.name !== field.name));
-  };
+    })
+  }
 
   return (
     <Box>
@@ -68,17 +64,14 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
       <Box>
         <Typography variant="h5">Fields already added</Typography>
         <List>
-          {fields.map((field, idx) => (
-            <ListItem key={idx}>
-              <AddFieldComponent {...{ field, onDelete: onRemoveField, type }} />
-            </ListItem>
-          ))}
+          {fields.map((item, idx) => {
+            return <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove }} />
+          })}
+          <div>
+            <Button onClick={addNewField}>Add New Field</Button>
+          </div>
         </List>
       </Box>
-
-      <AddFieldForm {...{ onSubmit: onAddNewField }} />
     </Box>
   );
 };
-
-// TODO: create a form instead of fields.map.blablabla, so I can update the name and enum values and so on!!

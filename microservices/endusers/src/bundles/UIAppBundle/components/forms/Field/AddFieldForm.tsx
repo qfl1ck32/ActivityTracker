@@ -1,71 +1,50 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton, List, ListItem, MenuItem, TextField } from '@mui/material';
 import { capitalize } from 'lodash-es';
-import { FormEvent, Fragment, useEffect } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { Field, FieldType } from 'src/api.types';
-import { FieldOrFieldInput } from '..';
-import { schema } from './schema';
+import { Fragment } from 'react';
+import { Control, useFieldArray, UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { FieldType } from 'src/api.types';
 
 export type AddFieldFormProps = {
-  onSubmit: (data: FieldOrFieldInput) => void;
+  control: Control<any, object>
+
+  index: number;
+
+  errors: any;
+
+  register: UseFormRegister<any>
+
+  watch: UseFormWatch<any>;
 };
 
-export const AddFieldForm: React.FC<AddFieldFormProps> = ({ onSubmit }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
+export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, errors, register, watch }) => {
   const {
     fields: enumValues,
     append,
     remove,
   } = useFieldArray({
     control,
-    name: 'enumValues',
+    name: `fields.${index}.enumValues`,
   });
 
-  const onFinish = (e: FormEvent<HTMLFormElement>) => {
-    handleSubmit((data: any) => {
-      try {
-        onSubmit(data);
-
-        reset({
-          name: '',
-          enumValues: [],
-        });
-      } catch (err: any) {
-        alert(err); // TODO: toast?
-      }
-    })(e);
-  };
-
   return (
-    <form onSubmit={(e) => onFinish(e)}>
+    <form>
       <div>
         <TextField
           label="Field name"
-          error={Boolean(errors.name)}
-          helperText={errors.name?.message}
-          {...register('name')}
+          error={Boolean(errors.fields?.[index].name)}
+          helperText={errors.fields?.[index].name?.message}
+          {...register(`fields.${index}.name`)}
         />
       </div>
 
       <div>
         <TextField
           select
-          defaultValue="none"
-          error={Boolean(errors.type)}
-          helperText={errors.type?.message}
-          {...register('type')}
+          defaultValue={watch(`fields.${index}.type`) ?? "none"}
+          error={Boolean(errors.fields?.[index].type)}
+          helperText={errors.fields?.[index].type?.message}
+          {...register(`fields.${index}.type`)}
         >
           <MenuItem disabled value="none">
             Select a type
@@ -78,30 +57,24 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ onSubmit }) => {
         </TextField>
       </div>
 
-      {watch('type') === FieldType.ENUM && (
+      {watch(`fields.${index}.type`) === FieldType.ENUM && (
         <Fragment>
           <List>
-            {enumValues.map((item, index) => (
+            {enumValues.map((item, enumValueIdx) => (
               <ListItem key={item.id}>
-                <TextField placeholder="Enter your value here..." {...register(`enumValues.${index}`)} />
-                {enumValues.length > 1 && (
-                  <IconButton onClick={() => remove(index)}>
-                    <DeleteIcon />
-                  </IconButton>
-                )}
+                <TextField placeholder="Enter your value here..." {...register(`fields.${index}.enumValues.${enumValueIdx}`)} />
+                <IconButton onClick={() => remove(enumValueIdx)}>
+                  <DeleteIcon />
+                </IconButton>
               </ListItem>
             ))}
           </List>
 
           <div>
-            <Button onClick={() => append('')}>Add New Enum Value</Button>
+            <Button onClick={() => append('Value')}>Add New Enum Value</Button>
           </div>
         </Fragment>
       )}
-
-      <div>
-        <Button type="submit">Add field</Button>
-      </div>
     </form>
   );
 };
