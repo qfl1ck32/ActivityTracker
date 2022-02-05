@@ -42,10 +42,12 @@ describe("ActivityNotesService", () => {
           {
             name: "How many reps?",
             type: FieldType.NUMBER,
+            enumValues: []
           },
           {
             name: "Did you rest?",
             type: FieldType.BOOLEAN,
+            enumValues: []
           },
         ],
       },

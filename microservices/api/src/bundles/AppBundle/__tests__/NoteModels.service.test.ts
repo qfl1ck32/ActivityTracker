@@ -35,6 +35,7 @@ describe("NoteModelsService", () => {
           {
             name: "isThisOk",
             type: FieldType.BOOLEAN,
+            enumValues: []
           },
         ],
       },

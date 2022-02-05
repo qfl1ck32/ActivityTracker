@@ -49,6 +49,7 @@ describe("ActivityNotesSecurityService", () => {
           {
             name: "booleanTest",
             type: FieldType.BOOLEAN,
+            enumValues: []
           },
         ],
       },

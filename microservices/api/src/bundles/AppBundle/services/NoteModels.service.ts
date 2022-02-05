@@ -1,5 +1,6 @@
 import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
+import { IExecutionContext } from "@bluelibs/mongo-bundle";
 // TODO :(
 import * as crypto from "crypto";
 import { pickBy } from "lodash";
@@ -66,7 +67,7 @@ export class NoteModelsService {
       {
         context: {
           userId,
-        },
+        }  as IExecutionContext,
       }
     );
 

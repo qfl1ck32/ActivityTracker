@@ -94,10 +94,12 @@ describe("NoteModelsSecurityService", () => {
           {
             name: "abc",
             type: FieldType.NUMBER,
+            enumValues: []
           },
           {
             name: "abc",
             type: FieldType.STRING,
+            enumValues: []
           },
         ],
       })

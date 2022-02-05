@@ -5,6 +5,7 @@ import {
   ContainerInstance,
 } from "@bluelibs/core";
 import { EJSON, ObjectId } from "@bluelibs/ejson";
+import { IExecutionContext } from "@bluelibs/mongo-bundle";
 import {
   ActivityLogsCollection,
   ActivityNotesCollection,
@@ -62,7 +63,7 @@ export class ActivityNotesService {
         },
       },
       {
-        context: { userId },
+        context: { userId } as IExecutionContext,
       }
     );
   }

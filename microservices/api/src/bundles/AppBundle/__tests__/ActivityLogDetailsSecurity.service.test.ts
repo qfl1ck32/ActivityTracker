@@ -95,6 +95,7 @@ describe("ActivityLogDetailsSecurityService", () => {
           {
             name: "test field",
             type: FieldType.BOOLEAN,
+            enumValues: []
           },
         ],
       },

@@ -5,6 +5,7 @@ import {
   ContainerInstance,
 } from "@bluelibs/core";
 import { EJSON, ObjectId } from "@bluelibs/ejson";
+import { IExecutionContext } from "@bluelibs/mongo-bundle";
 import { QueryBodyType } from "@bluelibs/nova";
 import { ActivityLogDetailsService } from ".";
 import {
@@ -82,7 +83,7 @@ export class ActivityLogsService {
         noteModelId,
       },
       {
-        context: { userId },
+        context: { userId } as IExecutionContext,
       }
     );
 
