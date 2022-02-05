@@ -13,9 +13,16 @@ export type NoteDetailsCreateFormProps = {
   isSubmitting: boolean;
 
   noteModel: NoteModel;
+
+  defaultValues?: any;
 };
 
-export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({ onSubmit, noteModel, isSubmitting }) => {
+export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({
+  onSubmit,
+  noteModel,
+  isSubmitting,
+  defaultValues,
+}) => {
   const noteDetailsService = use(NoteDetailsService);
 
   const [schema] = useState(noteDetailsService.createYupSchema(noteModel));
@@ -26,6 +33,8 @@ export const NoteDetailsCreateForm: React.FC<NoteDetailsCreateFormProps> = ({ on
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+
+    defaultValues,
   });
 
   return (

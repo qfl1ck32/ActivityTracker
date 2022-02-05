@@ -2,13 +2,21 @@ import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { EJSON } from '@bluelibs/ejson';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
-import { ActivityLog, ActivityNote, ActivityTiming, EndUsersActivityLogsGetOneInput, Query } from 'src/api.types';
+import {
+  ActivityLog,
+  ActivityNote,
+  ActivityTiming,
+  EndUsersActivityLogsGetOneInput,
+  FieldType,
+  Query,
+} from 'src/api.types';
 import { ActivityLogDetailCreatedEvent, IActivityLogDetailCreated } from 'src/bundles/UIAppBundle/events';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
-import { ActivityLogDetailsCreateModal, DataGridContainer } from '../..';
+import { ActivityNoteDetailNoteValuesType } from 'src/bundles/UIAppBundle/types';
+import { ActivityLogDetailsCreateModal, DataGridContainer, NoteDetailsCreateForm } from '../..';
 
 const columns: GridColumns = [
   {
@@ -22,12 +30,37 @@ const columns: GridColumns = [
     field: 'note',
     headerName: 'Note',
 
-    valueFormatter: (props) => {
+    editable: true,
+
+    renderEditCell: (params) => {
+      return <h5>not really bro</h5>;
+    },
+
+    renderCell: (props) => {
       const activityNote = props.value as ActivityNote;
 
       // TODO: decode this... based on field ids and stuff. ;-) maybe we need context?
-      console.log(EJSON.parse(activityNote.value));
-      return EJSON.parse(activityNote.value);
+      const value = EJSON.parse(activityNote.value) as ActivityNoteDetailNoteValuesType;
+
+      console.log('WTF?');
+
+      return (
+        <NoteDetailsCreateForm
+          isSubmitting={false}
+          onSubmit={async (data) => console.log(data)}
+          noteModel={
+            {
+              fields: [
+                {
+                  id: 'gigi',
+                  type: FieldType.BOOLEAN,
+                  name: 'test',
+                },
+              ],
+            } as any
+          }
+        />
+      );
     },
 
     width: 600,
@@ -131,6 +164,7 @@ export const ActivityLogContainer: React.FC = () => {
       <DataGridContainer
         {...{
           rows: activityLog.details,
+
           columns,
           onDelete,
           toolbarProps: {
