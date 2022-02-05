@@ -84,13 +84,13 @@ export class NoteModelsService {
 
     // TODO separate...... and please, separate the new inputs & stuff.
     if (fields?.length) {
+      await this.securityService.noteModels.checkFieldsInputIsValid({ fields: fields as Field[] }, noteModelId);
+
       for (const field of fields) {
         if (!field.id) {
           field.id = crypto.randomUUID()
         }
       }
-
-      await this.securityService.noteModels.checkFieldsInputIsValid({ fields: fields as Field[] }, noteModelId);
     }
 
     const updates = pickBy({ fields, ...restOfFieldsToUpdate }, Boolean);
