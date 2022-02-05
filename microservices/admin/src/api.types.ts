@@ -250,7 +250,9 @@ export type AppFileGroup = {
 
 export type AppFileThumb = {
   __typename?: 'AppFileThumb';
+  /** @deprecated Use 'type' instead, due to cache mismatch with Apollo */
   id: Scalars['String'];
+  type: Scalars['String'];
   path: Scalars['String'];
   downloadUrl: Scalars['String'];
 };
@@ -309,12 +311,17 @@ export type EndUsersActivityLogDetailsCreateInput = {
   activityLogId: Scalars['ObjectId'];
   startedAt: Scalars['Date'];
   finishedAt: Scalars['Date'];
+  noteDetailsValue?: Maybe<Scalars['String']>;
 };
 
 export type EndUsersActivityLogsCreateInput = {
   activityId: Scalars['ObjectId'];
   noteModelId: Scalars['ObjectId'];
   name: Scalars['String'];
+};
+
+export type EndUsersActivityLogsGetOneInput = {
+  activityLogId: Scalars['ObjectId'];
 };
 
 export type EndUsersActivityNotesUpdateInput = {
@@ -327,6 +334,12 @@ export type EndUsersNoteModelsCreateInput = {
   fields: Array<Maybe<FieldInput>>;
 };
 
+export type EndUsersNoteModelsUpdateInput = {
+  noteModelId: Scalars['ObjectId'];
+  fields: Array<Maybe<FieldInput>>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type EndUsersRegisterInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
@@ -336,24 +349,36 @@ export type EndUsersRegisterInput = {
 
 export type Field = {
   __typename?: 'Field';
+  id: Scalars['String'];
   name: Scalars['String'];
   type: FieldType;
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues: Array<Maybe<FieldEnumValues>>;
+};
+
+export type FieldEnumValues = {
+  __typename?: 'FieldEnumValues';
+  id: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type FieldEnumValuesInput = {
+  id: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type FieldInput = {
   name: Scalars['String'];
   type: FieldType;
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues: Array<Maybe<Scalars['String']>>;
 };
 
 export type FieldRules = {
   __typename?: 'FieldRules';
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues: Array<Maybe<FieldEnumValues>>;
 };
 
 export type FieldRulesInput = {
-  enumValues?: Maybe<Array<Maybe<Scalars['String']>>>;
+  enumValues: Array<Maybe<FieldEnumValuesInput>>;
 };
 
 export enum FieldType {
@@ -412,10 +437,11 @@ export type Mutation = {
   UsersInsertOne?: Maybe<User>;
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
-  EndUsersActivityLogDetailsCreate: Scalars['ObjectId'];
-  EndUsersActivityLogsCreate: Scalars['ObjectId'];
+  EndUsersActivityLogDetailsCreate: ActivityLogDetail;
+  EndUsersActivityLogsCreate: ActivityLog;
   EndUsersActivityNotesUpdate?: Maybe<Scalars['Boolean']>;
   EndUsersNoteModelsCreate: NoteModel;
+  EndUsersNoteModelsUpdate?: Maybe<Scalars['Boolean']>;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;
@@ -608,6 +634,11 @@ export type MutationEndUsersNoteModelsCreateArgs = {
 };
 
 
+export type MutationEndUsersNoteModelsUpdateArgs = {
+  input: EndUsersNoteModelsUpdateInput;
+};
+
+
 export type MutationEndUsersRegisterArgs = {
   input: EndUsersRegisterInput;
 };
@@ -706,6 +737,9 @@ export type Query = {
   UsersFindOneByID?: Maybe<User>;
   UsersFind: Array<Maybe<User>>;
   UsersCount: Scalars['Int'];
+  EndUsersActivitiesGetAll: Array<Maybe<Activity>>;
+  EndUsersActivityLogsGetAll: Array<Maybe<ActivityLog>>;
+  EndUsersActivityLogsGetOne: ActivityLog;
   EndUsersNoteModelsGetAll: Array<Maybe<NoteModel>>;
   me: User;
   framework?: Maybe<Scalars['String']>;
@@ -889,6 +923,11 @@ export type QueryUsersFindArgs = {
 
 export type QueryUsersCountArgs = {
   query?: Maybe<QueryInput>;
+};
+
+
+export type QueryEndUsersActivityLogsGetOneArgs = {
+  input: EndUsersActivityLogsGetOneInput;
 };
 
 export type QueryInput = {

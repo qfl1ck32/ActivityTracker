@@ -31,7 +31,7 @@ export const VerifyEmailContainer: React.FC = () => {
 
   useEffect(() => {
     if (!router.next.isReady) return;
-
+    
     verifyEmail();
   }, [router.next.isReady]);
 

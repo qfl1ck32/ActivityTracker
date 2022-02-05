@@ -33,7 +33,7 @@
     "@bluelibs/email-bundle": "^1.0.0",
     "@bluelibs/graphql-bundle": "^1.0.0",
     "@bluelibs/logger-bundle": "^1.0.0",
-    "@bluelibs/mongo-bundle": "^1.0.0",
+    "@bluelibs/mongo-bundle": "^1.4.2",
     "@bluelibs/nova": "^1.0.0",
     "@bluelibs/password-bundle": "^1.0.0",
     "@bluelibs/security-bundle": "^1.0.0",

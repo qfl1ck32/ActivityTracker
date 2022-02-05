@@ -250,7 +250,9 @@ export type AppFileGroup = {
 
 export type AppFileThumb = {
   __typename?: 'AppFileThumb';
+  /** @deprecated Use 'type' instead, due to cache mismatch with Apollo */
   id: Scalars['String'];
+  type: Scalars['String'];
   path: Scalars['String'];
   downloadUrl: Scalars['String'];
 };
