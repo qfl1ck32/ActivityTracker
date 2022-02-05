@@ -13,6 +13,7 @@ import {
   ActivityNote,
   ActivityTiming,
   EndUsersActivityLogDetailsCreateInput,
+  EndUsersActivityLogDetailsDeleteInput,
   EndUsersActivityLogDetailsFinishInput,
   EndUsersActivityLogsGetOneInput,
   Mutation,
@@ -21,13 +22,19 @@ import {
 import { useActivityLog } from 'src/bundles/UIAppBundle/contexts';
 import {
   ActivityLogDetailCreatedEvent,
-  ActivityLogDetailFinishedvent,
+  ActivityLogDetailDeletedEvent,
+  ActivityLogDetailFinishedEvent,
   ActivityNoteUpdatedEvent,
   IActivityLogDetailCreated,
+  IActivityLogDetailDeleted,
   IActivityLogDetailFinished,
   IActivityNoteUpdated,
 } from 'src/bundles/UIAppBundle/events';
-import { ActivityLogDetailsCreate, ActivityLogDetailsFinish } from 'src/bundles/UIAppBundle/mutations';
+import {
+  ActivityLogDetailsCreate,
+  ActivityLogDetailsDelete,
+  ActivityLogDetailsFinish,
+} from 'src/bundles/UIAppBundle/mutations';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
 import { ActivityNotesEditDialog, DataGridContainer } from '../..';
 import { ActivityLogDetailsCreateDialog } from '../../dialogs/ActivityLogDetails/ActivityLogDetailsCreateDialog';
@@ -93,7 +100,7 @@ const columns: GridColumns = [
           });
 
           eventManager.emit(
-            new ActivityLogDetailFinishedvent({
+            new ActivityLogDetailFinishedEvent({
               activityLogDetail: data?.EndUsersActivityLogDetailsFinish as ActivityLogDetail,
             })
           );
@@ -170,6 +177,11 @@ export const ActivityLogContainer: React.FC = () => {
     { input: EndUsersActivityLogDetailsCreateInput }
   >(ActivityLogDetailsCreate);
 
+  const [deleteActivityLogDetails] = useMutation<
+    { EndUsersActivityLogDetailsDelete: Mutation['EndUsersActivityLogDetailsDelete'] },
+    { input: EndUsersActivityLogDetailsDeleteInput }
+  >(ActivityLogDetailsDelete);
+
   const onCreateActivityLogDetails = async () => {
     try {
       const { data } = await createActivityLogDetails({
@@ -191,6 +203,29 @@ export const ActivityLogContainer: React.FC = () => {
       toast.error(err.toString());
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // TODO: think a bit - why do we keep on using events? these are in the same component :| smartass
+  const onDelete = async (activityLogDetailId: string) => {
+    try {
+      await deleteActivityLogDetails({
+        variables: {
+          input: {
+            activityLogDetailId,
+          },
+        },
+      });
+
+      eventManager.emit(
+        new ActivityLogDetailDeletedEvent({
+          activityLogDetailId,
+        })
+      );
+
+      toast.info('You have successfully deleted the log.');
+    } catch (err: any) {
+      toast.error(err.toString());
     }
   };
 
@@ -269,20 +304,44 @@ export const ActivityLogContainer: React.FC = () => {
       });
     };
 
-    eventManager.addListener(ActivityLogDetailFinishedvent, listener);
+    eventManager.addListener(ActivityLogDetailFinishedEvent, listener);
 
     return () => {
-      eventManager.removeListener(ActivityLogDetailFinishedvent as any, listener);
+      eventManager.removeListener(ActivityLogDetailFinishedEvent as any, listener);
+    };
+  });
+
+  useEffect(() => {
+    const listener: EventHandlerType<IActivityLogDetailDeleted> = (e) => {
+      setActivityLog((previousActivityLog) => {
+        const activityLog = previousActivityLog as ActivityLog;
+
+        const details = cloneDeep(activityLog.details);
+
+        const { activityLogDetailId } = e.data;
+
+        const detailIndex = details.findIndex((detail) => detail._id === activityLogDetailId);
+
+        details.splice(detailIndex, 1);
+
+        return {
+          ...activityLog,
+
+          details,
+        };
+      });
+    };
+
+    eventManager.addListener(ActivityLogDetailDeletedEvent, listener);
+
+    return () => {
+      eventManager.removeListener(ActivityLogDetailDeletedEvent as any, listener);
     };
   });
 
   if (activityLogError) return <UIComponents.Error error={activityLogError} />;
 
   if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
-
-  const onDelete = async (id: string) => {
-    console.log(id);
-  };
 
   return (
     <Box>

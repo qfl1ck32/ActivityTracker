@@ -10,6 +10,7 @@ import {
 } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityLogDetailsCreateInput } from "./inputs";
+import { EndUsersActivityLogDetailsDeleteInput } from "./inputs/EndUsersActivityLogDetailsDelete.input";
 import { EndUsersActivityLogDetailsFinishInput } from "./inputs/EndUsersActivityLogDetailsFinish.input";
 import { SecurityService } from "./Security.service";
 
@@ -173,6 +174,24 @@ export class ActivityLogDetailsService {
       },
 
       ...this.queryBody,
+    });
+  }
+
+  public async delete(
+    input: EndUsersActivityLogDetailsDeleteInput,
+    userId: ObjectId
+  ) {
+    const { activityLogDetailId } = input;
+
+    const endUserId = await this.endUserService.getIdByOwnerId(userId);
+
+    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetails(
+      activityLogDetailId,
+      endUserId
+    );
+
+    await this.activityLogDetailsCollection.deleteOne({
+      _id: activityLogDetailId,
     });
   }
 }

@@ -5,4 +5,4 @@ export interface IActivityLogDetailFinished {
   activityLogDetail: ActivityLogDetail;
 }
 
-export class ActivityLogDetailFinishedvent extends Event<IActivityLogDetailFinished> {}
+export class ActivityLogDetailFinishedEvent extends Event<IActivityLogDetailFinished> {}

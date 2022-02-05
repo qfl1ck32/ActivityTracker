@@ -312,6 +312,10 @@ export type EndUsersActivityLogDetailsCreateInput = {
   activityLogId: Scalars['ObjectId'];
 };
 
+export type EndUsersActivityLogDetailsDeleteInput = {
+  activityLogDetailId: Scalars['ObjectId'];
+};
+
 export type EndUsersActivityLogDetailsFinishInput = {
   activityLogDetailsId: Scalars['ObjectId'];
 };
@@ -448,6 +452,7 @@ export type Mutation = {
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
   EndUsersActivityLogDetailsCreate: ActivityLogDetail;
+  EndUsersActivityLogDetailsDelete?: Maybe<Scalars['Boolean']>;
   EndUsersActivityLogDetailsFinish: ActivityLogDetail;
   EndUsersActivityLogsCreate: ActivityLog;
   EndUsersActivityNotesUpdate: ActivityNote;
@@ -627,6 +632,11 @@ export type MutationUsersDeleteOneArgs = {
 
 export type MutationEndUsersActivityLogDetailsCreateArgs = {
   input: EndUsersActivityLogDetailsCreateInput;
+};
+
+
+export type MutationEndUsersActivityLogDetailsDeleteArgs = {
+  input: EndUsersActivityLogDetailsDeleteInput;
 };
 
 

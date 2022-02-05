@@ -4,3 +4,4 @@ export * from './ActivityLogDetailCreated.event';
 export * from './ActivityNoteUpdated.event';
 export * from './NoteModelUpdated.event';
 export * from './ActivityLogDetailFinished.event';
+export * from './ActivityLogDetailDeleted.event';

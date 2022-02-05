@@ -125,4 +125,53 @@ describe("ActivityLogDetailsService", () => {
     expect(activityLogDetail.timing.finishedAt).toBeTruthy();
     expect(activityLogDetail.timing.isFinished).toBe(true);
   });
+
+  test("delete()", async () => {
+    const activityLogDetailsService = container.get(ActivityLogDetailsService);
+
+    const { userId } = await createEndUser();
+
+    const activityId = await createActivity();
+
+    const noteModelId = await createNoteModel(
+      {
+        name: "For Calisthenics",
+        fields: [
+          {
+            name: "Went hardcore?",
+            type: FieldType.ENUM,
+            enumValues: ["YES", "HELL YES!"],
+          },
+        ],
+      },
+      userId
+    );
+
+    const activityLogId = await createActivityLog(
+      {
+        name: "Calisthenics",
+        activityId,
+        noteModelId,
+      },
+      userId
+    );
+
+    const activityLogDetail = await activityLogDetailsService.create(
+      {
+        activityLogId,
+      },
+      userId
+    );
+
+    expect(await getActivityLogDetail(activityLogDetail._id)).toBeTruthy();
+
+    await activityLogDetailsService.delete(
+      {
+        activityLogDetailId: activityLogDetail._id,
+      },
+      userId
+    );
+
+    expect(await getActivityLogDetail(activityLogDetail._id)).toBeFalsy();
+  });
 });
