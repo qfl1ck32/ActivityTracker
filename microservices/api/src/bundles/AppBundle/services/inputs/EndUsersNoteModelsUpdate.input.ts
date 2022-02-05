@@ -1,6 +1,6 @@
 import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
-import { FieldInputWithEnumValues } from "./Field.input.base";
+import { FieldInputWithEnumValues } from "./FieldInputWithEnumValues.input";
 
 @Schema()
 export class EndUsersNoteModelsUpdateInput {
