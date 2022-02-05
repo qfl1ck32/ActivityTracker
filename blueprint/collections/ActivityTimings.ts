@@ -19,6 +19,14 @@ export const ActivityTimings = collection({
       isRequired: false,
     }),
 
+    field.boolean("isFinished", {
+      isReducer: true,
+
+      reducerDependency: {
+        finishedAt: 1,
+      },
+    }),
+
     ...shortcuts.fields.timestampable(),
   ],
 

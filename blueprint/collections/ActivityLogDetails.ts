@@ -11,13 +11,7 @@ export const ActivityLogDetails = collection({
 
   representedBy: "name",
 
-  fields: [
-    field.string("name"),
-
-    field.boolean("isFinished"),
-
-    ...shortcuts.fields.timestampable(),
-  ],
+  fields: [field.string("name"), ...shortcuts.fields.timestampable()],
 
   relations: [
     ...shortcuts.relations.blameable(),

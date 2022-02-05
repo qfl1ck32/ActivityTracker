@@ -5,6 +5,7 @@
         "fields": {
           "_id": "ID",
           "name": "Name",
+          "isFinished": "Is Finished",
           "createdAt": "Created At",
           "createdAt_description": "Represents the date when this object was created",
           "updatedAt": "Updated At",

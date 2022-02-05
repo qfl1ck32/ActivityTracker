@@ -1,8 +1,8 @@
 export default /* GraphQL */ `
   input FieldInput {
-    id: String!
+    id: String
     name: String!
     type: FieldType!
-    enumValues: [FieldEnumValuesInput]!
+    enumValues: [String]!
   }
 `;

@@ -38,6 +38,20 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
         },
       },
       {
+        id: "isFinished",
+        title: t("management.activity_log_details.fields.isFinished"),
+        key: "management.activity_log_details.fields.isFinished",
+        dataIndex: ["isFinished"],
+        sorter: true,
+        render: (value, model) => {
+          const props = {
+            type: "boolean",
+            value,
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdAt",
         title: t("management.activity_log_details.fields.createdAt"),
         key: "management.activity_log_details.fields.createdAt",
@@ -215,6 +229,7 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
     return {
       _id: 1,
       name: 1,
+      isFinished: 1,
       createdAt: 1,
       updatedAt: 1,
       createdBy: {

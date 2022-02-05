@@ -54,8 +54,6 @@ describe("ActivityLogDetailsService", () => {
 
     expect(activityLogDetail).toBeTruthy();
 
-    // expect(activityLogDetail.isFinished).toBeFalsy()
-
     const { _id: activityLogDetailsId } = activityLogDetail;
 
     const timing = await getActivityTimingByActivityLogDetailsId(

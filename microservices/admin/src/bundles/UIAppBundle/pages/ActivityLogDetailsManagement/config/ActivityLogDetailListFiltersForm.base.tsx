@@ -33,6 +33,24 @@ export class ActivityLogDetailListFiltersForm extends XForm {
       },
 
       {
+        id: "isFinished",
+        label: t("management.activity_log_details.fields.isFinished"),
+        name: ["isFinished"],
+        render: (props) => (
+          <Ant.Form.Item {...props}>
+            <Ant.Radio.Group>
+              <Ant.Radio value={false} key={0}>
+                No
+              </Ant.Radio>
+              <Ant.Radio value={true} key={1}>
+                Yes
+              </Ant.Radio>
+            </Ant.Radio.Group>
+          </Ant.Form.Item>
+        ),
+      },
+
+      {
         id: "createdAt",
         label: t("management.activity_log_details.fields.createdAt"),
         name: ["createdAt"],
