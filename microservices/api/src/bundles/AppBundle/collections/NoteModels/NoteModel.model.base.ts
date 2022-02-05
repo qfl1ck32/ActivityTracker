@@ -23,6 +23,12 @@ export class NoteModel {
   @Is(() => an.array().of(Schema.from(Field)))
   fields: Field[] = [];
 
+  /**
+   * @description This field is used to identify if this object has been soft-deleted
+   */
+  @Is(a.boolean().nullable())
+  isDeleted?: boolean;
+
   @Is(a.string().required())
   name: string;
 

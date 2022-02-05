@@ -10,6 +10,8 @@
           "createdAt_description": "Represents the date when this object was created",
           "updatedAt": "Updated At",
           "updatedAt_description": "Represents the last time when the object was updated",
+          "isDeleted": "isDeleted",
+          "isDeleted_description": "This field is used to identify if this object has been soft-deleted",
           "endUserId": "endUserId",
           "activityLogDetailsId": "activityLogDetailsId",
           "createdById": "createdById",

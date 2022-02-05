@@ -9,6 +9,8 @@
           "createdAt_description": "Represents the date when this object was created",
           "updatedAt": "Updated At",
           "updatedAt_description": "Represents the last time when the object was updated",
+          "isDeleted": "isDeleted",
+          "isDeleted_description": "This field is used to identify if this object has been soft-deleted",
           "createdById": "createdById",
           "createdById_description": "Represents the user's id who has created this object",
           "updatedById": "updatedById",

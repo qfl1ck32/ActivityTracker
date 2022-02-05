@@ -38,6 +38,12 @@ export class ActivityNote {
   endUserId: ObjectId;
 
   /**
+   * @description This field is used to identify if this object has been soft-deleted
+   */
+  @Is(a.boolean().nullable())
+  isDeleted?: boolean;
+
+  /**
    * @description Represents the last time when the object was updated
    */
   @Is(a.date().required())

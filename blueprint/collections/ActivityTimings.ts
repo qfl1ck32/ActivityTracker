@@ -28,6 +28,7 @@ export const ActivityTimings = collection({
     }),
 
     ...shortcuts.fields.timestampable(),
+    shortcuts.field.softdeletable(),
   ],
 
   relations: [

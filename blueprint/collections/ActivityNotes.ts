@@ -18,6 +18,7 @@ export const ActivityNotes = collection({
         "We are representing the value as an object, because we don't have an exact representation of how the note will look like.",
     }),
     ...shortcuts.fields.timestampable(),
+    shortcuts.field.softdeletable(),
   ],
 
   relations: [

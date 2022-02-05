@@ -25,6 +25,12 @@ export class Activity {
   @Is(an.objectId().nullable())
   createdById?: ObjectId;
 
+  /**
+   * @description This field is used to identify if this object has been soft-deleted
+   */
+  @Is(a.boolean().nullable())
+  isDeleted?: boolean;
+
   @Is(a.string().required())
   name: string;
 

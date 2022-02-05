@@ -11,7 +11,11 @@ export const ActivityLogs = collection({
 
   representedBy: "name",
 
-  fields: [field.string("name"), ...shortcuts.fields.timestampable()],
+  fields: [
+    field.string("name"),
+    ...shortcuts.fields.timestampable(),
+    shortcuts.field.softdeletable(),
+  ],
 
   relations: [
     relation({

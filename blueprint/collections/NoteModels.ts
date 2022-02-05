@@ -22,6 +22,7 @@ export const NoteModels = collection({
     }),
 
     ...shortcuts.fields.timestampable(),
+    shortcuts.field.softdeletable(),
   ],
 
   relations: [

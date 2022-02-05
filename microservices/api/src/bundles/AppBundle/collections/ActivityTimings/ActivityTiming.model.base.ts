@@ -40,6 +40,12 @@ export class ActivityTiming {
   @Is(a.date().nullable())
   finishedAt?: Date;
 
+  /**
+   * @description This field is used to identify if this object has been soft-deleted
+   */
+  @Is(a.boolean().nullable())
+  isDeleted?: boolean;
+
   isFinished: boolean;
 
   @Is(a.string().required())

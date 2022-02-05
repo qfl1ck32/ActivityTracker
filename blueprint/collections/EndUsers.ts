@@ -27,6 +27,7 @@ export const EndUsers = collection({
     }),
 
     ...shortcuts.fields.timestampable(),
+    shortcuts.field.softdeletable(),
   ],
 
   relations: [

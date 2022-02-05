@@ -41,6 +41,12 @@ export class ActivityLog {
   @Is(an.objectId().required())
   endUserId: ObjectId;
 
+  /**
+   * @description This field is used to identify if this object has been soft-deleted
+   */
+  @Is(a.boolean().nullable())
+  isDeleted?: boolean;
+
   @Is(a.string().required())
   name: string;
 

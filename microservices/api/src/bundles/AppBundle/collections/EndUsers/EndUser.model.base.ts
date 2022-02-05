@@ -36,6 +36,12 @@ export class EndUser {
 
   fullName: string;
 
+  /**
+   * @description This field is used to identify if this object has been soft-deleted
+   */
+  @Is(a.boolean().nullable())
+  isDeleted?: boolean;
+
   @Is(a.string().required())
   lastName: string;
 
