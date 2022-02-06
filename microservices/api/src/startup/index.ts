@@ -1,3 +1,5 @@
+import "module-alias/register";
+
 import "./env";
 import { kernel } from "./kernel";
 import "./bundles";
