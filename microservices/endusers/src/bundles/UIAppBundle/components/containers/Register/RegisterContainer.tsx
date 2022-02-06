@@ -1,17 +1,17 @@
 import { useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { useEffect, useState } from 'react';
-import { LoginInput } from 'src/api.types';
+import { EndUsersRegisterInput } from 'src/api.types';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
-import { LoginForm } from '../../forms';
 
 import { toast } from 'react-toastify';
 import { Grid, Box, Avatar, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { RegisterForm } from '../..';
 
 import Link from 'next/link';
 
-export const LoginContainer: React.FC = () => {
+export const RegisterContainer: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const guardian = useAppGuardian();
@@ -20,13 +20,13 @@ export const LoginContainer: React.FC = () => {
 
   const UIComponents = useUIComponents();
 
-  const onSubmit = async (data: LoginInput) => {
+  const onSubmit = async (input: EndUsersRegisterInput) => {
     setIsSubmitting(true);
 
     try {
-      const { username, password } = data;
-      await guardian.login(username, password);
-      toast.info('Successfully logged in!');
+      await guardian.register(input);
+      toast.info('You have successfully registered! Please check your e-mail for confirmation.');
+      router.go(Routes.Login);
     } catch (err: any) {
       toast.error(err.toString());
     } finally {
@@ -56,24 +56,16 @@ export const LoginContainer: React.FC = () => {
         </Avatar>
 
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
 
         <Box>
-          <LoginForm {...{ onSubmit, isSubmitting }} />
+          <RegisterForm {...{ onSubmit, isSubmitting }} />
 
-          <Grid container>
-            <Grid item xs>
-              <Link href={Routes.ForgotPassword.path} as={Routes.ForgotPassword.path}>
-                Forgot password?
-              </Link>
-            </Grid>
-
-            <Grid item>
-              <Link href={Routes.Register.path} as={Routes.Register.path}>
-                Don't have an account? Sign Up
-              </Link>
-            </Grid>
+          <Grid sx={{ display: 'flex', justifyContent: 'center' }} container>
+            <Link href={Routes.Login.path} as={Routes.Login.path}>
+              Already have an account? Log in
+            </Link>
           </Grid>
         </Box>
       </Box>

@@ -45,7 +45,9 @@ export const kernel = new Kernel({
     }),
     new EmailBundle(),
     new PasswordBundle(),
-    new XPasswordBundle(),
+    new XPasswordBundle({
+      requiresEmailVerificationBeforeLoggingIn: true,
+    }),
     new XS3Bundle({
       accessKeyId: env.AWS_ACCESS_KEY_ID,
       secretAccessKey: env.AWS_SECRET_ACCESS_KEY,

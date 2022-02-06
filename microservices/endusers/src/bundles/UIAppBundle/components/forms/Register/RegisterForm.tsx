@@ -1,17 +1,17 @@
 import { useForm } from 'react-hook-form';
-import { LoginInput } from 'src/api.types';
+import { EndUsersRegisterInput } from 'src/api.types';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './schema';
 import { LoadingButton } from '@mui/lab';
 import { TextField } from '@mui/material';
+import { schema } from './schema';
 
 export type LoginFormProps = {
-  onSubmit: (input: LoginInput) => Promise<void>;
+  onSubmit: (input: EndUsersRegisterInput) => Promise<void>;
 
   isSubmitting: boolean;
 };
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isSubmitting }) => {
+export const RegisterForm: React.FC<LoginFormProps> = ({ onSubmit, isSubmitting }) => {
   const {
     register,
     handleSubmit,
@@ -23,13 +23,33 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isSubmitting }) 
   return (
     <form onSubmit={handleSubmit(onSubmit as any)}>
       <TextField
-        label="Username"
-        error={Boolean(errors.username)}
-        helperText={errors.username?.message}
+        label="First name"
+        error={Boolean(errors.firstName)}
+        helperText={errors.firstName?.message}
         type="text"
         margin="normal"
         fullWidth
-        {...register('username')}
+        {...register('firstName')}
+      />
+
+      <TextField
+        label="Last name"
+        error={Boolean(errors.lastName)}
+        helperText={errors.lastName?.message}
+        type="text"
+        margin="normal"
+        fullWidth
+        {...register('lastName')}
+      />
+
+      <TextField
+        label="Email"
+        error={Boolean(errors.email)}
+        helperText={errors.email?.message}
+        type="email"
+        margin="normal"
+        fullWidth
+        {...register('email')}
       />
 
       <TextField
@@ -43,7 +63,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isSubmitting }) 
       />
 
       <LoadingButton sx={{ mt: 3, mb: 2 }} fullWidth variant="contained" type="submit" loading={isSubmitting}>
-        Login
+        Register
       </LoadingButton>
     </form>
   );

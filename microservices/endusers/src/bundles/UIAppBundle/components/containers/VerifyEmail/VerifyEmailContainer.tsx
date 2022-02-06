@@ -1,15 +1,21 @@
-import { useRouter } from '@bluelibs/x-ui-next';
+import { useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { useEffect, useState } from 'react';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
+import { Avatar, Box, Typography } from '@mui/material';
+
+import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 
 export const VerifyEmailContainer: React.FC = () => {
   const router = useRouter();
   const [isVerified, setIsVerified] = useState(false);
 
   const guardian = useAppGuardian();
+
+  const UIComponents = useUIComponents();
 
   const verifyEmail = async () => {
     try {
@@ -33,15 +39,31 @@ export const VerifyEmailContainer: React.FC = () => {
 
   useEffect(() => {
     if (!router.next.query.token) return;
-    
+
     verifyEmail();
   }, [router.next.query.token]);
 
-  if (!router.next.isReady) return <h5>Loading...</h5>;
+  return (
+    <UIComponents.Layout>
+      <Box
+        sx={{
+          my: 8,
+          mx: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          {isVerified ? <MarkEmailReadIcon /> : <MarkEmailUnreadIcon />}
+        </Avatar>
 
-  if (!isVerified) return <h5>Verifying...</h5>;
-
-  if (isVerified) return <h5>Success!</h5>;
-
-  return <h5>{router.next.query.token}</h5>;
+        <Typography component="h1" variant="h5">
+          {!router.next.isReady && 'Loading...'}
+          {!isVerified && 'Verifying...'}
+          {isVerified && "Success! You'll be redirected to Home in a few seconds."}
+        </Typography>
+      </Box>
+    </UIComponents.Layout>
+  );
 };
