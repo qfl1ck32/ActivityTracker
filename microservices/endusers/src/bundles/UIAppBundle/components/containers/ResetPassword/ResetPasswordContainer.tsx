@@ -1,19 +1,17 @@
 import { useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { useEffect, useState } from 'react';
-import { ForgotPasswordInput, LoginInput } from 'src/api.types';
+import { ResetPasswordInput } from 'src/api.types';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
-import { ForgotPasswordForm, LoginForm } from '../../forms';
 
 import { toast } from 'react-toastify';
 import { Grid, Box, Avatar, Typography, Button } from '@mui/material';
 
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import CheckIcon from '@mui/icons-material/Check';
+import { ResetPasswordForm } from '../..';
 
-import Link from 'next/link';
-
-export const ForgotPasswordContainer: React.FC = () => {
+export const ResetPasswordContainer: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasBeenReset, setHasBeenReset] = useState(false);
 
@@ -23,24 +21,33 @@ export const ForgotPasswordContainer: React.FC = () => {
 
   const UIComponents = useUIComponents();
 
-  const onSubmit = async (input: ForgotPasswordInput) => {
+  useEffect(() => {
+    if (guardian.state.isLoggedIn) {
+      router.go(Routes.Home);
+    }
+  }, []);
+
+  const onSubmit = async (input: ResetPasswordInput) => {
     setIsSubmitting(true);
 
+    const { username, newPassword } = input;
+
     try {
-      await guardian.forgotPassword(input.email);
+      await guardian.resetPassword(username, router.next.query.token as string, newPassword);
+
+      await guardian.load();
+
       setHasBeenReset(true);
+
+      setTimeout(() => {
+        router.go(Routes.Home);
+      }, 2500);
     } catch (err: any) {
       toast.error(err.toString());
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  if (guardian.state.isLoggedIn) {
-    router.go(Routes.Home);
-
-    return null;
-  }
 
   return (
     <UIComponents.Layout>
@@ -57,7 +64,7 @@ export const ForgotPasswordContainer: React.FC = () => {
 
         {!hasBeenReset && (
           <Typography component="h1" variant="h5">
-            Forgot password
+            Reset password
           </Typography>
         )}
 
@@ -68,17 +75,15 @@ export const ForgotPasswordContainer: React.FC = () => {
               container
             >
               <Typography component="h1" variant="h5">
-                Success!
+                Your password has been successfully reset.
               </Typography>
 
               <Typography fontSize={15} component="h1" variant="h6">
-                If you have provided a valid e-mail, you will soon receive a reset link.
+                Logging in...
               </Typography>
-
-              <Button onClick={() => router.go(Routes.Login)}>Back to login</Button>
             </Grid>
           ) : (
-            <ForgotPasswordForm {...{ onSubmit, isSubmitting }} />
+            <ResetPasswordForm {...{ onSubmit, isSubmitting }} />
           )}
         </Box>
       </Box>

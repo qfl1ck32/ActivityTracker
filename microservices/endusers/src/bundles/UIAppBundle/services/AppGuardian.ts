@@ -19,6 +19,35 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
     return super.load();
   }
 
+  // TODO: this should be fixed in BL
+  async resetPassword(username: string, token: string, newPassword: string) {
+    return this.apolloClient
+      .mutate({
+        mutation: gql`
+          mutation ($input: ResetPasswordInput!) {
+            resetPassword(input: $input) {
+              token
+            }
+          }
+        `,
+
+        variables: {
+          input: {
+            username,
+            token,
+            newPassword,
+          },
+        },
+      })
+      .then(async (response) => {
+        const { token } = response.data.resetPassword;
+
+        await this.storeToken(token);
+
+        return token;
+      });
+  }
+
   public async register(input: EndUsersRegisterInput) {
     await this.apolloClient.mutate({
       mutation: gql`
