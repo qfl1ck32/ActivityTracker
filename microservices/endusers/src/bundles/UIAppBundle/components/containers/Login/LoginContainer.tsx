@@ -59,7 +59,7 @@ export const LoginContainer: React.FC = () => {
           Sign in
         </Typography>
 
-        <Box>
+        <Box maxWidth="30rem">
           <LoginForm {...{ onSubmit, isSubmitting }} />
 
           <Grid container>

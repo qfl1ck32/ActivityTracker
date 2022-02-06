@@ -5,13 +5,13 @@ import { LoadingButton } from '@mui/lab';
 import { TextField } from '@mui/material';
 import { schema } from './schema';
 
-export type LoginFormProps = {
+export type RegisterFormProps = {
   onSubmit: (input: EndUsersRegisterInput) => Promise<void>;
 
   isSubmitting: boolean;
 };
 
-export const RegisterForm: React.FC<LoginFormProps> = ({ onSubmit, isSubmitting }) => {
+export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isSubmitting }) => {
   const {
     register,
     handleSubmit,

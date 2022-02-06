@@ -8,3 +8,4 @@ export * from './DataGrid';
 export * from './VerifyEmail';
 export * from './ActivityNotes';
 export * from './Register';
+export * from './ForgotPassword';

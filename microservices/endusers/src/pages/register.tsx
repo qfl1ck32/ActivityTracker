@@ -1,4 +1,4 @@
-import { RegisterContainer } from 'src/bundles/UIAppBundle/components';
+import { RegisterContainer } from 'src/bundles/UIAppBundle/components/containers';
 
 const RegisterPage: React.FC = () => {
   return <RegisterContainer />;

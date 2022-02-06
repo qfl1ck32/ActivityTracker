@@ -6,3 +6,4 @@ export * from './Header';
 export * from './ActivityLogDetails';
 export * from './DataGridActionCell';
 export * from './DataGridToolbar';
+export * from './Head';

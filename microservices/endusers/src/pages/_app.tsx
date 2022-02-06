@@ -8,6 +8,7 @@ import { Fragment, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import { injectStyle } from 'react-toastify/dist/inject-style';
+import { Head } from 'src/bundles/UIAppBundle/components';
 
 const App = createApp({
   kernel,
@@ -22,6 +23,7 @@ const WrappedApp = (props: AppProps) => {
 
   return (
     <Fragment>
+      <Head />
       {app}
       <ToastContainer position="top-right" autoClose={2500} hideProgressBar={true} />
     </Fragment>

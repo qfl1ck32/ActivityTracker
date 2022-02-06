@@ -7,7 +7,11 @@ import { AppGuardian } from 'src/bundles/UIAppBundle/services';
 import { UIAppBundle } from '../bundles/UIAppBundle/UIAppBundle';
 import env from '../env';
 
-export const theme = createTheme();
+export const theme = createTheme({
+  typography: {
+    fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+  },
+});
 
 export const kernel = new Kernel({
   bundles: [

@@ -6,7 +6,7 @@ import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 
 import { toast } from 'react-toastify';
 import { Grid, Box, Avatar, Typography } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CreateIcon from '@mui/icons-material/Create';
 import { RegisterForm } from '../..';
 
 import Link from 'next/link';
@@ -52,14 +52,14 @@ export const RegisterContainer: React.FC = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+          <CreateIcon />
         </Avatar>
 
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
 
-        <Box>
+        <Box maxWidth="30rem">
           <RegisterForm {...{ onSubmit, isSubmitting }} />
 
           <Grid sx={{ display: 'flex', justifyContent: 'center' }} container>
