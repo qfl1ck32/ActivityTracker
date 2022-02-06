@@ -50,6 +50,7 @@
     "graphql-subscriptions": "^1.1.0",
     "graphql-upload": "^12.0.0",
     "lodash-es": "^4.17.21",
+    "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "mongodb": "4.2.2",
     "passport": "^0.4.1",
@@ -82,5 +83,10 @@
   },
   "engines": {
     "node": ">=15.6"
+  },
+
+  "_moduleAliases": {
+    "@bundles": "dist/bundles",
+    "@root": "dist/"
   }
 }
