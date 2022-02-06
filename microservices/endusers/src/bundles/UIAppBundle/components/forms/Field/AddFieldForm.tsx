@@ -85,17 +85,23 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
           <List>
             {enumValues.map((item, enumValueIdx) => {
               const fieldName = `fields.${index}.enumValues.${enumValueIdx}`;
+
+              const error = errors.fields?.[index]?.enumValues?.[enumValueIdx];
+
               return (
                 <ListItem key={item.id}>
                   <TextField
                     placeholder="Enter your value here..."
-                    error={Boolean(errors.fields?.[index]?.enumValues?.[enumValueIdx]?.value)}
-                    helperText={errors.fields?.[index]?.enumValues?.[enumValueIdx]?.value?.message}
+                    // TODO: make this nicer? also, is it 100% good?
+                    error={Boolean(error || error?.value)}
+                    helperText={error?.message || error?.value?.message}
                     {...register(`${fieldName}${context === 'edit' ? '.value' : ''}`)}
                   />
-                  <IconButton onClick={() => remove(enumValueIdx)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  {enumValues.length > 1 && (
+                    <IconButton onClick={() => remove(enumValueIdx)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
                 </ListItem>
               );
             })}

@@ -32,6 +32,9 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   const {
     register,
     formState: { errors },
+
+    setValue,
+
     control,
     watch,
     handleSubmit,
@@ -40,6 +43,12 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
 
     defaultValues,
   });
+
+  useEffect(() => {
+    for (const key in defaultValues) {
+      setValue(key, defaultValues[key]);
+    }
+  }, [JSON.stringify(defaultValues)]);
 
   const { fields, append, remove } = useFieldArray<any, any, any>({
     control,

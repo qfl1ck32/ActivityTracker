@@ -11,12 +11,10 @@ import { NoteModelUpdatedEvent } from 'src/bundles/UIAppBundle/events';
 import { Box } from '@mui/material';
 
 export type NoteModelsEditContainerProps = {
-  initialFields: Field[];
-
   defaultValues: any;
 };
 
-export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = ({ initialFields, defaultValues }) => {
+export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = ({ defaultValues }) => {
   const [submitting, setSubmitting] = useState(false);
 
   const [updateNoteModel] = useMutation<

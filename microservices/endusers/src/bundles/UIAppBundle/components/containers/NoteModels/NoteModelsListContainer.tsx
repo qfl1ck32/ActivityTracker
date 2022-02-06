@@ -38,8 +38,6 @@ const columns: GridColumns = [
     width: 250,
 
     renderCell: (params) => {
-      const fields = params.value as Field[];
-
       const [open, setOpen] = useState(false);
 
       const noteModel = params.row as NoteModel;
@@ -58,8 +56,6 @@ const columns: GridColumns = [
           >
             <NoteModelsEditContainer
               {...{
-                initialFields: fields,
-
                 defaultValues: noteModel,
               }}
             />
