@@ -49,7 +49,7 @@ export const kernel = new Kernel({
 
       // TODO: find better idea
       transporter:
-        process.env.NODE_ENV === "development"
+        process.env.NODE_ENV === "production"
           ? {
               host: env.EMAIL_HOST,
 
