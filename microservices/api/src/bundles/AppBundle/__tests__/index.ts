@@ -12,6 +12,9 @@ import "./EndUser.service.test.ts";
 import "./ActivityLogsSecurity.service.test.ts";
 import "./Security.service.test.ts";
 import "./ActivityLogs.service.test.ts";
+
+import "./mock.test";
+
 import { container } from "../../../__tests__/ecosystem";
 import { AppFixture } from "../fixtures";
 
