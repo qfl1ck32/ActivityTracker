@@ -55,33 +55,40 @@ export class NoteModelsSecurityService {
       const { fields: noteModelFields } =
         await this.noteModelsCollection.findOne({ _id: noteModelId });
 
-      const oldIds = {} as Record<string, Field>;
+      const oldFieldsById = {} as Record<string, Field>;
+      const oldFieldsByName = {} as Record<string, Field>;
 
       for (const field of noteModelFields) {
-        oldIds[field.id] = field;
+        oldFieldsById[field.id] = field;
+        oldFieldsByName[field.name] = field;
       }
 
       for (const field of fields) {
         const currentField = field as Field;
-        const previousField = oldIds[(field as Field).id];
 
-        if (currentField.id && !previousField) {
+        const previousFieldById = oldFieldsById[(field as Field).id];
+        const previousFieldByName = oldFieldsByName[(field as Field).name];
+
+        if (currentField.id && !previousFieldById) {
           throw new NoteModelsUpdateFieldsInputIsInvalidException();
         }
 
         if (
-          currentField.id &&
-          previousField &&
-          currentField.type !== previousField.type
+          (currentField.id &&
+            previousFieldById &&
+            currentField.type !== previousFieldById.type) ||
+          (!currentField.id &&
+            previousFieldByName &&
+            currentField.type !== previousFieldByName.type)
         ) {
           throw new NoteModelsTypeOfExistingFieldCanNotBeChangedException();
         }
 
         const oldEnumValues = {} as Record<string, FieldEnumValues>;
 
-        if (!previousField) continue;
+        if (!previousFieldById) continue;
 
-        for (const enumValue of previousField.enumValues) {
+        for (const enumValue of previousFieldById.enumValues) {
           oldEnumValues[enumValue.id] = enumValue;
         }
 

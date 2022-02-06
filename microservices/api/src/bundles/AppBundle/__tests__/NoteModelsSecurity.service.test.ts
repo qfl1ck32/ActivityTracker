@@ -247,5 +247,23 @@ describe("NoteModelsSecurityService", () => {
         noteModelId
       )
     ).resolves.not.toThrow();
+
+    // try to "cheat" by removing the id and simulating "new field", should check by name:
+
+    delete fields[0].id;
+
+    fields[0].type = FieldType.BOOLEAN;
+    fields[0].enumValues = [];
+
+    await expect(
+      check(
+        {
+          fields,
+        },
+        noteModelId
+      )
+    ).rejects.toThrow(
+      new NoteModelsTypeOfExistingFieldCanNotBeChangedException()
+    );
   });
 });
