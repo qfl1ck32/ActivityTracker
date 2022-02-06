@@ -66,7 +66,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   }, []);
 
   // TODO: fix when changing type "ENUM" -> X ( -> ENUM )
-  console.log(errors);
+  // console.log(errors);
 
   return (
     <Fragment>

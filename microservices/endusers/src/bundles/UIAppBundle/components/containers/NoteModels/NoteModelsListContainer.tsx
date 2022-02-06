@@ -4,6 +4,7 @@ import { useEventManager, useUIComponents } from '@bluelibs/x-ui-next';
 import { Box, Button, Container } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState, Fragment } from 'react';
+import { toast } from 'react-toastify';
 import { Field, NoteModel, Query } from 'src/api.types';
 import {
   INoteModelCreated,
@@ -121,7 +122,7 @@ export const NoteModelsListContainer: React.FC = () => {
   if (error) return <UIComponents.Error error={error} />;
 
   const onDelete = async (id: string) => {
-    console.log(id);
+    toast.info('Not yet implemented.');
   };
 
   return (

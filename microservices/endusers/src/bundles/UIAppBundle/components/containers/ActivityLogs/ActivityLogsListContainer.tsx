@@ -4,6 +4,7 @@ import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next
 import { Button, Container } from '@mui/material';
 import { GridColumns, GridEventListener, GridEvents } from '@mui/x-data-grid';
 import { Fragment, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { ActivityLog, Query } from 'src/api.types';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { ActivityLogCreatedEvent, IActivityLogCreated } from 'src/bundles/UIAppBundle/events';
@@ -106,7 +107,8 @@ export const ActivityLogsListContainer: React.FC = () => {
   if (error) return <UIComponents.Error error={error} />;
 
   const onDelete = async (id: string) => {
-    console.log(id);
+    // console.log(id);
+    toast.info('Not yet implemented.');
   };
 
   return (
