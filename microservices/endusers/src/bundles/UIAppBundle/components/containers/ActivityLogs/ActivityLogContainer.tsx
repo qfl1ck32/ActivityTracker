@@ -41,13 +41,6 @@ import { ActivityNotesEditContainer, DataGridContainer, DialogContainer } from '
 
 const columns: GridColumns = [
   {
-    field: 'id',
-    headerName: 'ID',
-
-    width: 300,
-  },
-
-  {
     field: 'note',
     headerName: 'Note',
 
@@ -85,6 +78,7 @@ const columns: GridColumns = [
 
     // TODO: handle better...
     // idea: useSomething() that receives an id / object and has all logic inside it, and you can just use it?
+    // TODO: MAKE IT A COMPONENT
     renderCell: (params) => {
       const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -148,16 +142,7 @@ const columns: GridColumns = [
       }`;
     },
 
-    width: 500,
-  },
-
-  {
-    field: 'createdAt',
-    headerName: 'Created At',
-
-    valueFormatter: (props) => new Date(props.value as number).toLocaleDateString(),
-
-    width: 250,
+    width: 200,
   },
 ];
 
