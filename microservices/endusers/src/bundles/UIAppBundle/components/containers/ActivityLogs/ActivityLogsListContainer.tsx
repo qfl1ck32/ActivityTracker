@@ -7,7 +7,7 @@ import { ActivityLog, Query } from 'src/api.types';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { ActivityLogCreatedEvent, IActivityLogCreated } from 'src/bundles/UIAppBundle/events';
 import { ActivityLogsGetAll } from 'src/bundles/UIAppBundle/queries';
-import { ActivityLogsCreateDialog } from '../..';
+import { ActivityLogsCreateContainer, DialogContainer } from '../..';
 import { DataGridContainer } from '../DataGrid';
 
 const columns: GridColumns = [
@@ -104,7 +104,12 @@ export const ActivityLogsListContainer: React.FC = () => {
           },
         }}
       />
-      <ActivityLogsCreateDialog {...{ open: createDialogIsOpened, onClose: () => setCreateDialogIsOpened(false) }} />
+
+      <DialogContainer
+        {...{ open: createDialogIsOpened, onClose: () => setCreateDialogIsOpened(false), title: 'Create activity log' }}
+      >
+        <ActivityLogsCreateContainer />
+      </DialogContainer>
     </Fragment>
   );
 };

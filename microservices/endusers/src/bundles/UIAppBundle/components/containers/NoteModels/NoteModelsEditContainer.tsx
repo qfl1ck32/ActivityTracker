@@ -8,6 +8,7 @@ import { NoteModelsForm } from '../../forms';
 import { toast } from 'react-toastify';
 import { GQLService } from 'src/bundles/UIAppBundle/services';
 import { NoteModelUpdatedEvent } from 'src/bundles/UIAppBundle/events';
+import { Box } from '@mui/material';
 
 export type NoteModelsEditContainerProps = {
   initialFields: Field[];
@@ -63,5 +64,9 @@ export const NoteModelsEditContainer: React.FC<NoteModelsEditContainerProps> = (
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, context: 'edit', defaultValues }} />;
+  return (
+    <Box sx={{ padding: 2 }}>
+      <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, context: 'edit', defaultValues }} />
+    </Box>
+  );
 };

@@ -32,7 +32,14 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSubmit
         {...register('email')}
       />
 
-      <LoadingButton sx={{ mt: 3, mb: 2 }} fullWidth variant="contained" type="submit" loading={isSubmitting}>
+      <LoadingButton
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        fullWidth
+        variant="contained"
+        type="submit"
+        loading={isSubmitting}
+      >
         Send reset password e-mail
       </LoadingButton>
     </form>

@@ -167,7 +167,7 @@ describe("NoteModelsService", () => {
       noteModel.fields.some((field) =>
         field.enumValues.some((enumValue) => !enumValue.id)
       )
-    ); // a.k.a. all enumValues from all fields have ids
+    ).toBe(false); // a.k.a. all enumValues from all fields have ids
 
     const activityNote = await getActivityNoteByActivityLogDetailsId(
       activityLogDetailsId

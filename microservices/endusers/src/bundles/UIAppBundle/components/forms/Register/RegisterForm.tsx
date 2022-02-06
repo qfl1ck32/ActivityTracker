@@ -62,7 +62,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isSubmitti
         {...register('password')}
       />
 
-      <LoadingButton sx={{ mt: 3, mb: 2 }} fullWidth variant="contained" type="submit" loading={isSubmitting}>
+      <LoadingButton variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth type="submit" loading={isSubmitting}>
         Register
       </LoadingButton>
     </form>

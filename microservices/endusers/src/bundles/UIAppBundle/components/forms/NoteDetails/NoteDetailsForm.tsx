@@ -1,7 +1,18 @@
 import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
-import { TextFieldProps, MenuItem, TextField, Checkbox, FormControlLabel, Select } from '@mui/material';
+import {
+  TextFieldProps,
+  MenuItem,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Select,
+  Box,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FieldType, NoteModel } from 'src/api.types';
@@ -45,20 +56,47 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit as any)}>
       {noteModel.fields.map((field) => {
+        if (field.type === FieldType.ENUM) {
+          return (
+            <div>
+              <FormHelperText>{field.name}</FormHelperText>
+
+              <Select
+                fullWidth
+                {...register(field.id)}
+                defaultValue={defaultValues[field.id] || ''}
+                displayEmpty
+                key={field.id}
+                inputProps={{ 'aria-label': field.name }}
+              >
+                <MenuItem disabled value="">
+                  Select a value
+                </MenuItem>
+                {field.enumValues.map((enumValue) => (
+                  <MenuItem key={enumValue.id} value={enumValue.id}>
+                    {enumValue.value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+          );
+        }
+
+        if (field.type === FieldType.BOOLEAN) {
+          return (
+            <div>
+              <FormControlLabel
+                key={field.id}
+                label={field.name}
+                control={<Checkbox {...register(field.id)} defaultChecked={defaultValues[field.id]} />}
+              />
+            </div>
+          );
+        }
+
         let props: TextFieldProps = {};
 
         switch (field.type) {
-          case FieldType.BOOLEAN: {
-            props['type'] = 'checkbox';
-            break;
-          }
-
-          case FieldType.ENUM: {
-            props['select'] = true;
-            props['defaultValue'] = defaultValues[field.id];
-            break;
-          }
-
           case FieldType.NUMBER: {
             props['type'] = 'number';
             break;
@@ -70,18 +108,10 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
           }
         }
 
-        if (field.type === FieldType.BOOLEAN) {
-          return (
-            <FormControlLabel
-              key={field.id}
-              label={field.name}
-              control={<Checkbox {...register(field.id)} defaultChecked={defaultValues[field.id]} />}
-            />
-          );
-        }
-
         const Field: React.FC = ({ children }) => (
           <TextField
+            margin="normal"
+            fullWidth
             key={field.id}
             {...props}
             label={field.name}
@@ -93,27 +123,18 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
           </TextField>
         );
 
-        if (field.type === FieldType.ENUM) {
-          return (
-            <Select {...register(field.id)} defaultValue={defaultValues[field.id] || ''} displayEmpty key={field.id}>
-              <MenuItem disabled value="">
-                Select a value
-              </MenuItem>
-              {field.enumValues.map((enumValue) => (
-                <MenuItem key={enumValue.id} value={enumValue.id}>
-                  {enumValue.value}
-                </MenuItem>
-              ))}
-            </Select>
-          );
-        } else {
-          return <Field key={field.id} />;
-        }
+        return (
+          <div key={field.id}>
+            <Field />
+          </div>
+        );
       })}
 
-      <LoadingButton loading={isSubmitting} type="submit">
-        {context === 'create' ? 'Create' : 'Edit'}
-      </LoadingButton>
+      <Box style={{ display: 'flex', justifyContent: 'center' }}>
+        <LoadingButton variant="contained" loading={isSubmitting} type="submit">
+          {context === 'create' ? 'Create' : 'Edit'}
+        </LoadingButton>
+      </Box>
     </form>
   );
 };

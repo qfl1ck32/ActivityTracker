@@ -7,6 +7,7 @@ import { CreateNoteModel } from 'src/bundles/UIAppBundle/mutations';
 import { NoteModelsForm } from '../../forms';
 
 import { toast } from 'react-toastify';
+import { Box } from '@mui/material';
 
 export const NoteModelsCreateContainer: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -42,5 +43,9 @@ export const NoteModelsCreateContainer: React.FC = () => {
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, context: 'create' }} />;
+  return (
+    <Box sx={{ padding: 2 }}>
+      <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, context: 'create' }} />
+    </Box>
+  );
 };

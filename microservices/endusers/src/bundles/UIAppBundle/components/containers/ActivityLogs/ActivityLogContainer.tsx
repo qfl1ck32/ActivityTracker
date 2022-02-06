@@ -36,8 +36,7 @@ import {
   ActivityLogDetailsFinish,
 } from 'src/bundles/UIAppBundle/mutations';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
-import { ActivityNotesEditDialog, DataGridContainer } from '../..';
-import { ActivityLogDetailsCreateDialog } from '../../dialogs/ActivityLogDetails/ActivityLogDetailsCreateDialog';
+import { ActivityNotesEditContainer, DataGridContainer, DialogContainer } from '../..';
 
 const columns: GridColumns = [
   {
@@ -61,7 +60,17 @@ const columns: GridColumns = [
       return (
         <div>
           <Button onClick={() => setOpen(true)}>Open</Button>
-          <ActivityNotesEditDialog {...{ open, onClose: () => setOpen(false), activityNote, activityLogDetailsId }} />
+
+          <DialogContainer
+            {...{
+              open,
+              onClose: () => setOpen(false),
+
+              title: 'Edit log',
+            }}
+          >
+            <ActivityNotesEditContainer {...{ activityLogDetailsId, activityNote }} />
+          </DialogContainer>
         </div>
       );
     },
@@ -114,7 +123,12 @@ const columns: GridColumns = [
       };
 
       return (
-        <LoadingButton disabled={activityLogDetail.timing.isFinished} loading={isSubmitting} onClick={onClick}>
+        <LoadingButton
+          variant="contained"
+          disabled={activityLogDetail.timing.isFinished}
+          loading={isSubmitting}
+          onClick={onClick}
+        >
           Finish
         </LoadingButton>
       );

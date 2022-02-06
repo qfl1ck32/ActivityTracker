@@ -42,7 +42,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isSubmitting }) 
         {...register('password')}
       />
 
-      <LoadingButton sx={{ mt: 3, mb: 2 }} fullWidth variant="contained" type="submit" loading={isSubmitting}>
+      <LoadingButton variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth type="submit" loading={isSubmitting}>
         Login
       </LoadingButton>
     </form>

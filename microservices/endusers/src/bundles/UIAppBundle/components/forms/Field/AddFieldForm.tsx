@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton, List, ListItem, MenuItem, TextField } from '@mui/material';
+import { Button, IconButton, List, ListItem, MenuItem, TextField, Typography } from '@mui/material';
 import { capitalize } from 'lodash-es';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Control, useFieldArray, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { FieldType } from 'src/api.types';
 import { FormContext } from 'src/bundles/UIAppBundle/types';
@@ -30,11 +30,27 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
     name: `fields.${index}.enumValues`,
   });
 
+  useEffect(() => {
+    const type = watch(`fields.${index}.type`) as FieldType;
+
+    if (type === FieldType.ENUM) {
+      if (enumValues.length === 0) {
+        append('');
+      }
+    } else {
+      for (let i = 0; i < enumValues.length; ++i) {
+        remove(i);
+      }
+    }
+  }, [watch(`fields.${index}.type`)]);
+
   return (
     <form>
       <div>
         <TextField
           label="Field name"
+          margin="normal"
+          fullWidth
           error={Boolean(errors.fields?.[index]?.name)}
           helperText={errors.fields?.[index]?.name?.message}
           {...register(`fields.${index}.name`)}
@@ -45,6 +61,8 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
         {/* TODO: maybe add a note - "You can not update the type of the fields." */}
         <TextField
           select
+          margin="normal"
+          fullWidth
           defaultValue={watch(`fields.${index}.type`) ?? 'none'}
           error={Boolean(errors.fields?.[index]?.type)}
           helperText={errors.fields?.[index]?.type?.message}
@@ -84,7 +102,7 @@ export const AddFieldForm: React.FC<AddFieldFormProps> = ({ control, index, erro
           </List>
 
           <div>
-            <Button onClick={() => append('Value')}>Add New Enum Value</Button>
+            <Button onClick={() => append('')}>Add Enum Value</Button>
           </div>
         </Fragment>
       )}

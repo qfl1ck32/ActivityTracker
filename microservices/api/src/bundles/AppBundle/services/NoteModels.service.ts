@@ -95,8 +95,8 @@ export class NoteModelsService {
           field.id = crypto.randomUUID();
         }
 
-        field.enumValues.map((value) => ({
-          id: value.id ?? crypto.randomUUID(),
+        field.enumValues = field.enumValues.map(({ id, value }) => ({
+          id: id ?? crypto.randomUUID(),
           value,
         }));
       }

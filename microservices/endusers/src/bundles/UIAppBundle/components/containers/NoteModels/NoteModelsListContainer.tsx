@@ -12,7 +12,8 @@ import {
   NoteModelUpdatedEvent,
 } from 'src/bundles/UIAppBundle/events';
 import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
-import { NoteModelsCreateDialog, NoteModelsEditDialog } from '../..';
+import { NoteModelsEditContainer } from '.';
+import { DialogContainer, NoteModelsCreateContainer } from '../..';
 import { DataGridContainer } from '../DataGrid';
 
 const columns: GridColumns = [
@@ -46,16 +47,23 @@ const columns: GridColumns = [
       return (
         <Box>
           <Button onClick={() => setOpen(true)}>Open</Button>
-          <NoteModelsEditDialog
+
+          <DialogContainer
             {...{
               open,
               onClose: () => setOpen(false),
 
-              initialFields: fields,
-
-              defaultValues: noteModel,
+              title: `Edit note model: ${noteModel.name}`,
             }}
-          />
+          >
+            <NoteModelsEditContainer
+              {...{
+                initialFields: fields,
+
+                defaultValues: noteModel,
+              }}
+            />
+          </DialogContainer>
         </Box>
       );
     },
@@ -142,7 +150,16 @@ export const NoteModelsListContainer: React.FC = () => {
         }}
       />
 
-      <NoteModelsCreateDialog open={createDialogIsOpened} onClose={() => setCreateDialogIsOpened(false)} />
+      <DialogContainer
+        {...{
+          open: createDialogIsOpened,
+          onClose: () => setCreateDialogIsOpened(false),
+
+          title: 'Create Note Model',
+        }}
+      >
+        <NoteModelsCreateContainer />
+      </DialogContainer>
     </Fragment>
   );
 };

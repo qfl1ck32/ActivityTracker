@@ -56,34 +56,46 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
     }
   }, []);
 
-  return (
-    <Box>
-      <form onSubmit={handleSubmit(onSubmit as any)}>
-        <TextField label="name" {...register('name')} error={Boolean(errors.name)} helperText={errors.name?.message} />
+  // TODO: fix when changing type "ENUM" -> X ( -> ENUM )
+  console.log(errors);
 
-        <LoadingButton loading={isSubmitting} type="submit">
+  return (
+    <form onSubmit={handleSubmit(onSubmit as any)}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <TextField
+          margin="normal"
+          label="Name"
+          {...register('name')}
+          error={Boolean(errors.name)}
+          helperText={errors.name?.message}
+        />
+
+        <LoadingButton sx={{ marginLeft: 4 }} variant="contained" loading={isSubmitting} type="submit">
           {context === 'create' ? 'Create' : 'Edit'}
         </LoadingButton>
-      </form>
-
-      <Box>
-        <Typography variant="h5">Fields already added</Typography>
-        <List>
-          {fields.map((item, idx) => {
-            return (
-              <Fragment key={idx}>
-                <Box>
-                  <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, context }} />
-                </Box>
-                {fields.length > 1 && <Button onClick={() => remove(idx)}>Remove Field</Button>}
-              </Fragment>
-            );
-          })}
-          <div>
-            <Button onClick={addNewField}>Add New Field</Button>
-          </div>
-        </List>
       </Box>
-    </Box>
+
+      <Typography component="h1" variant="h5">
+        <Button onClick={addNewField}>Add New Field</Button>
+      </Typography>
+
+      <List
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          overflow: 'auto',
+        }}
+      >
+        {fields.map((item, idx) => {
+          return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', ml: 4, mr: 4 }}>
+              <AddFieldForm key={item.id} {...{ control, watch, errors, register, index: idx, remove, context }} />
+              {fields.length > 1 && <Button onClick={() => remove(idx)}>Remove Field</Button>}
+            </Box>
+          );
+        })}
+      </List>
+    </form>
   );
 };

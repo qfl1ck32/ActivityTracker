@@ -7,7 +7,8 @@ import { ActivityLogsCreate } from 'src/bundles/UIAppBundle/mutations';
 import { ActivitiesGetAll, NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
 import { ActivityLogsCreateForm } from '../..';
 
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
+import { Box } from '@mui/material';
 
 export const ActivityLogsCreateContainer: React.FC = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -66,5 +67,9 @@ export const ActivityLogsCreateContainer: React.FC = () => {
 
   if (noteModelsError) return <UIComponents.Error error={noteModelsError} />;
 
-  return <ActivityLogsCreateForm {...{ onSubmit, isSubmitting, activities, noteModels }} />;
+  return (
+    <Box sx={{ padding: 2 }}>
+      <ActivityLogsCreateForm {...{ onSubmit, isSubmitting, activities, noteModels }} />
+    </Box>
+  );
 };
