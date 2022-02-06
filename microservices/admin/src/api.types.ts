@@ -177,6 +177,7 @@ export type ActivityTiming = {
   endUser: EndUser;
   endUserId: Scalars['ObjectId'];
   finishedAt?: Maybe<Scalars['Date']>;
+  isFinished: Scalars['Boolean'];
   name: Scalars['String'];
   startedAt: Scalars['Date'];
   /** Represents the last time when the object was updated */
@@ -309,9 +310,14 @@ export type EndUserUpdateInput = {
 
 export type EndUsersActivityLogDetailsCreateInput = {
   activityLogId: Scalars['ObjectId'];
-  startedAt: Scalars['Date'];
-  finishedAt: Scalars['Date'];
-  noteDetailsValue?: Maybe<Scalars['String']>;
+};
+
+export type EndUsersActivityLogDetailsDeleteInput = {
+  activityLogDetailId: Scalars['ObjectId'];
+};
+
+export type EndUsersActivityLogDetailsFinishInput = {
+  activityLogDetailsId: Scalars['ObjectId'];
 };
 
 export type EndUsersActivityLogsCreateInput = {
@@ -336,7 +342,7 @@ export type EndUsersNoteModelsCreateInput = {
 
 export type EndUsersNoteModelsUpdateInput = {
   noteModelId: Scalars['ObjectId'];
-  fields: Array<Maybe<FieldInput>>;
+  fields?: Maybe<Array<Maybe<FieldInputWithEnumValues>>>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -362,14 +368,22 @@ export type FieldEnumValues = {
 };
 
 export type FieldEnumValuesInput = {
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
   value: Scalars['String'];
 };
 
 export type FieldInput = {
+  id?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   type: FieldType;
   enumValues: Array<Maybe<Scalars['String']>>;
+};
+
+export type FieldInputWithEnumValues = {
+  id?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  type: FieldType;
+  enumValues: Array<Maybe<FieldEnumValuesInput>>;
 };
 
 export type FieldRules = {
@@ -438,10 +452,12 @@ export type Mutation = {
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
   EndUsersActivityLogDetailsCreate: ActivityLogDetail;
+  EndUsersActivityLogDetailsDelete?: Maybe<Scalars['Boolean']>;
+  EndUsersActivityLogDetailsFinish: ActivityLogDetail;
   EndUsersActivityLogsCreate: ActivityLog;
-  EndUsersActivityNotesUpdate?: Maybe<Scalars['Boolean']>;
+  EndUsersActivityNotesUpdate: ActivityNote;
   EndUsersNoteModelsCreate: NoteModel;
-  EndUsersNoteModelsUpdate?: Maybe<Scalars['Boolean']>;
+  EndUsersNoteModelsUpdate: NoteModel;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;
@@ -619,6 +635,16 @@ export type MutationEndUsersActivityLogDetailsCreateArgs = {
 };
 
 
+export type MutationEndUsersActivityLogDetailsDeleteArgs = {
+  input: EndUsersActivityLogDetailsDeleteInput;
+};
+
+
+export type MutationEndUsersActivityLogDetailsFinishArgs = {
+  input: EndUsersActivityLogDetailsFinishInput;
+};
+
+
 export type MutationEndUsersActivityLogsCreateArgs = {
   input: EndUsersActivityLogsCreateInput;
 };
@@ -694,7 +720,7 @@ export type NoteModelInsertInput = {
 
 export type NoteModelUpdateInput = {
   endUserId?: Maybe<Scalars['ObjectId']>;
-  fields?: Maybe<Array<Maybe<FieldInput>>>;
+  fields?: Maybe<Array<Maybe<FieldInputWithEnumValues>>>;
   name?: Maybe<Scalars['String']>;
 };
 
