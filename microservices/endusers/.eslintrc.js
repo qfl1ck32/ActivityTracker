@@ -1,5 +1,6 @@
 module.exports = {
   plugins: ["import"],
+  parser: "babel-eslint",
   rules: {
     "import/order": [
       "error",
