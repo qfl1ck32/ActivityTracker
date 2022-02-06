@@ -1,6 +1,6 @@
 import { LoginContainer } from 'src/bundles/UIAppBundle/components/containers';
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   return <LoginContainer />;
 };
 

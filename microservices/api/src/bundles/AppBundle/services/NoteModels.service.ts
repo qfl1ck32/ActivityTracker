@@ -84,8 +84,6 @@ export class NoteModelsService {
       endUserId
     );
 
-    console.log(fields);
-
     if (fields) {
       await this.securityService.noteModels.checkFieldsInputIsValid(
         { fields: fields as Field[] },

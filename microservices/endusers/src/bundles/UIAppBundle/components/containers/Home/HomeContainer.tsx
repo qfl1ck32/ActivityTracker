@@ -1,6 +1,4 @@
-import { useRouter } from '@bluelibs/x-ui-next';
-import { useEffect } from 'react';
-import { Routes } from 'src/bundles/UIAppBundle';
+import { useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 
 export const HomeContainer: React.FC = () => {
@@ -8,19 +6,7 @@ export const HomeContainer: React.FC = () => {
 
   const router = useRouter();
 
-  const goToLogin = () => router.go(Routes.Login);
+  const UIComponents = useUIComponents();
 
-  useEffect(() => {
-    if (guardian.state.isLoggedIn) {
-      router.go(Routes.ActivityLogs);
-    }
-  });
-
-  if (guardian.state.isLoggedIn) return null;
-
-  return (
-    <div>
-      <button onClick={goToLogin}>Go to login</button>
-    </div>
-  );
+  return <UIComponents.Layout>hello, {guardian.state.user?.fullName}!</UIComponents.Layout>;
 };

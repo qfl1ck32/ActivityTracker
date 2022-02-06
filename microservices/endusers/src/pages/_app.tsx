@@ -3,12 +3,11 @@ import '../styles/globals.css';
 import { createApp } from '@bluelibs/x-ui-next';
 import { kernel } from '../startup/kernel';
 import { AppProps } from 'next/dist/pages/_app';
-import { Header } from 'src/bundles/UIAppBundle/components';
 import { Fragment, useEffect } from 'react';
 
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
 
-import { injectStyle } from "react-toastify/dist/inject-style"
+import { injectStyle } from 'react-toastify/dist/inject-style';
 
 const App = createApp({
   kernel,
@@ -18,18 +17,13 @@ const WrappedApp = (props: AppProps) => {
   const app = App(props as any); // TODO: fix type
 
   useEffect(() => {
-    injectStyle()
-  }, [])
+    injectStyle();
+  }, []);
 
   return (
     <Fragment>
-      <Header />
       {app}
-      <ToastContainer
-        position="top-right"
-        autoClose={2500}
-        hideProgressBar={true}
-      />
+      <ToastContainer position="top-right" autoClose={2500} hideProgressBar={true} />
     </Fragment>
   );
 };

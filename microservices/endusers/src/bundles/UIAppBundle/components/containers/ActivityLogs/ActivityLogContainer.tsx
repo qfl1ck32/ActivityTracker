@@ -344,7 +344,7 @@ export const ActivityLogContainer: React.FC = () => {
   if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
 
   return (
-    <Box>
+    <UIComponents.Layout>
       <Typography variant="h6">{activityLog.name}</Typography>
 
       <DataGridContainer
@@ -358,6 +358,6 @@ export const ActivityLogContainer: React.FC = () => {
           },
         }}
       />
-    </Box>
+    </UIComponents.Layout>
   );
 };

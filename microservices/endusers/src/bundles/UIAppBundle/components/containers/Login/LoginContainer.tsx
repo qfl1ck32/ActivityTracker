@@ -1,16 +1,18 @@
-import { useRouter } from "@bluelibs/x-ui-next";
-import { useEffect } from "react";
-import { LoginInput } from "src/api.types";
-import { Routes } from "src/bundles/UIAppBundle";
-import { useAppGuardian } from "src/bundles/UIAppBundle/services";
-import { LoginForm } from "../../forms";
+import { useRouter, useUIComponents } from '@bluelibs/x-ui-next';
+import { useEffect } from 'react';
+import { LoginInput } from 'src/api.types';
+import { Routes } from 'src/bundles/UIAppBundle';
+import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
+import { LoginForm } from '../../forms';
 
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 export const LoginContainer: React.FC = () => {
   const guardian = useAppGuardian();
 
   const router = useRouter();
+
+  const UIComponents = useUIComponents();
 
   useEffect(() => {
     if (guardian.state.isLoggedIn) {
@@ -22,7 +24,7 @@ export const LoginContainer: React.FC = () => {
     try {
       const { username, password } = data;
       await guardian.login(username, password);
-      toast.info("Successfully logged in!");
+      toast.info('Successfully logged in!');
     } catch (err: any) {
       toast.error(err.toString());
     }
@@ -31,8 +33,8 @@ export const LoginContainer: React.FC = () => {
   if (guardian.state.isLoggedIn) return null;
 
   return (
-    <div>
+    <UIComponents.Layout>
       <LoginForm {...{ onSubmit }} />
-    </div>
+    </UIComponents.Layout>
   );
 };

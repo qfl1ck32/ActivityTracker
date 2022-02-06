@@ -2,12 +2,15 @@ import { Button, Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import { ActivityLogsListContainer } from './ActivityLogsListContainer';
 import { ActivityLogsCreateDialog } from '../../dialogs';
+import { useUIComponents } from '@bluelibs/x-ui-react-bundle';
 
 export const ActivityLogsContainer: React.FC = () => {
   const [createEditDialogIsOpened, setCreateEditDialogIsOpened] = useState(false);
 
+  const UIComponents = useUIComponents();
+
   return (
-    <Box>
+    <UIComponents.Layout>
       <Typography variant="h6">Activity Logs</Typography>
 
       <Button onClick={() => setCreateEditDialogIsOpened(true)}>Create</Button>
@@ -17,6 +20,6 @@ export const ActivityLogsContainer: React.FC = () => {
       <ActivityLogsCreateDialog
         {...{ open: createEditDialogIsOpened, onClose: () => setCreateEditDialogIsOpened(false) }}
       />
-    </Box>
+    </UIComponents.Layout>
   );
 };

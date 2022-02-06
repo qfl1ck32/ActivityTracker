@@ -4,13 +4,8 @@
  *
  * Use the `useAppGuardian()` function instead of `useGuardian()`
  */
-import {
-  GuardianSmart,
-  GuardianUserType,
-  GuardianUserRegistrationType,
-  useSmart,
-} from "@bluelibs/x-ui-next";
-import { gql } from "@apollo/client";
+import { GuardianSmart, GuardianUserType, GuardianUserRegistrationType, useSmart } from '@bluelibs/x-ui-next';
+import { gql } from '@apollo/client';
 
 type AppUserType = GuardianUserType & {
   fullName: string;
@@ -40,7 +35,7 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
             }
           }
         `,
-        fetchPolicy: "network-only",
+        fetchPolicy: 'network-only',
       })
       .then((response) => {
         return response.data.me;

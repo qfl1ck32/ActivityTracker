@@ -51,7 +51,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   };
 
   useEffect(() => {
-    if (!defaultValues) {
+    if (context === 'create') {
       addNewField();
     }
   }, []);

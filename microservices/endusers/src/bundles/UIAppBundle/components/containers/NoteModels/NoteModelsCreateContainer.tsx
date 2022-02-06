@@ -6,7 +6,7 @@ import { NoteModelCreatedEvent } from 'src/bundles/UIAppBundle/events';
 import { CreateNoteModel } from 'src/bundles/UIAppBundle/mutations';
 import { NoteModelsForm } from '../../forms';
 
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 export const NoteModelsCreateContainer: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -24,7 +24,7 @@ export const NoteModelsCreateContainer: React.FC = () => {
     try {
       const { data } = await createNoteModel({
         variables: {
-          input
+          input,
         },
       });
 
@@ -42,5 +42,5 @@ export const NoteModelsCreateContainer: React.FC = () => {
     }
   };
 
-  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, type: "create" }} />;
+  return <NoteModelsForm {...{ onSubmit, isSubmitting: submitting, context: 'create' }} />;
 };
