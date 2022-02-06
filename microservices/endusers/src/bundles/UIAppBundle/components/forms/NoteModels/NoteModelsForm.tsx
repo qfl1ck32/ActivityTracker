@@ -69,24 +69,26 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   console.log(errors);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <TextField
-          margin="normal"
-          label="Name"
-          {...register('name')}
-          error={Boolean(errors.name)}
-          helperText={errors.name?.message}
-        />
+    <Fragment>
+      <form onSubmit={handleSubmit(onSubmit as any)}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <TextField
+            margin="normal"
+            label="Name"
+            {...register('name')}
+            error={Boolean(errors.name)}
+            helperText={errors.name?.message}
+          />
 
-        <LoadingButton sx={{ marginLeft: 4 }} variant="contained" loading={isSubmitting} type="submit">
-          {context === 'create' ? 'Create' : 'Edit'}
-        </LoadingButton>
-      </Box>
+          <LoadingButton sx={{ marginLeft: 4 }} variant="contained" loading={isSubmitting} type="submit">
+            {context === 'create' ? 'Create' : 'Edit'}
+          </LoadingButton>
+        </Box>
 
-      <Typography component="h1" variant="h5">
-        <Button onClick={addNewField}>Add New Field</Button>
-      </Typography>
+        <Typography component="h1" variant="h5">
+          <Button onClick={addNewField}>Add New Field</Button>
+        </Typography>
+      </form>
 
       <List
         sx={{
@@ -105,6 +107,6 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
           );
         })}
       </List>
-    </form>
+    </Fragment>
   );
 };

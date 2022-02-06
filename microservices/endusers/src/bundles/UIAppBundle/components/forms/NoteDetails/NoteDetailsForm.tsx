@@ -12,6 +12,7 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
+  Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -53,12 +54,27 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
     defaultValues,
   });
 
+  // TODO: maybe we should handle this via transforming, or, something. this happens only for enumValues.
+  const submit = (e: any) => {
+    handleSubmit((data) => {
+      const filteredData = data;
+
+      for (const key in data) {
+        if (!filteredData[key]) {
+          delete filteredData[key];
+        }
+      }
+
+      onSubmit(filteredData);
+    })(e);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
+    <form onSubmit={submit}>
       {noteModel.fields.map((field) => {
         if (field.type === FieldType.ENUM) {
           return (
-            <div>
+            <div key={field.id}>
               <FormHelperText>{field.name}</FormHelperText>
 
               <Select
@@ -66,8 +82,8 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
                 {...register(field.id)}
                 defaultValue={defaultValues[field.id] || ''}
                 displayEmpty
-                key={field.id}
                 inputProps={{ 'aria-label': field.name }}
+                error={Boolean(errors[field.id])}
               >
                 <MenuItem disabled value="">
                   Select a value
@@ -78,15 +94,15 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText error>{errors[field.id]?.message}</FormHelperText>
             </div>
           );
         }
 
         if (field.type === FieldType.BOOLEAN) {
           return (
-            <div>
+            <div key={field.id}>
               <FormControlLabel
-                key={field.id}
                 label={field.name}
                 control={<Checkbox {...register(field.id)} defaultChecked={defaultValues[field.id]} />}
               />
@@ -112,7 +128,6 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
           <TextField
             margin="normal"
             fullWidth
-            key={field.id}
             {...props}
             label={field.name}
             {...register(field.id)}

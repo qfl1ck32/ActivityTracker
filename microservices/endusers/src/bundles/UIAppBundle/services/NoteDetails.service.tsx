@@ -17,7 +17,7 @@ export class NoteDetailsService {
         case FieldType.ENUM:
           spec[field.id] = yup
             .string()
-            .oneOf(field.enumValues.map((enumValue) => enumValue.id).concat(null as any))
+            .oneOf(field.enumValues.map((enumValue) => enumValue.id).concat(''))
             .nullable();
           break;
 
