@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
-import { Container } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import { GridColumns, GridEventListener, GridEvents } from '@mui/x-data-grid';
 import { Fragment, useEffect, useState } from 'react';
 import { ActivityLog, Query } from 'src/api.types';
@@ -16,14 +16,14 @@ const columns: GridColumns = [
     field: 'name',
     headerName: 'Name',
 
-    width: 250,
+    width: 150,
   },
 
   {
     field: 'activity',
     headerName: 'Activity Name',
 
-    width: 250,
+    width: 180,
 
     renderCell: (params) => params.value.name,
   },
@@ -32,7 +32,7 @@ const columns: GridColumns = [
     field: 'noteModel',
     headerName: 'Note Model Name',
 
-    width: 250,
+    width: 220,
 
     renderCell: (params) => params.value.name,
   },
@@ -44,6 +44,32 @@ const columns: GridColumns = [
     width: 250,
 
     valueFormatter: (params) => new Date(params.value as number).toLocaleDateString(),
+  },
+
+  {
+    field: 'View',
+    headerName: 'View',
+
+    width: 150,
+
+    renderCell: (params) => {
+      const router = useRouter();
+
+      return (
+        <Button
+          variant="contained"
+          onClick={() =>
+            router.go(Routes.ActivityLog, {
+              params: {
+                id: params.id,
+              },
+            })
+          }
+        >
+          View
+        </Button>
+      );
+    },
   },
 ];
 
@@ -71,20 +97,13 @@ export const ActivityLogsListContainer: React.FC = () => {
 
     eventManager.addListener(ActivityLogCreatedEvent, listener);
 
+    setCreateDialogIsOpened(false);
+
     return () => {
       eventManager.removeListener(ActivityLogCreatedEvent as any, listener); // TODO: fix from bluelibs
     };
   }, []);
-
   if (error) return <UIComponents.Error error={error} />;
-
-  const onRowClick: GridEventListener<GridEvents.rowClick> = (row) => {
-    router.go(Routes.ActivityLog, {
-      params: {
-        id: row.id,
-      },
-    });
-  };
 
   const onDelete = async (id: string) => {
     console.log(id);
@@ -100,7 +119,6 @@ export const ActivityLogsListContainer: React.FC = () => {
             {...{
               rows: activityLogs,
               columns,
-              onRowClick,
               onDelete,
               toolbarProps: {
                 onCreatePress: () => setCreateDialogIsOpened(true),

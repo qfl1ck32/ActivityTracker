@@ -19,11 +19,11 @@ export const DataGridActionCell: React.FC<DataGridActionCellProps> = (props) => 
   const onDelete = () => props.onDelete?.(cellId);
 
   return [props.onDelete, props.onEdit].some(Boolean) ? (
-    <FormControl fullWidth>
+    <FormControl sx={{ border: 'none' }} fullWidth>
       <InputLabel shrink={false} id="ActionLabel">
         Action
       </InputLabel>
-      <Select labelId="ActionLabel" label="Action">
+      <Select sx={{ border: 'none' }} labelId="ActionLabel" label="Action">
         {props.onEdit && <MenuItem onClick={onEdit}>Edit</MenuItem>}
         {props.onDelete && <MenuItem onClick={onDelete}>Delete</MenuItem>}
       </Select>
