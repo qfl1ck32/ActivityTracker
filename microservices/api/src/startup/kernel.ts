@@ -13,7 +13,6 @@ import { EmailBundle } from "@bluelibs/email-bundle";
 import { ValidatorBundle } from "@bluelibs/validator-bundle";
 import { XS3Bundle } from "@bluelibs/x-s3-bundle";
 import { UsersCollection } from "../bundles/AppBundle/collections";
-
 import env from "./env";
 
 export const kernel = new Kernel({
@@ -43,7 +42,28 @@ export const kernel = new Kernel({
       appUrl: env.APP_URL,
       rootUrl: env.ROOT_URL,
     }),
-    new EmailBundle(),
+    new EmailBundle({
+      defaults: {
+        from: env.EMAIL_DEFAULT_FROM,
+      },
+
+      // TODO: find better idea
+      transporter:
+        process.env.NODE_ENV === "development"
+          ? {
+              host: env.EMAIL_HOST,
+
+              port: env.EMAIL_PORT,
+
+              secure: true,
+
+              auth: {
+                user: env.EMAIL_USER,
+                pass: env.EMAIL_PASS,
+              },
+            }
+          : "nodemailer-test",
+    }),
     new PasswordBundle(),
     new XPasswordBundle({
       requiresEmailVerificationBeforeLoggingIn: true,

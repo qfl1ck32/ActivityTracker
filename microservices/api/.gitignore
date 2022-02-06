@@ -11,3 +11,4 @@ typeDocs
 .vscode
 .env
 .env.test
+.env.production
