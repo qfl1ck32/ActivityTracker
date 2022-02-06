@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useUIComponents } from '@bluelibs/x-ui-next';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState, Fragment } from 'react';
 import { Field, NoteModel, Query } from 'src/api.types';
@@ -125,8 +125,6 @@ export const NoteModelsListContainer: React.FC = () => {
 
   const UIComponents = useUIComponents();
 
-  if (loading) return <UIComponents.Loading />;
-
   if (error) return <UIComponents.Error error={error} />;
 
   const onDelete = async (id: string) => {
@@ -134,28 +132,34 @@ export const NoteModelsListContainer: React.FC = () => {
   };
 
   return (
-    <Fragment>
-      <DataGridContainer
-        {...{
-          rows: noteModels,
-          columns,
-          onDelete,
-          toolbarProps: {
-            onCreatePress: () => setCreateDialogIsOpened(true),
-          },
-        }}
-      />
+    <Container>
+      {loading ? (
+        <UIComponents.Loader center />
+      ) : (
+        <Fragment>
+          <DataGridContainer
+            {...{
+              rows: noteModels,
+              columns,
+              onDelete,
+              toolbarProps: {
+                onCreatePress: () => setCreateDialogIsOpened(true),
+              },
+            }}
+          />
 
-      <DialogContainer
-        {...{
-          open: createDialogIsOpened,
-          onClose: () => setCreateDialogIsOpened(false),
+          <DialogContainer
+            {...{
+              open: createDialogIsOpened,
+              onClose: () => setCreateDialogIsOpened(false),
 
-          title: 'Create Note Model',
-        }}
-      >
-        <NoteModelsCreateContainer />
-      </DialogContainer>
-    </Fragment>
+              title: 'Create Note Model',
+            }}
+          >
+            <NoteModelsCreateContainer />
+          </DialogContainer>
+        </Fragment>
+      )}
+    </Container>
   );
 };

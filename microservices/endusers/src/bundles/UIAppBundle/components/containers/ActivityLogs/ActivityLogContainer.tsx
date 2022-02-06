@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
-import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
+import { useEventManager, useRouter } from '@bluelibs/x-ui-next';
+import { useUIComponents } from '@bluelibs/x-ui-react-bundle';
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
@@ -355,23 +356,25 @@ export const ActivityLogContainer: React.FC = () => {
 
   if (activityLogError) return <UIComponents.Error error={activityLogError} />;
 
-  if (activityLogLoading || activityLog === undefined) return <UIComponents.Loading />;
-
   return (
-    <UIComponents.Layout>
-      <Typography variant="h6">{activityLog.name}</Typography>
+    <UIComponents.Layout title={activityLog && `Activity log - ${activityLog.name}`}>
+      <Container>
+        {activityLogLoading || activityLog === undefined ? (
+          <UIComponents.Loader center />
+        ) : (
+          <DataGridContainer
+            {...{
+              rows: activityLog.details,
 
-      <DataGridContainer
-        {...{
-          rows: activityLog.details,
-
-          columns,
-          onDelete,
-          toolbarProps: {
-            onCreatePress: onCreateActivityLogDetails,
-          },
-        }}
-      />
+              columns,
+              onDelete,
+              toolbarProps: {
+                onCreatePress: onCreateActivityLogDetails,
+              },
+            }}
+          />
+        )}
+      </Container>
     </UIComponents.Layout>
   );
 };

@@ -1,3 +1,3 @@
 export default null;
-export * from './Loading';
+export * from './Loader';
 export * from './Layout';

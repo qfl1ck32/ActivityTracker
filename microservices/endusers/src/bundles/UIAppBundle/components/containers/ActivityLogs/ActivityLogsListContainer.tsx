@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
+import { Container } from '@mui/material';
 import { GridColumns, GridEventListener, GridEvents } from '@mui/x-data-grid';
 import { Fragment, useEffect, useState } from 'react';
 import { ActivityLog, Query } from 'src/api.types';
@@ -75,8 +76,6 @@ export const ActivityLogsListContainer: React.FC = () => {
     };
   }, []);
 
-  if (loading) return <UIComponents.Loading />;
-
   if (error) return <UIComponents.Error error={error} />;
 
   const onRowClick: GridEventListener<GridEvents.rowClick> = (row) => {
@@ -92,24 +91,34 @@ export const ActivityLogsListContainer: React.FC = () => {
   };
 
   return (
-    <Fragment>
-      <DataGridContainer
-        {...{
-          rows: activityLogs,
-          columns,
-          onRowClick,
-          onDelete,
-          toolbarProps: {
-            onCreatePress: () => setCreateDialogIsOpened(true),
-          },
-        }}
-      />
+    <Container>
+      {loading ? (
+        <UIComponents.Loader />
+      ) : (
+        <Fragment>
+          <DataGridContainer
+            {...{
+              rows: activityLogs,
+              columns,
+              onRowClick,
+              onDelete,
+              toolbarProps: {
+                onCreatePress: () => setCreateDialogIsOpened(true),
+              },
+            }}
+          />
 
-      <DialogContainer
-        {...{ open: createDialogIsOpened, onClose: () => setCreateDialogIsOpened(false), title: 'Create activity log' }}
-      >
-        <ActivityLogsCreateContainer />
-      </DialogContainer>
-    </Fragment>
+          <DialogContainer
+            {...{
+              open: createDialogIsOpened,
+              onClose: () => setCreateDialogIsOpened(false),
+              title: 'Create activity log',
+            }}
+          >
+            <ActivityLogsCreateContainer />
+          </DialogContainer>
+        </Fragment>
+      )}
+    </Container>
   );
 };

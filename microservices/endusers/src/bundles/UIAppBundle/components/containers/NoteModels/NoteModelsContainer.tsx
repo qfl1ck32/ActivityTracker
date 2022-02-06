@@ -1,14 +1,11 @@
-import { useUIComponents } from '@bluelibs/x-ui-react-bundle';
-import { Typography } from '@mui/material';
+import { useUIComponents } from '@bluelibs/x-ui-next';
 import { NoteModelsListContainer } from './NoteModelsListContainer';
 
 export const NoteModelsContainer: React.FC = () => {
   const UIComponents = useUIComponents();
 
   return (
-    <UIComponents.Layout>
-      <Typography variant="h6">Note Models</Typography>
-
+    <UIComponents.Layout title="Node Models">
       <NoteModelsListContainer />
     </UIComponents.Layout>
   );
