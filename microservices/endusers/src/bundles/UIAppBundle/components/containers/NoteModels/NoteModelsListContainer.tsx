@@ -3,7 +3,7 @@ import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useUIComponents } from '@bluelibs/x-ui-next';
 import { Box, Button } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Field, NoteModel, Query } from 'src/api.types';
 import {
   INoteModelCreated,
@@ -12,7 +12,7 @@ import {
   NoteModelUpdatedEvent,
 } from 'src/bundles/UIAppBundle/events';
 import { NoteModelsGetAll } from 'src/bundles/UIAppBundle/queries';
-import { NoteModelsEditDialog } from '../..';
+import { NoteModelsCreateDialog, NoteModelsEditDialog } from '../..';
 import { DataGridContainer } from '../DataGrid';
 
 const columns: GridColumns = [
@@ -74,6 +74,8 @@ const columns: GridColumns = [
 export const NoteModelsListContainer: React.FC = () => {
   const [noteModels, setNoteModels] = useState<NoteModel[]>([]);
 
+  const [createDialogIsOpened, setCreateDialogIsOpened] = useState(false);
+
   const { loading, error } = useQuery<{ EndUsersNoteModelsGetAll: Query['EndUsersNoteModelsGetAll'] }>(
     NoteModelsGetAll,
     {
@@ -127,5 +129,20 @@ export const NoteModelsListContainer: React.FC = () => {
     console.log(id);
   };
 
-  return <DataGridContainer {...{ rows: noteModels, columns, onDelete }} />;
+  return (
+    <Fragment>
+      <DataGridContainer
+        {...{
+          rows: noteModels,
+          columns,
+          onDelete,
+          toolbarProps: {
+            onCreatePress: () => setCreateDialogIsOpened(true),
+          },
+        }}
+      />
+
+      <NoteModelsCreateDialog open={createDialogIsOpened} onClose={() => setCreateDialogIsOpened(false)} />
+    </Fragment>
+  );
 };

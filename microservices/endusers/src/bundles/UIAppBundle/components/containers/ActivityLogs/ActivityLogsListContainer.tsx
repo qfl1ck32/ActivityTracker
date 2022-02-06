@@ -2,20 +2,15 @@ import { useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useRouter, useUIComponents } from '@bluelibs/x-ui-next';
 import { GridColumns, GridEventListener, GridEvents } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { ActivityLog, Query } from 'src/api.types';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { ActivityLogCreatedEvent, IActivityLogCreated } from 'src/bundles/UIAppBundle/events';
 import { ActivityLogsGetAll } from 'src/bundles/UIAppBundle/queries';
+import { ActivityLogsCreateDialog } from '../..';
 import { DataGridContainer } from '../DataGrid';
 
 const columns: GridColumns = [
-  {
-    field: 'id',
-    headerName: 'ID',
-    width: 300,
-  },
-
   {
     field: 'name',
     headerName: 'Name',
@@ -54,6 +49,8 @@ const columns: GridColumns = [
 export const ActivityLogsListContainer: React.FC = () => {
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
 
+  const [createDialogIsOpened, setCreateDialogIsOpened] = useState(false);
+
   const UIComponents = useUIComponents();
   const router = useRouter();
 
@@ -82,12 +79,10 @@ export const ActivityLogsListContainer: React.FC = () => {
 
   if (error) return <UIComponents.Error error={error} />;
 
-  const onCellClick: GridEventListener<GridEvents.cellClick> = (gridCell) => {
-    if (gridCell.field !== 'id') return;
-
+  const onRowClick: GridEventListener<GridEvents.rowClick> = (row) => {
     router.go(Routes.ActivityLog, {
       params: {
-        id: gridCell.id,
+        id: row.id,
       },
     });
   };
@@ -96,5 +91,20 @@ export const ActivityLogsListContainer: React.FC = () => {
     console.log(id);
   };
 
-  return <DataGridContainer {...{ rows: activityLogs, columns, onCellClick, onDelete }} />;
+  return (
+    <Fragment>
+      <DataGridContainer
+        {...{
+          rows: activityLogs,
+          columns,
+          onRowClick,
+          onDelete,
+          toolbarProps: {
+            onCreatePress: () => setCreateDialogIsOpened(true),
+          },
+        }}
+      />
+      <ActivityLogsCreateDialog {...{ open: createDialogIsOpened, onClose: () => setCreateDialogIsOpened(false) }} />
+    </Fragment>
+  );
 };

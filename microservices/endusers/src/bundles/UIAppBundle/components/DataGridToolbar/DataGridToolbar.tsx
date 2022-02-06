@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { GridToolbar, GridToolbarContainer } from '@mui/x-data-grid';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -10,11 +10,12 @@ export type DataGridToolbarProps = {
 export const DataGridToolbar: React.FC<DataGridToolbarProps> = ({ onCreatePress }) => {
   return (
     <GridToolbarContainer>
-      <Box>
-        <IconButton onClick={onCreatePress}>
+      <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button onClick={onCreatePress}>
           <AddIcon /> Create
-        </IconButton>
+        </Button>
       </Box>
+
       <GridToolbar />
     </GridToolbarContainer>
   );

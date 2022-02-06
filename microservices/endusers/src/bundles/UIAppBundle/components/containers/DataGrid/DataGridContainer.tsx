@@ -49,8 +49,8 @@ export const DataGridContainer: React.FC<DataGridContainerProps<any>> = (props) 
         disableSelectionOnClick
         rows={dataGridService.mapApiDataToGridData(rows)}
         columns={columns}
-        pageSize={20}
-        rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]}
+        pageSize={10}
+        rowsPerPageOptions={[10, 25, 50]}
       />
     </Box>
   );
