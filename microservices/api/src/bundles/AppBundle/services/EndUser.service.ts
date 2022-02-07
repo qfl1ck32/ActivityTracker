@@ -5,7 +5,6 @@ import {
   ContainerInstance,
 } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { IExecutionContext } from "@bluelibs/mongo-bundle";
 import { PermissionService } from "@bluelibs/security-bundle";
 import { XPasswordService } from "@bluelibs/x-password-bundle";
 import { EndUsersCollection, UserRole, UsersCollection } from "../collections";
@@ -42,7 +41,7 @@ export class EndUserService {
       {
         context: {
           userId,
-        }  as IExecutionContext,
+        },
       }
     );
   }

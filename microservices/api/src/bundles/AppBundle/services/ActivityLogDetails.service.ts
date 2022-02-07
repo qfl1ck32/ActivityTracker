@@ -1,6 +1,5 @@
 import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { IExecutionContext } from "@bluelibs/mongo-bundle";
 import { QueryBodyType } from "@bluelibs/nova";
 import {
   ActivityLogDetail,
@@ -78,7 +77,7 @@ export class ActivityLogDetailsService {
           startedAt: new Date(), // TODO:is it good?
         },
         {
-          context: { userId } as IExecutionContext,
+          context: { userId },
         }
       );
 
@@ -89,7 +88,7 @@ export class ActivityLogDetailsService {
           endUserId,
         },
         {
-          context: { userId } as IExecutionContext,
+          context: { userId },
         }
       );
 
@@ -102,7 +101,7 @@ export class ActivityLogDetailsService {
           activityLogId,
           endUserId,
         },
-        { context: { userId } as IExecutionContext }
+        { context: { userId } }
       );
 
     await this.activityTimingsCollection.updateOne(
