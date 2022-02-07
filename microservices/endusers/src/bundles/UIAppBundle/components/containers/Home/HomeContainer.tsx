@@ -3,6 +3,7 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
 import { Routes } from 'src/bundles/UIAppBundle';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
+import { UnfinishedActivityLogDetailsListContainer } from '..';
 
 export const HomeContainer: React.FC = () => {
   const guardian = useAppGuardian();
@@ -35,6 +36,8 @@ export const HomeContainer: React.FC = () => {
             </Box>
           </Box>
         )}
+
+        <UnfinishedActivityLogDetailsListContainer />
       </Box>
     </UIComponents.Layout>
   );

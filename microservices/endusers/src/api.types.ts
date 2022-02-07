@@ -754,6 +754,7 @@ export type Query = {
   UsersFind: Array<Maybe<User>>;
   UsersCount: Scalars['Int'];
   EndUsersActivitiesGetAll: Array<Maybe<Activity>>;
+  EndUsersActivityLogDetailsGetUnfinished: Array<Maybe<ActivityLogDetail>>;
   EndUsersActivityLogsGetAll: Array<Maybe<ActivityLog>>;
   EndUsersActivityLogsGetOne: ActivityLog;
   EndUsersNoteModelsGetAll: Array<Maybe<NoteModel>>;

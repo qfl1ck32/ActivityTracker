@@ -181,4 +181,56 @@ describe("ActivityLogDetailsService", () => {
       await getActivityTimingByActivityLogDetailId(activityLogDetail._id)
     ).toBeFalsy();
   });
+
+  test("getUnfinished()", async () => {
+    const activityLogDetailsService = container.get(ActivityLogDetailsService);
+
+    const { userId } = await createEndUser();
+
+    const activityId = await createActivity();
+
+    const noteModelId = await createNoteModel(
+      {
+        name: "For Calisthenics",
+        fields: [
+          {
+            name: "Went hardcore?",
+            type: FieldType.ENUM,
+            enumValues: ["YES", "HELL YES!"],
+          },
+        ],
+      },
+      userId
+    );
+
+    const activityLogId = await createActivityLog(
+      {
+        activityId,
+        noteModelId,
+      },
+      userId
+    );
+
+    let activityLogDetail = await activityLogDetailsService.create(
+      {
+        activityLogId,
+      },
+      userId
+    );
+
+    let unfinishedActivityLogDetails =
+      await activityLogDetailsService.getUnfinished(userId);
+
+    expect(unfinishedActivityLogDetails).toHaveLength(1);
+
+    await activityLogDetailsService.finish(
+      { activityLogDetailId: activityLogDetail._id },
+      userId
+    );
+
+    unfinishedActivityLogDetails =
+      await activityLogDetailsService.getUnfinished(userId);
+
+    expect(unfinishedActivityLogDetails).toHaveLength(0);
+  });
 });

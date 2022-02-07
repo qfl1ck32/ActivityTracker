@@ -1,6 +1,6 @@
 import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { QueryBodyType } from "@bluelibs/nova";
+import { lookup, QueryBodyType } from "@bluelibs/nova";
 import {
   ActivityLogDetail,
   ActivityLogDetailsCollection,
@@ -196,5 +196,43 @@ export class ActivityLogDetailsService {
     await this.activityNotesCollection.deleteOne({
       activityLogDetailId,
     });
+  }
+
+  public async getUnfinished(userId: ObjectId) {
+    const endUserId = await this.endUserService.getIdByOwnerId(userId);
+
+    const activityLogDetails = await this.activityLogDetailsCollection.query({
+      $: {
+        filters: {
+          endUserId,
+        },
+
+        // // TODO: use the damn pipeline! lol
+        // pipeline: [
+        //   // TODO: fix in bluelibs
+        //   lookup(
+        //     this.activityTimingsCollection.collection,
+        //     "activityLogDetail"
+        //   ),
+        //   {
+        //     $match: {
+        //       "activityLogDetail.timing.finishedAt": {
+        //         $in: [null, undefined],
+        //       },
+        //     },
+        //   },
+        // ],
+      },
+
+      activityLog: {
+        activity: {
+          name: 1,
+        },
+      },
+
+      ...this.queryBody,
+    });
+
+    return activityLogDetails.filter((detail) => !detail.timing.isFinished);
   }
 }
