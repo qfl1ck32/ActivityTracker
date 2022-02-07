@@ -1,3 +1,4 @@
+// TODO: is this the best way?
 if (process.env.NODE_ENV === "production") {
   require("module-alias/register");
 }
