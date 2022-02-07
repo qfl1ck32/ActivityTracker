@@ -10,9 +10,6 @@ export class ActivityLogDetailUpdateInput {
   @Is(an.objectId().nullable())
   endUserId?: ObjectId;
 
-  @Is(a.string().nullable())
-  name?: string;
-
   @Is(an.objectId().nullable())
   noteId?: ObjectId;
 

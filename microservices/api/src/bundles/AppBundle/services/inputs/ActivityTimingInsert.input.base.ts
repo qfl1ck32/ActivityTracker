@@ -13,9 +13,6 @@ export class ActivityTimingInsertInput {
   @Is(a.date().nullable())
   finishedAt?: Date;
 
-  @Is(a.string().required())
-  name: string;
-
   @Is(a.date().required())
   startedAt: Date;
 }

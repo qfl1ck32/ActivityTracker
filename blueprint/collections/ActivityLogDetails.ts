@@ -9,10 +9,7 @@ export const ActivityLogDetails = collection({
     timestampable: true,
   },
 
-  representedBy: "name",
-
   fields: [
-    field.string("name"),
     ...shortcuts.fields.timestampable(),
     shortcuts.field.softdeletable(),
   ],

@@ -59,7 +59,7 @@ export class ActivityNoteCreateForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={ActivityLogDetailsCollection}
-              field="name"
+              field="_id"
             />
           </Ant.Form.Item>
         ),

@@ -24,20 +24,6 @@ export class ActivityLogList extends XList<ActivityLog> {
 
     this.add([
       {
-        id: "name",
-        title: t("management.activity_logs.fields.name"),
-        key: "management.activity_logs.fields.name",
-        dataIndex: ["name"],
-        sorter: true,
-        render: (value, model) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "createdAt",
         title: t("management.activity_logs.fields.createdAt"),
         key: "management.activity_logs.fields.createdAt",
@@ -125,7 +111,7 @@ export class ActivityLogList extends XList<ActivityLog> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -204,7 +190,7 @@ export class ActivityLogList extends XList<ActivityLog> {
     return {
       activity: "activity.name",
       noteModel: "noteModel.name",
-      details: "details.name",
+      details: "details._id",
       endUser: "endUser.fullName",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
@@ -214,7 +200,6 @@ export class ActivityLogList extends XList<ActivityLog> {
   static getRequestBody(): QueryBodyType<ActivityLog> {
     return {
       _id: 1,
-      name: 1,
       createdAt: 1,
       updatedAt: 1,
       activity: {
@@ -229,7 +214,6 @@ export class ActivityLogList extends XList<ActivityLog> {
       noteModelId: 1,
       details: {
         _id: 1,
-        name: 1,
       },
       endUser: {
         _id: 1,

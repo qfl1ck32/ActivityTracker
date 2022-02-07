@@ -13,9 +13,6 @@ export class ActivityTimingUpdateInput {
   @Is(a.date().nullable())
   finishedAt?: Date;
 
-  @Is(a.string().nullable())
-  name?: string;
-
   @Is(a.date().nullable())
   startedAt?: Date;
 }

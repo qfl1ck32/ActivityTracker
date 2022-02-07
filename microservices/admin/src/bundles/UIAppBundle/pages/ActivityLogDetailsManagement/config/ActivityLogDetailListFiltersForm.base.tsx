@@ -22,17 +22,6 @@ export class ActivityLogDetailListFiltersForm extends XForm {
 
     this.add([
       {
-        id: "name",
-        label: t("management.activity_log_details.fields.name"),
-        name: ["name"],
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <Ant.Input />
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
         id: "createdAt",
         label: t("management.activity_log_details.fields.createdAt"),
         name: ["createdAt"],
@@ -106,7 +95,7 @@ export class ActivityLogDetailListFiltersForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={ActivityTimingsCollection}
-              field="name"
+              field="_id"
               placeholder="Please select an option"
               mode="multiple"
             />
@@ -138,7 +127,7 @@ export class ActivityLogDetailListFiltersForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={ActivityLogsCollection}
-              field="name"
+              field="_id"
               placeholder="Please select an option"
               mode="multiple"
             />

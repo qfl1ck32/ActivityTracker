@@ -23,7 +23,7 @@ export const kernel = new Kernel({
       },
 
       guardian: {
-        loadingComponent: (<Loader center />) as any, // FIXME
+        loadingComponent: (() => <Loader center />) as any,
         guardianClass: AppGuardian,
       },
 

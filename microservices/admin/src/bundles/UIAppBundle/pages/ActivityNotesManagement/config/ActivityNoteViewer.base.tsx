@@ -95,7 +95,7 @@ export class ActivityNoteViewer extends XViewer {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -157,7 +157,6 @@ export class ActivityNoteViewer extends XViewer {
       endUserId: 1,
       activityLogDetails: {
         _id: 1,
-        name: 1,
       },
       activityLogDetailsId: 1,
       createdBy: {

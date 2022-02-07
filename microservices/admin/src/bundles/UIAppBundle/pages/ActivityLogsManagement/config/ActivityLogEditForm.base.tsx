@@ -26,14 +26,6 @@ export class ActivityLogEditForm extends XForm {
 
     this.add([
       {
-        id: "name",
-        label: t("management.activity_logs.fields.name"),
-        name: ["name"],
-        required: true,
-        component: Ant.Input,
-      },
-
-      {
         id: "activityId",
         label: t("management.activity_logs.fields.activity"),
         name: ["activityId"],
@@ -83,7 +75,6 @@ export class ActivityLogEditForm extends XForm {
   static getRequestBody(): QueryBodyType<ActivityLog> {
     return {
       _id: 1,
-      name: 1,
       activity: {
         _id: 1,
         name: 1,

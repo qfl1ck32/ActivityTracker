@@ -10,9 +10,6 @@ export class ActivityLogDetailInsertInput {
   @Is(an.objectId().required())
   endUserId: ObjectId;
 
-  @Is(a.string().required())
-  name: string;
-
   @Is(an.objectId().required())
   noteId: ObjectId;
 

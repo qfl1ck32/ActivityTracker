@@ -28,14 +28,6 @@ export class ActivityLogDetailCreateForm extends XForm {
 
     this.add([
       {
-        id: "name",
-        label: t("management.activity_log_details.fields.name"),
-        name: ["name"],
-        required: true,
-        component: Ant.Input,
-      },
-
-      {
         id: "timingId",
         label: t("management.activity_log_details.fields.timing"),
         name: ["timingId"],
@@ -44,7 +36,7 @@ export class ActivityLogDetailCreateForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={ActivityTimingsCollection}
-              field="name"
+              field="_id"
             />
           </Ant.Form.Item>
         ),
@@ -74,7 +66,7 @@ export class ActivityLogDetailCreateForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={ActivityLogsCollection}
-              field="name"
+              field="_id"
             />
           </Ant.Form.Item>
         ),

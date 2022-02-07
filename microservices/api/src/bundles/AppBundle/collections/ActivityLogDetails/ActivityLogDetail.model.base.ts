@@ -45,9 +45,6 @@ export class ActivityLogDetail {
   @Is(a.boolean().nullable())
   isDeleted?: boolean;
 
-  @Is(a.string().required())
-  name: string;
-
   note: ActivityNote;
 
   @Is(an.objectId().required())

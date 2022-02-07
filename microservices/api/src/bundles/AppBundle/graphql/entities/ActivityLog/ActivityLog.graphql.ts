@@ -21,7 +21,6 @@ export default /* GraphQL */ `
     details: [ActivityLogDetail]!
     endUser: EndUser!
     endUserId: ObjectId!
-    name: String!
     noteModel: NoteModel!
     noteModelId: ObjectId!
 

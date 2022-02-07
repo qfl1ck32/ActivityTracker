@@ -135,7 +135,7 @@ export class EndUserViewer extends XViewer {
                           id: value?._id,
                         },
                       }),
-                      dataIndex: "name",
+                      dataIndex: "_id",
                     },
                   };
                   return (
@@ -205,7 +205,6 @@ export class EndUserViewer extends XViewer {
       ownerId: 1,
       activityLogs: {
         _id: 1,
-        name: 1,
       },
       createdBy: {
         _id: 1,

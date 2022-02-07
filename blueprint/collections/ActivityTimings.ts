@@ -9,11 +9,7 @@ export const ActivityTimings = collection({
     timestampable: true,
   },
 
-  representedBy: "name",
-
   fields: [
-    field.string("name"),
-
     field.date("startedAt"),
     field.date("finishedAt", {
       isRequired: false,

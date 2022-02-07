@@ -146,7 +146,7 @@ export class EndUserList extends XList<EndUser> {
                           id: value?._id,
                         },
                       }),
-                      dataIndex: "name",
+                      dataIndex: "_id",
                     },
                   };
                   return (
@@ -207,7 +207,7 @@ export class EndUserList extends XList<EndUser> {
   static getSortMap() {
     return {
       owner: "owner.fullName",
-      activityLogs: "activityLogs.name",
+      activityLogs: "activityLogs._id",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -229,7 +229,6 @@ export class EndUserList extends XList<EndUser> {
       ownerId: 1,
       activityLogs: {
         _id: 1,
-        name: 1,
       },
       createdBy: {
         _id: 1,

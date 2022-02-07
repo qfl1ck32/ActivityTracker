@@ -71,7 +71,6 @@ export class ActivityLogDetailsService {
     const activityTimingsInsertResponse =
       await this.activityTimingsCollection.insertOne(
         {
-          name: "random", // TODO: we should delete this
           endUserId,
 
           startedAt: new Date(), // TODO:is it good?
@@ -95,7 +94,6 @@ export class ActivityLogDetailsService {
     const { insertedId: activityLogDetailsId } =
       await this.activityLogDetailsCollection.insertOne(
         {
-          name: "random", // TODO: remove as well
           timingId: activityTimingsInsertResponse.insertedId,
           noteId: activityNoteInsertResponse.insertedId,
           activityLogId,

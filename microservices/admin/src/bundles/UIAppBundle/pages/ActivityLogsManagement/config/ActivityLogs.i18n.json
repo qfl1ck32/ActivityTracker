@@ -4,7 +4,6 @@
       "activity_logs": {
         "fields": {
           "_id": "ID",
-          "name": "Name",
           "createdAt": "Created At",
           "createdAt_description": "Represents the date when this object was created",
           "updatedAt": "Updated At",

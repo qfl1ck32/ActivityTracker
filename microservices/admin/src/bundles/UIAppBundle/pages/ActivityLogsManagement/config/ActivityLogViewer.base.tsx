@@ -26,18 +26,6 @@ export class ActivityLogViewer extends XViewer {
         },
       },
       {
-        id: "name",
-        label: t("management.activity_logs.fields.name"),
-        dataIndex: ["name"],
-        render: (value) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "createdAt",
         label: t("management.activity_logs.fields.createdAt"),
         dataIndex: ["createdAt"],
@@ -115,7 +103,7 @@ export class ActivityLogViewer extends XViewer {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -187,7 +175,6 @@ export class ActivityLogViewer extends XViewer {
   static getRequestBody(): QueryBodyType<ActivityLog> {
     return {
       _id: 1,
-      name: 1,
       createdAt: 1,
       updatedAt: 1,
       activity: {
@@ -202,7 +189,6 @@ export class ActivityLogViewer extends XViewer {
       noteModelId: 1,
       details: {
         _id: 1,
-        name: 1,
       },
       endUser: {
         _id: 1,

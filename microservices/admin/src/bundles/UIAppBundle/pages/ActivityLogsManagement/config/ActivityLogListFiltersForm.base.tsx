@@ -22,17 +22,6 @@ export class ActivityLogListFiltersForm extends XForm {
 
     this.add([
       {
-        id: "name",
-        label: t("management.activity_logs.fields.name"),
-        name: ["name"],
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <Ant.Input />
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
         id: "createdAt",
         label: t("management.activity_logs.fields.createdAt"),
         name: ["createdAt"],

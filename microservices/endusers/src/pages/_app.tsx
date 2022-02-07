@@ -9,9 +9,11 @@ import { ToastContainer } from 'react-toastify';
 
 import { injectStyle } from 'react-toastify/dist/inject-style';
 import { Head } from 'src/bundles/UIAppBundle/components';
+import { Loader } from 'src/bundles/UIAppBundle/overrides';
 
 const App = createApp({
   kernel,
+  loadingComponent: <Loader center />,
 });
 
 const WrappedApp = (props: AppProps) => {

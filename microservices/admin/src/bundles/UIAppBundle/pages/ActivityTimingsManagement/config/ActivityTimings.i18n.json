@@ -4,7 +4,6 @@
       "activity_timings": {
         "fields": {
           "_id": "ID",
-          "name": "Name",
           "startedAt": "Started At",
           "finishedAt": "Finished At",
           "isFinished": "Is Finished",

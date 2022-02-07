@@ -79,7 +79,7 @@ export class ActivityNoteListFiltersForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={ActivityLogDetailsCollection}
-              field="name"
+              field="_id"
               placeholder="Please select an option"
               mode="multiple"
             />

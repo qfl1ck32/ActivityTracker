@@ -22,20 +22,6 @@ export class ActivityTimingList extends XList<ActivityTiming> {
 
     this.add([
       {
-        id: "name",
-        title: t("management.activity_timings.fields.name"),
-        key: "management.activity_timings.fields.name",
-        dataIndex: ["name"],
-        sorter: true,
-        render: (value, model) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "startedAt",
         title: t("management.activity_timings.fields.startedAt"),
         key: "management.activity_timings.fields.startedAt",
@@ -143,7 +129,7 @@ export class ActivityTimingList extends XList<ActivityTiming> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -199,7 +185,7 @@ export class ActivityTimingList extends XList<ActivityTiming> {
   static getSortMap() {
     return {
       endUser: "endUser.fullName",
-      activityLogDetails: "activityLogDetails.name",
+      activityLogDetails: "activityLogDetails._id",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -208,7 +194,6 @@ export class ActivityTimingList extends XList<ActivityTiming> {
   static getRequestBody(): QueryBodyType<ActivityTiming> {
     return {
       _id: 1,
-      name: 1,
       startedAt: 1,
       finishedAt: 1,
       isFinished: 1,
@@ -221,7 +206,6 @@ export class ActivityTimingList extends XList<ActivityTiming> {
       endUserId: 1,
       activityLogDetails: {
         _id: 1,
-        name: 1,
       },
       activityLogDetailsId: 1,
       createdBy: {

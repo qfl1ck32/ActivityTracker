@@ -1,4 +1,4 @@
-import { collection, field, relation, shortcuts } from "../utils";
+import { collection, relation, shortcuts } from "../utils";
 
 export const ActivityLogs = collection({
   id: "ActivityLogs",
@@ -9,10 +9,7 @@ export const ActivityLogs = collection({
     timestampable: true,
   },
 
-  representedBy: "name",
-
   fields: [
-    field.string("name"),
     ...shortcuts.fields.timestampable(),
     shortcuts.field.softdeletable(),
   ],

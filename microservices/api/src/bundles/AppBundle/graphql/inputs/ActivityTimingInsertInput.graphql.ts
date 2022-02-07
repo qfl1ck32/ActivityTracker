@@ -3,7 +3,6 @@ export default /* GraphQL */ `
     activityLogDetailsId: ObjectId!
     endUserId: ObjectId!
     finishedAt: Date
-    name: String!
     startedAt: Date!
   }
 `;

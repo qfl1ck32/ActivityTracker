@@ -48,9 +48,6 @@ export class ActivityTiming {
 
   isFinished: boolean;
 
-  @Is(a.string().required())
-  name: string;
-
   @Is(a.date().required())
   startedAt: Date;
 

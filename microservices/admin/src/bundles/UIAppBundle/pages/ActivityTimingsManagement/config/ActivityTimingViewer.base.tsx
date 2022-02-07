@@ -26,18 +26,6 @@ export class ActivityTimingViewer extends XViewer {
         },
       },
       {
-        id: "name",
-        label: t("management.activity_timings.fields.name"),
-        dataIndex: ["name"],
-        render: (value) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "startedAt",
         label: t("management.activity_timings.fields.startedAt"),
         dataIndex: ["startedAt"],
@@ -131,7 +119,7 @@ export class ActivityTimingViewer extends XViewer {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -183,7 +171,6 @@ export class ActivityTimingViewer extends XViewer {
   static getRequestBody(): QueryBodyType<ActivityTiming> {
     return {
       _id: 1,
-      name: 1,
       startedAt: 1,
       finishedAt: 1,
       isFinished: 1,
@@ -196,7 +183,6 @@ export class ActivityTimingViewer extends XViewer {
       endUserId: 1,
       activityLogDetails: {
         _id: 1,
-        name: 1,
       },
       activityLogDetailsId: 1,
       createdBy: {

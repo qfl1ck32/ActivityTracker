@@ -101,7 +101,7 @@ export class ActivityNoteList extends XList<ActivityNote> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -157,7 +157,7 @@ export class ActivityNoteList extends XList<ActivityNote> {
   static getSortMap() {
     return {
       endUser: "endUser.fullName",
-      activityLogDetails: "activityLogDetails.name",
+      activityLogDetails: "activityLogDetails._id",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -176,7 +176,6 @@ export class ActivityNoteList extends XList<ActivityNote> {
       endUserId: 1,
       activityLogDetails: {
         _id: 1,
-        name: 1,
       },
       activityLogDetailsId: 1,
       createdBy: {

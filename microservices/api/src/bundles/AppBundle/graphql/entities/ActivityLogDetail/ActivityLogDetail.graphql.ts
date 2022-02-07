@@ -20,7 +20,6 @@ export default /* GraphQL */ `
     createdById: ObjectId
     endUser: EndUser!
     endUserId: ObjectId!
-    name: String!
     note: ActivityNote!
     noteId: ObjectId!
     timing: ActivityTiming!

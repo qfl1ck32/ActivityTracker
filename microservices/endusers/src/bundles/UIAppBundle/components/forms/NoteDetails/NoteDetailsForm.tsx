@@ -120,6 +120,7 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
 
           case FieldType.STRING: {
             props['type'] = 'text';
+            props['multiline'] = true;
             break;
           }
         }

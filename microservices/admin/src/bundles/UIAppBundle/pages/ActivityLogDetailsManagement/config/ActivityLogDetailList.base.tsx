@@ -24,20 +24,6 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
 
     this.add([
       {
-        id: "name",
-        title: t("management.activity_log_details.fields.name"),
-        key: "management.activity_log_details.fields.name",
-        dataIndex: ["name"],
-        sorter: true,
-        render: (value, model) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "createdAt",
         title: t("management.activity_log_details.fields.createdAt"),
         key: "management.activity_log_details.fields.createdAt",
@@ -125,7 +111,7 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -169,7 +155,7 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "name",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -204,9 +190,9 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
     return {
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
-      timing: "timing.name",
+      timing: "timing._id",
       note: "note.value",
-      activityLog: "activityLog.name",
+      activityLog: "activityLog._id",
       endUser: "endUser.fullName",
     };
   }
@@ -214,7 +200,6 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
   static getRequestBody(): QueryBodyType<ActivityLogDetail> {
     return {
       _id: 1,
-      name: 1,
       createdAt: 1,
       updatedAt: 1,
       createdBy: {
@@ -229,7 +214,6 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
       updatedById: 1,
       timing: {
         _id: 1,
-        name: 1,
       },
       timingId: 1,
       note: {
@@ -239,7 +223,6 @@ export class ActivityLogDetailList extends XList<ActivityLogDetail> {
       noteId: 1,
       activityLog: {
         _id: 1,
-        name: 1,
       },
       activityLogId: 1,
       endUser: {

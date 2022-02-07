@@ -28,14 +28,6 @@ export class ActivityLogCreateForm extends XForm {
 
     this.add([
       {
-        id: "name",
-        label: t("management.activity_logs.fields.name"),
-        name: ["name"],
-        required: true,
-        component: Ant.Input,
-      },
-
-      {
         id: "activityId",
         label: t("management.activity_logs.fields.activity"),
         name: ["activityId"],
