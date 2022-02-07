@@ -48,6 +48,8 @@ const columns: GridColumns = [
     renderCell: (props) => {
       const activityNote = props.value as ActivityNote;
 
+      const activityLogDetail = props.row as ActivityLogDetail;
+
       const activityLogDetailsId = props.id.toString();
 
       const [open, setOpen] = useState(false);
@@ -61,7 +63,12 @@ const columns: GridColumns = [
               open,
               onClose: () => setOpen(false),
 
-              title: 'Edit log',
+              // TODO: use a service...
+              title: `Edit log (${new Date(activityLogDetail.timing.startedAt).toLocaleTimeString()} - ${
+                activityLogDetail.timing.finishedAt
+                  ? new Date(activityLogDetail.timing.finishedAt).toLocaleTimeString()
+                  : 'ongoing'
+              })`,
             }}
           >
             <ActivityNotesEditContainer {...{ activityLogDetailsId, activityNote }} />
@@ -138,7 +145,7 @@ const columns: GridColumns = [
     valueFormatter: (props) => {
       const activityTiming = props.value as ActivityTiming;
 
-      return `${new Date(activityTiming.startedAt).toLocaleTimeString()} -- ${
+      return `${new Date(activityTiming.startedAt).toLocaleTimeString()} - ${
         activityTiming.isFinished ? new Date(activityTiming.finishedAt).toLocaleTimeString() : 'Ongoing'
       }`;
     },
@@ -151,8 +158,6 @@ export const ActivityLogContainer: React.FC = () => {
   const router = useRouter();
 
   const [activityLog, setActivityLog] = useActivityLog();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const UIComponents = useUIComponents();
 
@@ -185,8 +190,6 @@ export const ActivityLogContainer: React.FC = () => {
 
   const onCreateActivityLogDetails = async () => {
     try {
-      setIsSubmitting(true);
-
       const { data } = await createActivityLogDetails({
         variables: {
           input: {
@@ -204,8 +207,6 @@ export const ActivityLogContainer: React.FC = () => {
       toast.info('You have successfully created the activity log details');
     } catch (err: any) {
       toast.error(err.toString());
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -355,10 +356,15 @@ export const ActivityLogContainer: React.FC = () => {
               rows: activityLog.details,
 
               columns,
-              onDelete,
+
+              dataGridRowActionsProps: {
+                onDelete,
+
+                deleteModalMessage: `Are you sure you want to delete the log?`,
+              },
+
               toolbarProps: {
                 onCreatePress: onCreateActivityLogDetails,
-                isCreateLoading: isSubmitting,
               },
             }}
           />

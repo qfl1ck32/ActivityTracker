@@ -1,14 +1,11 @@
-import { Box, Dialog, DialogContent, DialogTitle, Divider, IconButton, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, DialogTitle, Divider, IconButton, Typography, DialogProps } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 export type DialogContainerProps = {
-  open: boolean;
-  onClose: () => void;
-
   title?: string;
-};
+} & DialogProps;
 
-export const DialogContainer: React.FC<DialogContainerProps> = ({ title, children, open, onClose }) => {
+export const DialogContainer: React.FC<DialogContainerProps> = ({ title, children, open, onClose, ...props }) => {
   return (
     <Dialog
       {...{
@@ -17,6 +14,7 @@ export const DialogContainer: React.FC<DialogContainerProps> = ({ title, childre
       }}
       fullWidth
       maxWidth="md"
+      {...props}
     >
       <DialogTitle>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}>

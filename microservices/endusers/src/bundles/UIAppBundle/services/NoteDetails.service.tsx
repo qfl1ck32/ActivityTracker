@@ -27,7 +27,7 @@ export class NoteDetailsService {
             .test({
               name: 'is-int-or-float',
 
-              test: (value) => new RegExp(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/).test(String(value)),
+              test: (value) => (value ? new RegExp(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/).test(String(value)) : true),
             })
             .transform((v, o) => (o === '' ? null : v))
             .nullable();
