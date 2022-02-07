@@ -5,8 +5,6 @@ export const ActivityLogsCreate = gql`
     EndUsersActivityLogsCreate(input: $input) {
       _id
 
-      name
-
       activity {
         name
       }
