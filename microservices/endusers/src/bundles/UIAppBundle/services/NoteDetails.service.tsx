@@ -24,6 +24,11 @@ export class NoteDetailsService {
         case FieldType.NUMBER:
           spec[field.id] = yup
             .number()
+            .test({
+              name: 'is-int-or-float',
+
+              test: (value) => new RegExp(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/).test(String(value)),
+            })
             .transform((v, o) => (o === '' ? null : v))
             .nullable();
           break;

@@ -114,7 +114,6 @@ export const NoteDetailsForm: React.FC<NoteDetailsFormProps> = ({
 
         switch (field.type) {
           case FieldType.NUMBER: {
-            props['type'] = 'number';
             break;
           }
 

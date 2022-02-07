@@ -68,7 +68,7 @@ export class FieldSecurityService {
   }
 
   private checkNumberFieldValueIsValid(value: any, fieldName: string) {
-    if (!Number.isInteger(value)) {
+    if (!Number.isFinite(value)) {
       throw new FieldValueIsNotValidException({ fieldName });
     }
   }
