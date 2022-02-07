@@ -23,13 +23,13 @@ export class ActivityLogDetailsSecurityService {
   @Inject()
   private activityTimingsCollection: ActivityTimingsCollection;
 
-  public async checkEndUserOwnsActivityLogDetails(
-    activityLogDetailsId: ObjectId,
+  public async checkEndUserOwnsActivityLogDetail(
+    activityLogDetailId: ObjectId,
     endUserId: ObjectId
   ) {
     const numberOfActivityLogDetailsByIdAndEndUserId =
       await this.activityLogDetailsCollection.count({
-        _id: activityLogDetailsId,
+        _id: activityLogDetailId,
         endUserId,
       });
 
@@ -39,11 +39,11 @@ export class ActivityLogDetailsSecurityService {
   }
 
   public async checkActivityLogDetailIsNotFinished(
-    activityLogDetailsId: ObjectId
+    activityLogDetailId: ObjectId
   ) {
     const numberOfActivityLogDetailsByIdAndFinishedAtTruthy =
       await this.activityTimingsCollection.count({
-        activityLogDetailsId,
+        activityLogDetailId,
 
         finishedAt: {
           $nin: [null, undefined],

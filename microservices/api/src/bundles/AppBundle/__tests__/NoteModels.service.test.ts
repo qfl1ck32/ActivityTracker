@@ -13,7 +13,7 @@ import {
   createActivityLogDetails,
   createEndUser,
   createNoteModel,
-  getActivityNoteByActivityLogDetailsId,
+  getActivityNoteByActivityLogDetailId,
   getNoteModelById,
   updateActivityNote,
 } from "./utilities";
@@ -96,7 +96,7 @@ describe("NoteModelsService", () => {
       userId
     );
 
-    const activityLogDetailsId = await createActivityLogDetails(
+    const activityLogDetailId = await createActivityLogDetails(
       {
         activityLogId,
       },
@@ -105,7 +105,7 @@ describe("NoteModelsService", () => {
 
     await updateActivityNote(
       {
-        activityLogDetailsId,
+        activityLogDetailId,
         value: EJSON.stringify({
           [fields[0].id]: fields[0].enumValues[0].id,
         }),
@@ -168,8 +168,8 @@ describe("NoteModelsService", () => {
       )
     ).toBe(false); // a.k.a. all enumValues from all fields have ids
 
-    const activityNote = await getActivityNoteByActivityLogDetailsId(
-      activityLogDetailsId
+    const activityNote = await getActivityNoteByActivityLogDetailId(
+      activityLogDetailId
     );
 
     const value = EJSON.parse(activityNote.value);

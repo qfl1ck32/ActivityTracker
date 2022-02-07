@@ -66,7 +66,7 @@ describe("ActivityNotesSecurityService", () => {
       userId
     );
 
-    const activityLogDetailsId = await createActivityLogDetails(
+    const activityLogDetailId = await createActivityLogDetails(
       {
         activityLogId,
       },
@@ -74,7 +74,7 @@ describe("ActivityNotesSecurityService", () => {
     );
 
     const updateInput = {
-      activityLogDetailsId,
+      activityLogDetailId,
       value: "",
     } as EndUsersActivityNotesUpdateInput;
 

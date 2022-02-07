@@ -41,12 +41,12 @@ export class ActivityNotesService {
     input: EndUsersActivityNotesUpdateInput,
     userId: ObjectId
   ) {
-    const { activityLogDetailsId, value } = input;
+    const { activityLogDetailId, value } = input;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
-    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetails(
-      activityLogDetailsId,
+    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetail(
+      activityLogDetailId,
       endUserId
     );
 
@@ -54,7 +54,7 @@ export class ActivityNotesService {
 
     await this.activityNotesCollection.updateOne(
       {
-        activityLogDetailsId,
+        activityLogDetailId,
       },
       {
         $set: {
@@ -69,11 +69,11 @@ export class ActivityNotesService {
     return this.activityNotesCollection.queryOne({
       $: {
         filters: {
-          activityLogDetailsId,
+          activityLogDetailId,
         },
       },
 
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
       value: 1,
     });
   }

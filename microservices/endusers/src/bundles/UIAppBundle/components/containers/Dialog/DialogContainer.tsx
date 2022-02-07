@@ -2,6 +2,9 @@ import { Box, Dialog, DialogContent, DialogTitle, Divider, IconButton, Typograph
 import CloseIcon from '@mui/icons-material/Close';
 
 export type DialogContainerProps = {
+  open: boolean;
+  onClose: () => void;
+
   title?: string;
 } & DialogProps;
 

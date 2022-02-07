@@ -50,7 +50,7 @@ const columns: GridColumns = [
 
       const activityLogDetail = props.row as ActivityLogDetail;
 
-      const activityLogDetailsId = props.id.toString();
+      const activityLogDetailId = props.id.toString();
 
       const [open, setOpen] = useState(false);
 
@@ -71,7 +71,7 @@ const columns: GridColumns = [
               })`,
             }}
           >
-            <ActivityNotesEditContainer {...{ activityLogDetailsId, activityNote }} />
+            <ActivityNotesEditContainer {...{ activityLogDetailId, activityNote }} />
           </DialogContainer>
         </div>
       );
@@ -106,7 +106,7 @@ const columns: GridColumns = [
           const { data } = await finishActivityLogDetails({
             variables: {
               input: {
-                activityLogDetailsId: activityLogDetail.id,
+                activityLogDetailId: activityLogDetail.id,
               },
             },
           });
@@ -264,9 +264,9 @@ export const ActivityLogContainer: React.FC = () => {
 
         const details = cloneDeep(activityLog.details);
 
-        const { value, activityLogDetailsId } = e.data.activityNote;
+        const { value, activityLogDetailId } = e.data.activityNote;
 
-        const detail = details.find((detail) => detail._id === activityLogDetailsId);
+        const detail = details.find((detail) => detail._id === activityLogDetailId);
 
         if (detail) {
           detail.note.value = value;

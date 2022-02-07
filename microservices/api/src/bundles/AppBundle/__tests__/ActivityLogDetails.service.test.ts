@@ -6,8 +6,8 @@ import {
   createEndUser,
   createNoteModel,
   getActivityLogDetail,
-  getActivityNoteByActivityLogDetailsId,
-  getActivityTimingByActivityLogDetailsId,
+  getActivityNoteByActivityLogDetailId,
+  getActivityTimingByActivityLogDetailId,
 } from "./utilities";
 import { FieldType } from "../collections";
 
@@ -54,10 +54,10 @@ describe("ActivityLogDetailsService", () => {
 
     expect(activityLogDetail).toBeTruthy();
 
-    const { _id: activityLogDetailsId } = activityLogDetail;
+    const { _id: activityLogDetailId } = activityLogDetail;
 
-    const timing = await getActivityTimingByActivityLogDetailsId(
-      activityLogDetailsId
+    const timing = await getActivityTimingByActivityLogDetailId(
+      activityLogDetailId
     );
 
     expect(timing).toBeTruthy();
@@ -65,9 +65,7 @@ describe("ActivityLogDetailsService", () => {
     expect(timing.startedAt).toBeTruthy();
     expect(timing.finishedAt).toBeFalsy();
 
-    let note = await getActivityNoteByActivityLogDetailsId(
-      activityLogDetailsId
-    );
+    let note = await getActivityNoteByActivityLogDetailId(activityLogDetailId);
 
     expect(note).toBeTruthy();
 
@@ -114,7 +112,7 @@ describe("ActivityLogDetailsService", () => {
     expect(activityLogDetail.timing.finishedAt).toBeFalsy();
 
     await activityLogDetailsService.finish(
-      { activityLogDetailsId: activityLogDetail._id },
+      { activityLogDetailId: activityLogDetail._id },
       userId
     );
 
@@ -161,6 +159,12 @@ describe("ActivityLogDetailsService", () => {
     );
 
     expect(await getActivityLogDetail(activityLogDetail._id)).toBeTruthy();
+    expect(
+      await getActivityNoteByActivityLogDetailId(activityLogDetail._id)
+    ).toBeTruthy();
+    expect(
+      await getActivityTimingByActivityLogDetailId(activityLogDetail._id)
+    ).toBeTruthy();
 
     await activityLogDetailsService.delete(
       {
@@ -170,5 +174,11 @@ describe("ActivityLogDetailsService", () => {
     );
 
     expect(await getActivityLogDetail(activityLogDetail._id)).toBeFalsy();
+    expect(
+      await getActivityNoteByActivityLogDetailId(activityLogDetail._id)
+    ).toBeFalsy();
+    expect(
+      await getActivityTimingByActivityLogDetailId(activityLogDetail._id)
+    ).toBeFalsy();
   });
 });

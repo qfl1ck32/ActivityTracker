@@ -23,7 +23,7 @@ export class ActivityNotesSecurityService {
   public async checkUpdateInputIsValid(
     input: EndUsersActivityNotesUpdateInput
   ) {
-    const { value, activityLogDetailsId } = input;
+    const { value, activityLogDetailId } = input;
 
     const {
       activityLog: {
@@ -32,7 +32,7 @@ export class ActivityNotesSecurityService {
     } = await this.activityLogDetailsCollection.queryOne({
       $: {
         filters: {
-          _id: activityLogDetailsId,
+          _id: activityLogDetailId,
         },
       },
 

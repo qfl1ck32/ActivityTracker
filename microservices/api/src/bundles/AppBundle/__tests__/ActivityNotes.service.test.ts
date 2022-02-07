@@ -13,7 +13,7 @@ import {
   createActivityLogDetails,
   createEndUser,
   createNoteModel,
-  getActivityNoteByActivityLogDetailsId,
+  getActivityNoteByActivityLogDetailId,
   getNoteModelById,
   updateActivityNote,
 } from "./utilities";
@@ -65,7 +65,7 @@ describe("ActivityNotesService", () => {
       userId
     );
 
-    const activityLogDetailsId = await createActivityLogDetails(
+    const activityLogDetailId = await createActivityLogDetails(
       {
         activityLogId,
       },
@@ -80,14 +80,14 @@ describe("ActivityNotesService", () => {
 
     await activityNotesService.update(
       {
-        activityLogDetailsId,
+        activityLogDetailId,
         value,
       },
       userId
     );
 
-    const activityNote = await getActivityNoteByActivityLogDetailsId(
-      activityLogDetailsId
+    const activityNote = await getActivityNoteByActivityLogDetailId(
+      activityLogDetailId
     );
 
     expect(activityNote.value).toBe(value);
@@ -95,7 +95,7 @@ describe("ActivityNotesService", () => {
     await expect(
       activityNotesService.update(
         {
-          activityLogDetailsId,
+          activityLogDetailId,
           value: EJSON.stringify({
             [fields[0].id]: "Wrong id",
           }),
@@ -109,7 +109,7 @@ describe("ActivityNotesService", () => {
     await expect(
       activityNotesService.update(
         {
-          activityLogDetailsId,
+          activityLogDetailId,
           value: EJSON.stringify({
             "inexisting-field": "Wrong id",
           }),
@@ -167,7 +167,7 @@ describe("ActivityNotesService", () => {
     const enumValueFieldId = fields[0].id;
     const enumValueFieldEnumValueId = fields[0].enumValues[0].id;
 
-    const activityLogDetailsId = await createActivityLogDetails(
+    const activityLogDetailId = await createActivityLogDetails(
       {
         activityLogId,
       },
@@ -176,7 +176,7 @@ describe("ActivityNotesService", () => {
 
     await updateActivityNote(
       {
-        activityLogDetailsId,
+        activityLogDetailId,
         value: JSON.stringify({
           [enumValueFieldId]: enumValueFieldEnumValueId,
 
@@ -202,9 +202,7 @@ describe("ActivityNotesService", () => {
 
     await activityNotesService.syncWithNewFields(noteModelId);
 
-    let note = await getActivityNoteByActivityLogDetailsId(
-      activityLogDetailsId
-    );
+    let note = await getActivityNoteByActivityLogDetailId(activityLogDetailId);
 
     let value = EJSON.parse(note.value);
 
@@ -229,7 +227,7 @@ describe("ActivityNotesService", () => {
 
     await activityNotesService.syncWithNewFields(noteModelId);
 
-    note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId);
+    note = await getActivityNoteByActivityLogDetailId(activityLogDetailId);
 
     value = EJSON.parse(note.value);
 
@@ -250,7 +248,7 @@ describe("ActivityNotesService", () => {
 
     await activityNotesService.syncWithNewFields(noteModelId);
 
-    note = await getActivityNoteByActivityLogDetailsId(activityLogDetailsId);
+    note = await getActivityNoteByActivityLogDetailId(activityLogDetailId);
 
     value = EJSON.parse(note.value);
 

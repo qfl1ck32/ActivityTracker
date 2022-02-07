@@ -5,5 +5,5 @@ import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 @Schema()
 export class EndUsersActivityLogDetailsFinishInput {
   @Is(an.objectId().required())
-  activityLogDetailsId: ObjectId;
+  activityLogDetailId: ObjectId;
 }

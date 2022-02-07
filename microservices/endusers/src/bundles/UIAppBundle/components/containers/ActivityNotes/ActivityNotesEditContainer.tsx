@@ -14,12 +14,12 @@ import { toast } from 'react-toastify';
 export type ActivityNotesEditContainerProps = {
   activityNote: ActivityNote;
 
-  activityLogDetailsId: string;
+  activityLogDetailId: string;
 };
 
 export const ActivityNotesEditContainer: React.FC<ActivityNotesEditContainerProps> = ({
   activityNote,
-  activityLogDetailsId,
+  activityLogDetailId,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,7 +41,7 @@ export const ActivityNotesEditContainer: React.FC<ActivityNotesEditContainerProp
       const { data } = await updateActivityNote({
         variables: {
           input: {
-            activityLogDetailsId,
+            activityLogDetailId,
             value: EJSON.stringify(value),
           },
         },

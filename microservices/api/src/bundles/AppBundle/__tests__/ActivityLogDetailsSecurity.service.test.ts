@@ -25,7 +25,7 @@ import { ActivityLogDetailsTimingHasAlreadyBeenFinishedException } from "../exce
 // Expect: https://jestjs.io/docs/en/expect
 
 describe("ActivityLogDetailsSecurityService", () => {
-  test("checkEndUserOwnsActivityLogDetails()", async () => {
+  test("checkEndUserOwnsActivityLogDetail()", async () => {
     const activityLogDetailsSecurityService = container.get(
       ActivityLogDetailsSecurityService
     );
@@ -56,7 +56,7 @@ describe("ActivityLogDetailsSecurityService", () => {
       userId
     );
 
-    const activityLogDetailsId = await createActivityLogDetails(
+    const activityLogDetailId = await createActivityLogDetails(
       {
         activityLogId,
       },
@@ -64,8 +64,8 @@ describe("ActivityLogDetailsSecurityService", () => {
     );
 
     await expect(
-      activityLogDetailsSecurityService.checkEndUserOwnsActivityLogDetails(
-        activityLogDetailsId,
+      activityLogDetailsSecurityService.checkEndUserOwnsActivityLogDetail(
+        activityLogDetailId,
         endUserId
       )
     ).resolves.not.toThrow();
@@ -76,8 +76,8 @@ describe("ActivityLogDetailsSecurityService", () => {
     });
 
     await expect(
-      activityLogDetailsSecurityService.checkEndUserOwnsActivityLogDetails(
-        activityLogDetailsId,
+      activityLogDetailsSecurityService.checkEndUserOwnsActivityLogDetail(
+        activityLogDetailId,
         anotherEndUserId
       )
     ).rejects.toThrowError(new EndUserDoesNotOwnActivityLogDetailsException());
@@ -88,9 +88,9 @@ describe("ActivityLogDetailsSecurityService", () => {
       ActivityLogDetailsSecurityService
     );
 
-    const check = (activityLogDetailsId: ObjectId) =>
+    const check = (activityLogDetailId: ObjectId) =>
       activityLogDetailsSecurityService.checkActivityLogDetailIsNotFinished(
-        activityLogDetailsId
+        activityLogDetailId
       );
 
     const { userId, endUserId } = await createEndUser();
@@ -119,23 +119,23 @@ describe("ActivityLogDetailsSecurityService", () => {
       userId
     );
 
-    const activityLogDetailsId = await createActivityLogDetails(
+    const activityLogDetailId = await createActivityLogDetails(
       {
         activityLogId,
       },
       userId
     );
 
-    await expect(check(activityLogDetailsId)).resolves.not.toThrow();
+    await expect(check(activityLogDetailId)).resolves.not.toThrow();
 
     await finishActivity(
       {
-        activityLogDetailsId,
+        activityLogDetailId,
       },
       userId
     );
 
-    await expect(check(activityLogDetailsId)).rejects.toThrow(
+    await expect(check(activityLogDetailId)).rejects.toThrow(
       new ActivityLogDetailsTimingHasAlreadyBeenFinishedException()
     );
   });

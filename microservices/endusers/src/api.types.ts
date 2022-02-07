@@ -123,8 +123,8 @@ export type ActivityLogUpdateInput = {
 export type ActivityNote = {
   __typename?: 'ActivityNote';
   _id?: Maybe<Scalars['ObjectId']>;
-  activityLogDetails: ActivityLogDetail;
-  activityLogDetailsId: Scalars['ObjectId'];
+  activityLogDetail: ActivityLogDetail;
+  activityLogDetailId: Scalars['ObjectId'];
   /** Represents the date when this object was created */
   createdAt: Scalars['Date'];
   /** Represents the user who has created this object */
@@ -144,14 +144,14 @@ export type ActivityNote = {
 };
 
 export type ActivityNoteInsertInput = {
-  activityLogDetailsId: Scalars['ObjectId'];
+  activityLogDetailId: Scalars['ObjectId'];
   endUserId: Scalars['ObjectId'];
   /** We are representing the value as an object, because we don't have an exact representation of how the note will look like. */
   value: Scalars['String'];
 };
 
 export type ActivityNoteUpdateInput = {
-  activityLogDetailsId?: Maybe<Scalars['ObjectId']>;
+  activityLogDetailId?: Maybe<Scalars['ObjectId']>;
   endUserId?: Maybe<Scalars['ObjectId']>;
   /** We are representing the value as an object, because we don't have an exact representation of how the note will look like. */
   value?: Maybe<Scalars['String']>;
@@ -160,8 +160,8 @@ export type ActivityNoteUpdateInput = {
 export type ActivityTiming = {
   __typename?: 'ActivityTiming';
   _id?: Maybe<Scalars['ObjectId']>;
-  activityLogDetails: ActivityLogDetail;
-  activityLogDetailsId: Scalars['ObjectId'];
+  activityLogDetail: ActivityLogDetail;
+  activityLogDetailId: Scalars['ObjectId'];
   /** Represents the date when this object was created */
   createdAt: Scalars['Date'];
   /** Represents the user who has created this object */
@@ -182,14 +182,14 @@ export type ActivityTiming = {
 };
 
 export type ActivityTimingInsertInput = {
-  activityLogDetailsId: Scalars['ObjectId'];
+  activityLogDetailId: Scalars['ObjectId'];
   endUserId: Scalars['ObjectId'];
   finishedAt?: Maybe<Scalars['Date']>;
   startedAt: Scalars['Date'];
 };
 
 export type ActivityTimingUpdateInput = {
-  activityLogDetailsId?: Maybe<Scalars['ObjectId']>;
+  activityLogDetailId?: Maybe<Scalars['ObjectId']>;
   endUserId?: Maybe<Scalars['ObjectId']>;
   finishedAt?: Maybe<Scalars['Date']>;
   startedAt?: Maybe<Scalars['Date']>;
@@ -308,7 +308,7 @@ export type EndUsersActivityLogDetailsDeleteInput = {
 };
 
 export type EndUsersActivityLogDetailsFinishInput = {
-  activityLogDetailsId: Scalars['ObjectId'];
+  activityLogDetailId: Scalars['ObjectId'];
 };
 
 export type EndUsersActivityLogsCreateInput = {
@@ -321,7 +321,7 @@ export type EndUsersActivityLogsGetOneInput = {
 };
 
 export type EndUsersActivityNotesUpdateInput = {
-  activityLogDetailsId: Scalars['ObjectId'];
+  activityLogDetailId: Scalars['ObjectId'];
   value: Scalars['String'];
 };
 

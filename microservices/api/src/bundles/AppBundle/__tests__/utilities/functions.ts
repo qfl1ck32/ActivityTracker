@@ -75,20 +75,20 @@ export const createActivityLogDetails = async (
 
 // get
 
-export const getActivityNoteByActivityLogDetailsId = async (
-  activityLogDetailsId: ObjectId
+export const getActivityNoteByActivityLogDetailId = async (
+  activityLogDetailId: ObjectId
 ) => {
   return container
     .get(ActivityNotesCollection)
-    .findOne({ activityLogDetailsId });
+    .findOne({ activityLogDetailId });
 };
 
-export const getActivityTimingByActivityLogDetailsId = async (
-  activityLogDetailsId: ObjectId
+export const getActivityTimingByActivityLogDetailId = async (
+  activityLogDetailId: ObjectId
 ) => {
   return container
     .get(ActivityTimingsCollection)
-    .findOne({ activityLogDetailsId });
+    .findOne({ activityLogDetailId });
 };
 
 export const getNoteModelById = async (noteModelId: ObjectId) =>

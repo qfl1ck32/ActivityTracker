@@ -89,7 +89,7 @@ export class ActivityLogDetailsService {
         }
       );
 
-    const { insertedId: activityLogDetailsId } =
+    const { insertedId: activityLogDetailId } =
       await this.activityLogDetailsCollection.insertOne(
         {
           timingId: activityTimingsInsertResponse.insertedId,
@@ -106,7 +106,7 @@ export class ActivityLogDetailsService {
       },
       {
         $set: {
-          activityLogDetailsId,
+          activityLogDetailId,
         },
       }
     );
@@ -117,7 +117,7 @@ export class ActivityLogDetailsService {
       },
       {
         $set: {
-          activityLogDetailsId,
+          activityLogDetailId,
         },
       }
     );
@@ -125,7 +125,7 @@ export class ActivityLogDetailsService {
     return this.activityLogDetailsCollection.queryOne({
       $: {
         filters: {
-          _id: activityLogDetailsId,
+          _id: activityLogDetailId,
         },
       },
 
@@ -137,22 +137,22 @@ export class ActivityLogDetailsService {
     input: EndUsersActivityLogDetailsFinishInput,
     userId: ObjectId
   ) {
-    const { activityLogDetailsId } = input;
+    const { activityLogDetailId } = input;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
-    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetails(
-      activityLogDetailsId,
+    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetail(
+      activityLogDetailId,
       endUserId
     );
 
     await this.securityService.activityLogDetails.checkActivityLogDetailIsNotFinished(
-      activityLogDetailsId
+      activityLogDetailId
     );
 
     await this.activityTimingsCollection.updateOne(
       {
-        activityLogDetailsId,
+        activityLogDetailId,
       },
       {
         $set: {
@@ -164,7 +164,7 @@ export class ActivityLogDetailsService {
     return this.activityLogDetailsCollection.queryOne({
       $: {
         filters: {
-          _id: activityLogDetailsId,
+          _id: activityLogDetailId,
         },
       },
 
@@ -180,7 +180,7 @@ export class ActivityLogDetailsService {
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
-    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetails(
+    await this.securityService.activityLogDetails.checkEndUserOwnsActivityLogDetail(
       activityLogDetailId,
       endUserId
     );
@@ -190,9 +190,11 @@ export class ActivityLogDetailsService {
     });
 
     await this.activityTimingsCollection.deleteOne({
-      activityLogDetailId
-    })
+      activityLogDetailId,
+    });
 
-    await
+    await this.activityNotesCollection.deleteOne({
+      activityLogDetailId,
+    });
   }
 }

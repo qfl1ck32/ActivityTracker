@@ -1,6 +1,6 @@
 export default /* GraphQL */ `
   input EndUsersActivityNotesUpdateInput {
-    activityLogDetailsId: ObjectId!
+    activityLogDetailId: ObjectId!
     value: String!
   }
 `;
