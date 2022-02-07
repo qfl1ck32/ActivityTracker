@@ -3,10 +3,10 @@ import { Fragment } from 'react';
 import { LayoutComponentProps } from 'src/defs';
 import { Header } from '../components';
 
-export const Layout: React.FC<LayoutComponentProps> = ({ children, title }) => {
+export const Layout: React.FC<LayoutComponentProps> = ({ children, title, withHeader = true }) => {
   return (
     <Fragment>
-      <Header />
+      {withHeader && <Header />}
 
       {title && (
         <Box sx={{ marginTop: 4, marginBottom: 4, display: 'flex', justifyContent: 'center' }}>

@@ -25,8 +25,6 @@ export class ActivityLogsService {
     this.queryBody = {
       _id: 1,
 
-      name: 1,
-
       activity: {
         name: 1,
       },
@@ -60,7 +58,7 @@ export class ActivityLogsService {
     input: EndUsersActivityLogsCreateInput,
     userId: ObjectId
   ) {
-    const { name, activityId, noteModelId } = input;
+    const { activityId, noteModelId } = input;
 
     const endUserId = await this.endUserService.getIdByOwnerId(userId);
 
@@ -77,7 +75,6 @@ export class ActivityLogsService {
     const { insertedId } = await this.activityLogsCollection.insertOne(
       {
         activityId,
-        name,
         endUserId,
         noteModelId,
       },
@@ -132,8 +129,6 @@ export class ActivityLogsService {
       },
 
       _id: 1,
-
-      name: 1,
 
       activity: {
         name: 1,

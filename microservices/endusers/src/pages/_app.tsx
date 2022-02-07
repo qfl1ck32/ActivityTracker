@@ -13,7 +13,7 @@ import { Loader } from 'src/bundles/UIAppBundle/overrides';
 
 const App = createApp({
   kernel,
-  loadingComponent: <Loader center />,
+  loadingComponent: <Loader horizontalCenter />,
 });
 
 const WrappedApp = (props: AppProps) => {

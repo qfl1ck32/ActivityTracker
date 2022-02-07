@@ -51,7 +51,6 @@ describe("ActivityLogDetailsSecurityService", () => {
     const activityLogId = await createActivityLog(
       {
         activityId,
-        name: "my activity log",
         noteModelId,
       },
       userId
@@ -115,7 +114,6 @@ describe("ActivityLogDetailsSecurityService", () => {
     const activityLogId = await createActivityLog(
       {
         activityId,
-        name: "my activity log",
         noteModelId,
       },
       userId

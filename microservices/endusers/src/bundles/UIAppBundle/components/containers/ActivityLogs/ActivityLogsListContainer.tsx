@@ -14,13 +14,6 @@ import { DataGridContainer } from '../DataGrid';
 
 const columns: GridColumns = [
   {
-    field: 'name',
-    headerName: 'Name',
-
-    width: 150,
-  },
-
-  {
     field: 'activity',
     headerName: 'Activity Name',
 
@@ -114,7 +107,7 @@ export const ActivityLogsListContainer: React.FC = () => {
   return (
     <Container>
       {loading ? (
-        <UIComponents.Loader center />
+        <UIComponents.Loader horizontalCenter verticalCenter />
       ) : (
         <Fragment>
           <DataGridContainer

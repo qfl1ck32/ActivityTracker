@@ -2,6 +2,7 @@ import { Kernel } from '@bluelibs/core';
 import { XUINextBundle } from '@bluelibs/x-ui-next';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
+import { LoadingScreen } from 'src/bundles/UIAppBundle/components/LoadingScreen';
 import { Loader } from 'src/bundles/UIAppBundle/overrides';
 import { AppGuardian } from 'src/bundles/UIAppBundle/services';
 import { UIAppBundle } from '../bundles/UIAppBundle/UIAppBundle';
@@ -23,7 +24,7 @@ export const kernel = new Kernel({
       },
 
       guardian: {
-        loadingComponent: (() => <Loader center />) as any,
+        loadingComponent: LoadingScreen,
         guardianClass: AppGuardian,
       },
 

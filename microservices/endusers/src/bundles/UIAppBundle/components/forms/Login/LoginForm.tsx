@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { LoginInput } from 'src/api.types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton } from '../../';
 import { TextField } from '@mui/material';
 
 export type LoginFormProps = {

@@ -130,7 +130,7 @@ export const NoteModelsListContainer: React.FC = () => {
   return (
     <Container>
       {loading ? (
-        <UIComponents.Loader center />
+        <UIComponents.Loader horizontalCenter verticalCenter />
       ) : (
         <Fragment>
           <DataGridContainer

@@ -61,7 +61,7 @@ export const ActivityLogsCreateContainer: React.FC = () => {
 
   const UIComponents = useUIComponents();
 
-  if (activitiesLoading || noteModelsLoading) return <UIComponents.Loader center />;
+  if (activitiesLoading || noteModelsLoading) return <UIComponents.Loader horizontalCenter />;
 
   if (activitiesError) return <UIComponents.Error error={activitiesError} />;
 

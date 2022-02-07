@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { EventHandlerType } from '@bluelibs/core';
 import { useEventManager, useRouter } from '@bluelibs/x-ui-next';
 import { useUIComponents } from '@bluelibs/x-ui-react-bundle';
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton } from '../../';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { GridColumns } from '@mui/x-data-grid';
 import { cloneDeep } from 'lodash-es';
@@ -38,6 +38,7 @@ import {
 } from 'src/bundles/UIAppBundle/mutations';
 import { ActivityLogsGetOne } from 'src/bundles/UIAppBundle/queries';
 import { ActivityNotesEditContainer, DataGridContainer, DialogContainer } from '../..';
+import { LoadingScreen } from '../../LoadingScreen';
 
 const columns: GridColumns = [
   {
@@ -184,6 +185,8 @@ export const ActivityLogContainer: React.FC = () => {
 
   const onCreateActivityLogDetails = async () => {
     try {
+      setIsSubmitting(true);
+
       const { data } = await createActivityLogDetails({
         variables: {
           input: {
@@ -342,10 +345,10 @@ export const ActivityLogContainer: React.FC = () => {
   if (activityLogError) return <UIComponents.Error error={activityLogError} />;
 
   return (
-    <UIComponents.Layout title={activityLog && `Activity log - ${activityLog.name}`}>
+    <UIComponents.Layout title={`Activity log - ${activityLog ? activityLog.activity.name : ' ... '}`}>
       <Container>
         {activityLogLoading || activityLog === undefined ? (
-          <UIComponents.Loader center />
+          <UIComponents.Loader horizontalCenter verticalCenter />
         ) : (
           <DataGridContainer
             {...{
@@ -355,6 +358,7 @@ export const ActivityLogContainer: React.FC = () => {
               onDelete,
               toolbarProps: {
                 onCreatePress: onCreateActivityLogDetails,
+                isCreateLoading: isSubmitting,
               },
             }}
           />

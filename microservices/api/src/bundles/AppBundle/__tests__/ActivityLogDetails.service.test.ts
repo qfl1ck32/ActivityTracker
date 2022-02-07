@@ -39,7 +39,6 @@ describe("ActivityLogDetailsService", () => {
 
     const activityLogId = await createActivityLog(
       {
-        name: "Calisthenics",
         activityId,
         noteModelId,
       },
@@ -98,7 +97,6 @@ describe("ActivityLogDetailsService", () => {
 
     const activityLogId = await createActivityLog(
       {
-        name: "Calisthenics",
         activityId,
         noteModelId,
       },
@@ -149,7 +147,6 @@ describe("ActivityLogDetailsService", () => {
 
     const activityLogId = await createActivityLog(
       {
-        name: "Calisthenics",
         activityId,
         noteModelId,
       },

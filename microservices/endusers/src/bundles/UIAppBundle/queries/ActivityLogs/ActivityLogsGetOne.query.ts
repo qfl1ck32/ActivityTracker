@@ -8,8 +8,6 @@ export const ActivityLogsGetOne = gql`
     EndUsersActivityLogsGetOne(input: $input) {
       _id
 
-      name
-
       activity {
         name
       }

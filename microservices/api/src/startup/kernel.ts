@@ -67,6 +67,12 @@ export const kernel = new Kernel({
     new PasswordBundle(),
     new XPasswordBundle({
       requiresEmailVerificationBeforeLoggingIn: true,
+
+      graphql: {
+        queries: {
+          me: false,
+        },
+      },
     }),
     new XS3Bundle({
       accessKeyId: env.AWS_ACCESS_KEY_ID,

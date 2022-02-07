@@ -31,7 +31,6 @@ describe("ActivityLogsService", () => {
 
     const activityLog = await activityLogsService.create(
       {
-        name: "activityLog",
         activityId,
         noteModelId,
       },

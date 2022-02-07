@@ -5,8 +5,6 @@ export const ActivityLogsGetAll = gql`
     EndUsersActivityLogsGetAll {
       _id
 
-      name
-
       createdAt
 
       activity {

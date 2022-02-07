@@ -6,9 +6,6 @@ export class EndUsersActivityLogsCreateInput {
   @Is(an.objectId().required())
   activityId: ObjectId;
 
-  @Is(a.string().required())
-  name: string;
-
   @Is(an.objectId().required())
   noteModelId: ObjectId;
 }

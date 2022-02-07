@@ -93,6 +93,12 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
  * Use this instead `useGuardian()`
  * @returns
  */
+
+// TODO: obviously, fix this
 export function useAppGuardian(): AppGuardian {
-  return useSmart(AppGuardian);
+  try {
+    return useSmart(AppGuardian);
+  } catch (_) {
+    return new AppGuardian();
+  }
 }

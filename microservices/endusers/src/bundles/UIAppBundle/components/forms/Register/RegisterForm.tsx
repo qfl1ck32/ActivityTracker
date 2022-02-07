@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { EndUsersRegisterInput } from 'src/api.types';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton } from '../../';
 import { TextField } from '@mui/material';
 import { schema } from './schema';
 

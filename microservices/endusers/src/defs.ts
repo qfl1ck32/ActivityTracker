@@ -2,10 +2,15 @@ import '@bluelibs/x-ui-react-bundle';
 
 export type LayoutComponentProps = {
   title?: string;
+
+  withHeader?: boolean;
 };
 
 export type LoadingComponentProps = {
-  center?: boolean;
+  horizontalCenter?: boolean;
+  verticalCenter?: boolean;
+
+  small?: boolean;
 };
 
 export type ProtectComponentProps = {

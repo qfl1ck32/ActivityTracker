@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton } from '../../';
 import { Box, MenuItem, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Activity, EndUsersActivityLogsCreateInput, NoteModel } from 'src/api.types';
@@ -31,15 +31,6 @@ export const ActivityLogsCreateForm: React.FC<ActivityLogsCreateFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit as any)}>
-      <TextField
-        margin="normal"
-        fullWidth
-        label="Name"
-        {...register('name')}
-        error={Boolean(errors.name)}
-        helperText={errors.name?.message}
-      />
-
       <div>
         <TextField
           margin="normal"

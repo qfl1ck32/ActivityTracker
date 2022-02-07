@@ -4,8 +4,6 @@ export const ActivityLogDetailsFragment = gql`
   fragment ActivityLogDetailsFragment on ActivityLogDetail {
     _id
 
-    name
-
     createdAt
 
     note {

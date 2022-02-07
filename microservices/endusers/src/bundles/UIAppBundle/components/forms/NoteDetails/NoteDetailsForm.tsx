@@ -1,6 +1,6 @@
 import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton } from '../../';
 import {
   TextFieldProps,
   MenuItem,

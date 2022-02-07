@@ -17,8 +17,6 @@ import { SecurityService } from "./Security.service";
 export class ActivityLogDetailsService {
   constructor(protected readonly container: ContainerInstance) {
     this.queryBody = {
-      name: 1,
-
       note: {
         _id: 1,
 
