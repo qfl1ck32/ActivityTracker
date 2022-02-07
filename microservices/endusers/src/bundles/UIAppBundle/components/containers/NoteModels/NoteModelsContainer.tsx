@@ -5,7 +5,7 @@ export const NoteModelsContainer: React.FC = () => {
   const UIComponents = useUIComponents();
 
   return (
-    <UIComponents.Layout title="Node Models">
+    <UIComponents.Layout title="Note Models">
       <NoteModelsListContainer />
     </UIComponents.Layout>
   );

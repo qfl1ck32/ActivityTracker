@@ -90,6 +90,8 @@ export const NoteModelsListContainer: React.FC = () => {
 
     eventManager.addListener(NoteModelCreatedEvent, listener);
 
+    setCreateDialogIsOpened(false);
+
     return () => {
       eventManager.removeListener(NoteModelCreatedEvent as any, listener); // TODO as any ? fix from bluelibs
     };

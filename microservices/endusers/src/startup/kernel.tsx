@@ -1,8 +1,8 @@
 import { Kernel } from '@bluelibs/core';
 import { XUINextBundle } from '@bluelibs/x-ui-next';
-import { Loading } from '@bluelibs/x-ui-react-bundle/dist/react/components';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
+import { Loader } from 'src/bundles/UIAppBundle/overrides';
 import { AppGuardian } from 'src/bundles/UIAppBundle/services';
 import { UIAppBundle } from '../bundles/UIAppBundle/UIAppBundle';
 import env from '../env';
@@ -23,7 +23,7 @@ export const kernel = new Kernel({
       },
 
       guardian: {
-        loadingComponent: Loading as any, // FIXME
+        loadingComponent: (<Loader center />) as any, // FIXME
         guardianClass: AppGuardian,
       },
 

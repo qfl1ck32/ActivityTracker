@@ -114,7 +114,7 @@ export const ActivityLogsListContainer: React.FC = () => {
   return (
     <Container>
       {loading ? (
-        <UIComponents.Loader />
+        <UIComponents.Loader center />
       ) : (
         <Fragment>
           <DataGridContainer
