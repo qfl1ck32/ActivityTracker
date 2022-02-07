@@ -28,7 +28,7 @@ export const ActivityNotes = collection({
     }),
 
     relation({
-      id: "activityLogDetails",
+      id: "activityLogDetail",
       to: "ActivityLogDetails",
     }),
 

@@ -72,9 +72,9 @@ export class ActivityNoteListFiltersForm extends XForm {
       },
 
       {
-        id: "activityLogDetailsId",
-        label: t("management.activity_notes.fields.activityLogDetails"),
-        name: ["activityLogDetailsId"],
+        id: "activityLogDetailId",
+        label: t("management.activity_notes.fields.activityLogDetail"),
+        name: ["activityLogDetailId"],
         render: (props) => (
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect

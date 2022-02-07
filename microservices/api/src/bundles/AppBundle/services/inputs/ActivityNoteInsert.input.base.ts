@@ -5,7 +5,7 @@ import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 @Schema()
 export class ActivityNoteInsertInput {
   @Is(an.objectId().required())
-  activityLogDetailsId: ObjectId;
+  activityLogDetailId: ObjectId;
 
   @Is(an.objectId().required())
   endUserId: ObjectId;

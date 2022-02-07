@@ -188,5 +188,11 @@ export class ActivityLogDetailsService {
     await this.activityLogDetailsCollection.deleteOne({
       _id: activityLogDetailId,
     });
+
+    await this.activityTimingsCollection.deleteOne({
+      activityLogDetailId
+    })
+
+    await
   }
 }

@@ -49,9 +49,9 @@ export class ActivityNoteEditForm extends XForm {
       },
 
       {
-        id: "activityLogDetailsId",
-        label: t("management.activity_notes.fields.activityLogDetails"),
-        name: ["activityLogDetailsId"],
+        id: "activityLogDetailId",
+        label: t("management.activity_notes.fields.activityLogDetail"),
+        name: ["activityLogDetailId"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
@@ -74,10 +74,10 @@ export class ActivityNoteEditForm extends XForm {
         fullName: 1,
       },
       endUserId: 1,
-      activityLogDetails: {
+      activityLogDetail: {
         _id: 1,
       },
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
     };
   }
 

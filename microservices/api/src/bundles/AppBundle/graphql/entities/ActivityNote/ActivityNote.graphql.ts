@@ -1,8 +1,8 @@
 export default /* GraphQL */ `
   type ActivityNote {
     _id: ObjectId
-    activityLogDetails: ActivityLogDetail!
-    activityLogDetailsId: ObjectId!
+    activityLogDetail: ActivityLogDetail!
+    activityLogDetailId: ObjectId!
 
     """
     Represents the date when this object was created

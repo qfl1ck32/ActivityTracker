@@ -1,6 +1,6 @@
 export default /* GraphQL */ `
   input ActivityNoteUpdateInput {
-    activityLogDetailsId: ObjectId
+    activityLogDetailId: ObjectId
     endUserId: ObjectId
 
     """

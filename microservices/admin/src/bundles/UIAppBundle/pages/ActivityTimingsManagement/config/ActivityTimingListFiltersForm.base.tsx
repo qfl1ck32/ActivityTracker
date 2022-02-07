@@ -82,9 +82,9 @@ export class ActivityTimingListFiltersForm extends XForm {
       },
 
       {
-        id: "activityLogDetailsId",
-        label: t("management.activity_timings.fields.activityLogDetails"),
-        name: ["activityLogDetailsId"],
+        id: "activityLogDetailId",
+        label: t("management.activity_timings.fields.activityLogDetail"),
+        name: ["activityLogDetailId"],
         render: (props) => (
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect

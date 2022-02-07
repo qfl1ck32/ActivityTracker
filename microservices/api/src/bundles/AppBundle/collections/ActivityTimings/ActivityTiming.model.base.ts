@@ -10,10 +10,10 @@ export class ActivityTiming {
   @Is(an.objectId())
   _id?: ObjectId;
 
-  activityLogDetails: ActivityLogDetail;
+  activityLogDetail: ActivityLogDetail;
 
   @Is(an.objectId().required())
-  activityLogDetailsId: ObjectId;
+  activityLogDetailId: ObjectId;
 
   /**
    * @description Represents the date when this object was created

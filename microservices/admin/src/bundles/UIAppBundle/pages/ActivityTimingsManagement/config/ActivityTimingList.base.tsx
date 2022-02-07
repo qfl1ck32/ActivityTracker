@@ -114,10 +114,10 @@ export class ActivityTimingList extends XList<ActivityTiming> {
         },
       },
       {
-        id: "activityLogDetails",
-        title: t("management.activity_timings.fields.activityLogDetails"),
-        key: "management.activity_timings.fields.activityLogDetails",
-        dataIndex: ["activityLogDetails"],
+        id: "activityLogDetail",
+        title: t("management.activity_timings.fields.activityLogDetail"),
+        key: "management.activity_timings.fields.activityLogDetail",
+        dataIndex: ["activityLogDetail"],
         sorter: true,
         render: (value, model) => {
           const props = {
@@ -185,7 +185,7 @@ export class ActivityTimingList extends XList<ActivityTiming> {
   static getSortMap() {
     return {
       endUser: "endUser.fullName",
-      activityLogDetails: "activityLogDetails._id",
+      activityLogDetail: "activityLogDetail._id",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -204,10 +204,10 @@ export class ActivityTimingList extends XList<ActivityTiming> {
         fullName: 1,
       },
       endUserId: 1,
-      activityLogDetails: {
+      activityLogDetail: {
         _id: 1,
       },
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,

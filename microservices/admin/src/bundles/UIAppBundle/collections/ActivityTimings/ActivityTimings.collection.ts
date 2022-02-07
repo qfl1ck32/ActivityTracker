@@ -35,8 +35,8 @@ export class ActivityTimingsCollection extends Collection<ActivityTiming> {
       },
       {
         collection: () => ActivityLogDetailsCollection,
-        name: "activityLogDetails",
-        field: "activityLogDetailsId",
+        name: "activityLogDetail",
+        field: "activityLogDetailId",
       },
       {
         collection: () => UsersCollection,

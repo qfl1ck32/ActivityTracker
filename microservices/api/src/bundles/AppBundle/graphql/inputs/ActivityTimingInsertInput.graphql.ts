@@ -1,6 +1,6 @@
 export default /* GraphQL */ `
   input ActivityTimingInsertInput {
-    activityLogDetailsId: ObjectId!
+    activityLogDetailId: ObjectId!
     endUserId: ObjectId!
     finishedAt: Date
     startedAt: Date!

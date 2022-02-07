@@ -54,9 +54,9 @@ export class ActivityTimingEditForm extends XForm {
       },
 
       {
-        id: "activityLogDetailsId",
-        label: t("management.activity_timings.fields.activityLogDetails"),
-        name: ["activityLogDetailsId"],
+        id: "activityLogDetailId",
+        label: t("management.activity_timings.fields.activityLogDetail"),
+        name: ["activityLogDetailId"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
@@ -80,10 +80,10 @@ export class ActivityTimingEditForm extends XForm {
         fullName: 1,
       },
       endUserId: 1,
-      activityLogDetails: {
+      activityLogDetail: {
         _id: 1,
       },
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
     };
   }
 

@@ -34,7 +34,7 @@ export const ActivityTimings = collection({
     }),
 
     relation({
-      id: "activityLogDetails",
+      id: "activityLogDetail",
       to: "ActivityLogDetails",
     }),
 

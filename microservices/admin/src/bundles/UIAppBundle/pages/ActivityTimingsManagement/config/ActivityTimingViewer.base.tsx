@@ -106,9 +106,9 @@ export class ActivityTimingViewer extends XViewer {
         },
       },
       {
-        id: "activityLogDetails",
-        label: t("management.activity_timings.fields.activityLogDetails"),
-        dataIndex: ["activityLogDetails"],
+        id: "activityLogDetail",
+        label: t("management.activity_timings.fields.activityLogDetail"),
+        dataIndex: ["activityLogDetail"],
         render: (value) => {
           const props = {
             type: "relation",
@@ -181,10 +181,10 @@ export class ActivityTimingViewer extends XViewer {
         fullName: 1,
       },
       endUserId: 1,
-      activityLogDetails: {
+      activityLogDetail: {
         _id: 1,
       },
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,

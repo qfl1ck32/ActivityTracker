@@ -82,9 +82,9 @@ export class ActivityNoteViewer extends XViewer {
         },
       },
       {
-        id: "activityLogDetails",
-        label: t("management.activity_notes.fields.activityLogDetails"),
-        dataIndex: ["activityLogDetails"],
+        id: "activityLogDetail",
+        label: t("management.activity_notes.fields.activityLogDetail"),
+        dataIndex: ["activityLogDetail"],
         render: (value) => {
           const props = {
             type: "relation",
@@ -155,10 +155,10 @@ export class ActivityNoteViewer extends XViewer {
         fullName: 1,
       },
       endUserId: 1,
-      activityLogDetails: {
+      activityLogDetail: {
         _id: 1,
       },
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,

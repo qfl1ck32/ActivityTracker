@@ -11,9 +11,9 @@ export const endUser: IBundleLinkCollectionOption = {
   field: "endUserId",
 };
 
-export const activityLogDetails: IBundleLinkCollectionOption = {
+export const activityLogDetail: IBundleLinkCollectionOption = {
   collection: () => ActivityLogDetailsCollection,
-  field: "activityLogDetailsId",
+  field: "activityLogDetailId",
 };
 
 export const createdBy: IBundleLinkCollectionOption = {

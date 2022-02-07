@@ -35,8 +35,8 @@ export class ActivityNotesCollection extends Collection<ActivityNote> {
       },
       {
         collection: () => ActivityLogDetailsCollection,
-        name: "activityLogDetails",
-        field: "activityLogDetailsId",
+        name: "activityLogDetail",
+        field: "activityLogDetailId",
       },
       {
         collection: () => UsersCollection,

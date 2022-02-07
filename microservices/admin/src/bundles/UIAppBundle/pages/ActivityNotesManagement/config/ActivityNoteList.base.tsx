@@ -86,10 +86,10 @@ export class ActivityNoteList extends XList<ActivityNote> {
         },
       },
       {
-        id: "activityLogDetails",
-        title: t("management.activity_notes.fields.activityLogDetails"),
-        key: "management.activity_notes.fields.activityLogDetails",
-        dataIndex: ["activityLogDetails"],
+        id: "activityLogDetail",
+        title: t("management.activity_notes.fields.activityLogDetail"),
+        key: "management.activity_notes.fields.activityLogDetail",
+        dataIndex: ["activityLogDetail"],
         sorter: true,
         render: (value, model) => {
           const props = {
@@ -157,7 +157,7 @@ export class ActivityNoteList extends XList<ActivityNote> {
   static getSortMap() {
     return {
       endUser: "endUser.fullName",
-      activityLogDetails: "activityLogDetails._id",
+      activityLogDetail: "activityLogDetail._id",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -174,10 +174,10 @@ export class ActivityNoteList extends XList<ActivityNote> {
         fullName: 1,
       },
       endUserId: 1,
-      activityLogDetails: {
+      activityLogDetail: {
         _id: 1,
       },
-      activityLogDetailsId: 1,
+      activityLogDetailId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,
