@@ -30,3 +30,5 @@ export * from "./EndUsersActivityLogDetailsFinish.input";
 export * from "./EndUsersActivityLogDetailsDelete.input";
 export * from "./FieldCreate.input";
 export * from "./FieldEnumValuesCreate.input";
+export * from "./UsersUploadAvatar.input";
+export * from "./EndUsersUpdateProfile.input";

@@ -15,7 +15,7 @@ export class NoteModelsService {
   @Inject()
   private noteModelsCollection: NoteModelsCollection;
 
-  @Inject()
+  @Inject(() => EndUserService)
   private endUserService: EndUserService;
 
   // FIXME: why doesn't it work without (() => ...) ?

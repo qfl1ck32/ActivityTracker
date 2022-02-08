@@ -6,10 +6,14 @@
  */
 import { GuardianSmart, GuardianUserType, GuardianUserRegistrationType, useSmart } from '@bluelibs/x-ui-next';
 import { gql } from '@apollo/client';
-import { EndUsersRegisterInput } from 'src/api.types';
+import { AppFile, EndUser, EndUsersRegisterInput } from 'src/api.types';
 
 export type AppUserType = GuardianUserType & {
   fullName: string;
+
+  avatar: Partial<AppFile>;
+
+  endUser?: EndUser;
 };
 
 type AppRegisterType = GuardianUserRegistrationType;
@@ -64,6 +68,7 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
     return null;
   }
 
+  // TODO: retrieve just from endUsers, maybe?
   protected async retrieveUser(): Promise<AppUserType> {
     return this.apolloClient
       .query({
@@ -71,13 +76,18 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
           query me {
             me {
               _id
-              email
-              profile {
-                firstName
-                lastName
-              }
               fullName
               roles
+
+              avatar {
+                downloadUrl
+              }
+
+              endUser {
+                firstName
+                lastName
+                email
+              }
             }
           }
         `,

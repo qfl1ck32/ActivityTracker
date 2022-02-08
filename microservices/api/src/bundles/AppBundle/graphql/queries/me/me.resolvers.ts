@@ -15,6 +15,7 @@ export default {
           filters: {
             _id: userId as any,
           },
+
           intersect: {
             _id: 1,
 
@@ -22,6 +23,16 @@ export default {
             fullName: 1,
             roles: 1,
             profile: 1,
+
+            avatar: {
+              downloadUrl: 1,
+            },
+
+            endUser: {
+              firstName: 1,
+              lastName: 1,
+              email: 1,
+            },
           },
         });
       },

@@ -8,3 +8,4 @@ export * from './DataGridToolbar';
 export * from './Head';
 export * from './LoadingScreen';
 export * from './LoadingButton';
+export * from './Profile';

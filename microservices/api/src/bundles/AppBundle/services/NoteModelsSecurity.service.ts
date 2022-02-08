@@ -19,7 +19,7 @@ export class NoteModelsSecurityService {
   @Inject()
   private noteModelsCollection: NoteModelsCollection;
 
-  @Inject()
+  @Inject(() => FieldSecurityService)
   private fieldSecurityService: FieldSecurityService;
 
   public async checkEndUserOwnsNoteModel(

@@ -343,6 +343,11 @@ export type EndUsersRegisterInput = {
   password: Scalars['String'];
 };
 
+export type EndUsersUpdateProfileInput = {
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+};
+
 export type Field = {
   __typename?: 'Field';
   id: Scalars['String'];
@@ -461,6 +466,8 @@ export type Mutation = {
   EndUsersNoteModelsCreate: NoteModel;
   EndUsersNoteModelsUpdate: NoteModel;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
+  EndUsersUpdateProfile: EndUser;
+  UsersUploadAvatar?: Maybe<AppFile>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;
   login: LoginResponse;
@@ -669,6 +676,16 @@ export type MutationEndUsersNoteModelsUpdateArgs = {
 
 export type MutationEndUsersRegisterArgs = {
   input: EndUsersRegisterInput;
+};
+
+
+export type MutationEndUsersUpdateProfileArgs = {
+  input: EndUsersUpdateProfileInput;
+};
+
+
+export type MutationUsersUploadAvatarArgs = {
+  input: UsersUploadAvatarInput;
 };
 
 
@@ -1127,7 +1144,7 @@ export type User = {
   /** Represents the user's id who has created this object */
   createdById?: Maybe<Scalars['ObjectId']>;
   email: Scalars['String'];
-  endUser: Array<Maybe<EndUser>>;
+  endUser?: Maybe<EndUser>;
   fullName: Scalars['String'];
   isEnabled: Scalars['Boolean'];
   profile: UserProfile;
@@ -1168,6 +1185,10 @@ export type UserUpdateInput = {
   isEnabled?: Maybe<Scalars['Boolean']>;
   profile?: Maybe<UserProfileInput>;
   roles?: Maybe<Array<Maybe<UserRole>>>;
+};
+
+export type UsersUploadAvatarInput = {
+  avatar?: Maybe<Scalars['Upload']>;
 };
 
 export type VerifyEmailInput = {

@@ -11,3 +11,4 @@ export * from './Register';
 export * from './ForgotPassword';
 export * from './Dialog';
 export * from './Header';
+export * from './Profile';

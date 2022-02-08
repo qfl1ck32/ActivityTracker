@@ -34,7 +34,7 @@ export class ActivityNotesService {
   @Inject(() => SecurityService)
   private securityService: SecurityService;
 
-  @Inject()
+  @Inject(() => EndUserService)
   private endUserService: EndUserService;
 
   public async update(

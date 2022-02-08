@@ -31,7 +31,7 @@ export const EndUsers = collection({
   ],
 
   relations: [
-    shortcuts.relation.user({ id: "owner" }),
+    shortcuts.relation.user({ id: "owner", unique: true }),
 
     relation({
       id: "activityLogs",

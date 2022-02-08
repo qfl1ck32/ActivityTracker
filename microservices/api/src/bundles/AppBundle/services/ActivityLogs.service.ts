@@ -46,7 +46,7 @@ export class ActivityLogsService {
   @Inject()
   private activityLogsCollection: ActivityLogsCollection;
 
-  @Inject()
+  @Inject(() => EndUserService)
   private endUserService: EndUserService;
 
   // FIXME: maybe it's a reasonable idea to have this query body parts somewhere else

@@ -1,24 +1,22 @@
+import { MimeType } from "@bundles/FileBundle/services/types";
 import { createReadStream } from "fs";
 import { FileUpload } from "graphql-upload";
 import { resolve } from "path";
 
-export const files = [
-  {
-    filename: "background.jpeg",
-    mimetype: "image/jpeg",
-    encoding: "7bit",
-  },
-] as Partial<FileUpload>[];
+const filesPath = "./src/bundles/AppBundle/fixtures/files";
 
-export const fileList = files.map((file) =>
-  Promise.resolve({
-    ...file,
+const createFileUpload = (
+  filename: string,
+  mimetype: MimeType = MimeType.IMAGE
+): Promise<FileUpload> => {
+  return Promise.resolve({
+    filename,
+    encoding: "7-bit",
+    mimetype,
 
     createReadStream: () =>
-      createReadStream(
-        resolve(`./src/bundles/AppBundle/fixtures/files/${file.filename}`)
-      ),
-  })
-) as Promise<FileUpload>[];
+      createReadStream(resolve(`${filesPath}/${filename}`)),
+  });
+};
 
-export const mockImage = fileList[0];
+export const mockImage = createFileUpload("background.jpeg");

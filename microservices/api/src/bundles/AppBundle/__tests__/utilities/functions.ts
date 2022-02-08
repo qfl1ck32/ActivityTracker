@@ -5,6 +5,7 @@ import {
   ActivityTimingsCollection,
   EndUsersCollection,
   NoteModelsCollection,
+  UsersCollection,
 } from "../../collections";
 import {
   ActivityLogDetailsService,
@@ -107,6 +108,11 @@ export const getActivityLogDetail = async (activityLogDetailId: ObjectId) =>
 
       isFinished: 1,
     },
+  });
+
+export const getUser = async (userId: ObjectId) =>
+  container.get(UsersCollection).findOne({
+    _id: userId,
   });
 
 // update

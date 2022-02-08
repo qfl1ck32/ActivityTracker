@@ -12,3 +12,4 @@ export * from "./ActivityNotes.service";
 export * from "./ActivityLogDetailsSecurity.service";
 export * from "./ActivityNotesSecurity.service";
 export * from "./Activity.service";
+export * from "./User.service";

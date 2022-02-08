@@ -4,6 +4,7 @@ import {
   EventManager,
   ContainerInstance,
 } from "@bluelibs/core";
+import { FileSecurityService } from "@bundles/FileBundle/services/FileSecurity.service";
 import { ActivityLogDetailsSecurityService } from "./ActivityLogDetailsSecurity.service";
 import { ActivityLogsSecurityService } from "./ActivityLogsSecurity.service";
 import { ActivityNotesSecurityService } from "./ActivityNotesSecurity.service";
@@ -32,4 +33,7 @@ export class SecurityService {
 
   @Inject()
   public activityNotes: ActivityNotesSecurityService;
+
+  @Inject()
+  public file: FileSecurityService;
 }
