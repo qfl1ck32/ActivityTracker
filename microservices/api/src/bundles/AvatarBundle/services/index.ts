@@ -1,1 +1,1 @@
-export * from "./AvatarService.service";
+export * from "./Avatar.service";
