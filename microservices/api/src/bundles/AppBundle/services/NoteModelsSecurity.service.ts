@@ -10,7 +10,7 @@ import { NoteModelNameAlreadyExistsException } from "../exceptions/NoteModelName
 import { NoteModelsFieldsAreMissingException } from "../exceptions/NoteModelsFieldsAreMissing.exception";
 import { NoteModelsTypeOfExistingFieldCanNotBeChangedException } from "../exceptions/NoteModelsTypeOfExistingFieldCanNotBeChanged.exception";
 import { NoteModelsUpdateFieldsInputIsInvalidException } from "../exceptions/NoteModelsUpdateFieldsInputIsInvalid.exception";
-import { FieldInput } from "./inputs";
+import { FieldCreateInput } from "./inputs";
 
 @Service()
 export class NoteModelsSecurityService {
@@ -38,7 +38,7 @@ export class NoteModelsSecurityService {
   }
 
   public async checkFieldsInputIsValid<
-    T extends { fields: (Field | FieldInput)[] }
+    T extends { fields: (Field | FieldCreateInput)[] }
   >(
     input: T,
 

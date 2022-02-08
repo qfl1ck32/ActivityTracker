@@ -5,6 +5,10 @@ import { PasswordService } from "@bluelibs/password-bundle";
 import { PermissionService, SecurityService } from "@bluelibs/security-bundle";
 
 import dataMap from "./app.dataMap";
+import {
+  ActivityNotesCollection,
+  ActivityTimingsCollection,
+} from "../collections";
 
 @Service()
 export class AppFixture {
@@ -20,7 +24,70 @@ export class AppFixture {
   @Inject()
   kernel: Kernel;
 
+  @Inject()
+  container: ContainerInstance;
+
   async init() {
+    const activityNotesCollection = this.container.get(ActivityNotesCollection);
+    const activityTimingsCollection = this.container.get(
+      ActivityTimingsCollection
+    );
+
+    const activityNotes = await activityNotesCollection.find().toArray();
+    const activityTimings = await activityTimingsCollection.find().toArray();
+
+    for (const a of activityNotes) {
+      const activityNote = a as any;
+
+      await activityNotesCollection.updateOne(
+        {
+          _id: activityNote._id,
+        },
+        {
+          $unset: {
+            activityLogDetailsId: 1,
+          },
+        }
+      );
+
+      await activityNotesCollection.updateOne(
+        {
+          _id: activityNote._id,
+        },
+        {
+          $set: {
+            activityLogDetailId: activityNote.activityLogDetailsId,
+          },
+        }
+      );
+    }
+
+    for (const b of activityTimings) {
+      const activityTiming = b as any;
+
+      await activityTimingsCollection.updateOne(
+        {
+          _id: activityTiming._id,
+        },
+        {
+          $unset: {
+            activityLogDetailsId: 1,
+          },
+        }
+      );
+
+      await activityTimingsCollection.updateOne(
+        {
+          _id: activityTiming._id,
+        },
+        {
+          $set: {
+            activityLogDetailId: activityTiming.activityLogDetailsId,
+          },
+        }
+      );
+    }
+
     return;
     if (!(await this.shouldRun())) {
       return;

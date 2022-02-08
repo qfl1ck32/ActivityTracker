@@ -5,7 +5,7 @@ import {
   NoteModelsFieldsAreMissingException,
   NoteModelsUpdateFieldsInputIsInvalidException,
 } from "../exceptions";
-import { FieldInput } from "../services/inputs";
+import { FieldCreateInput, FieldInput } from "../services/inputs";
 import { NoteModelsService } from "../services/NoteModels.service";
 import {
   createActivity,
@@ -76,7 +76,7 @@ describe("NoteModelsService", () => {
 
         enumValues: ["YES", "NO"],
       },
-    ] as FieldInput[];
+    ] as FieldCreateInput[];
 
     const noteModelId = await createNoteModel(
       {

@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
   input UserUpdateInput {
+    avatarId: ObjectId
     isEnabled: Boolean
     profile: UserProfileInput
     roles: [UserRole]

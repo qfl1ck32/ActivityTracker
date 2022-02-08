@@ -88,6 +88,14 @@ export class UserCreateForm extends XForm {
           },
         ],
       },
+
+      {
+        id: "avatarId",
+        label: t("management.users.fields.avatar"),
+        name: ["avatarId"],
+        component: UIComponents.AdminFileUpload,
+        componentProps: { field: "_id" },
+      },
     ]);
   }
 

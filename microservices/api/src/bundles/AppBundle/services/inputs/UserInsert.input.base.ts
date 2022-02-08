@@ -14,6 +14,9 @@ export class UserProfileInput {
 
 @Schema()
 export class UserInsertInput {
+  @Is(an.objectId().nullable())
+  avatarId?: ObjectId;
+
   @Is(a.boolean().required())
   isEnabled: boolean;
 

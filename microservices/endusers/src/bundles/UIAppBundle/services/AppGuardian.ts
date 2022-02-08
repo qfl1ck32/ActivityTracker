@@ -8,7 +8,7 @@ import { GuardianSmart, GuardianUserType, GuardianUserRegistrationType, useSmart
 import { gql } from '@apollo/client';
 import { EndUsersRegisterInput } from 'src/api.types';
 
-type AppUserType = GuardianUserType & {
+export type AppUserType = GuardianUserType & {
   fullName: string;
 };
 

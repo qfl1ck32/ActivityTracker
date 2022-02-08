@@ -6,7 +6,7 @@ import {
   FieldValueIsNotValidException,
 } from "../exceptions";
 import { ActivityNotesService } from "../services/ActivityNotes.service";
-import { FieldInput } from "../services/inputs";
+import { FieldCreateInput, FieldInput } from "../services/inputs";
 import {
   createActivity,
   createActivityLog,
@@ -144,7 +144,7 @@ describe("ActivityNotesService", () => {
         type: FieldType.BOOLEAN,
         enumValues: [],
       },
-    ] as FieldInput[];
+    ] as FieldCreateInput[];
 
     const noteModelId = await createNoteModel(
       {

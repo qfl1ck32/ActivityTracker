@@ -4,6 +4,6 @@ export default /* GraphQL */ `
     name: String!
     type: FieldType!
 
-    enumValues: [FieldEnumValuesInput]!
+    enumValues: [FieldEnumValuesCreateInput]!
   }
 `;

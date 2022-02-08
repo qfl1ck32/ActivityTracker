@@ -86,6 +86,14 @@ export class UserEditForm extends XForm {
           },
         ],
       },
+
+      {
+        id: "avatarId",
+        label: t("management.users.fields.avatar"),
+        name: ["avatarId"],
+        component: UIComponents.AdminFileUpload,
+        componentProps: { field: "_id" },
+      },
     ]);
   }
 
@@ -98,6 +106,12 @@ export class UserEditForm extends XForm {
         firstName: 1,
         lastName: 1,
       },
+      avatar: {
+        _id: 1,
+        downloadUrl: 1,
+        name: 1,
+      },
+      avatarId: 1,
     };
   }
 

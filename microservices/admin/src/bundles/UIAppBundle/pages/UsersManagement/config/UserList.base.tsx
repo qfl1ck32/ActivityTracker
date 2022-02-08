@@ -164,6 +164,20 @@ export class UserList extends XList<User> {
         },
       },
       {
+        id: "avatar",
+        title: t("management.users.fields.avatar"),
+        key: "management.users.fields.avatar",
+        dataIndex: ["avatar"],
+        sorter: true,
+        render: (value, model) => {
+          const props = {
+            type: "file",
+            value,
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdBy",
         title: t("management.users.fields.createdBy"),
         key: "management.users.fields.createdBy",
@@ -213,6 +227,7 @@ export class UserList extends XList<User> {
   static getSortMap() {
     return {
       endUser: "endUser.fullName",
+      avatar: "avatar._id",
       createdBy: "createdBy.fullName",
       updatedBy: "updatedBy.fullName",
     };
@@ -235,6 +250,12 @@ export class UserList extends XList<User> {
         _id: 1,
         fullName: 1,
       },
+      avatar: {
+        _id: 1,
+        downloadUrl: 1,
+        name: 1,
+      },
+      avatarId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,

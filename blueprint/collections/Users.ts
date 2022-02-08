@@ -49,6 +49,8 @@ export const Users = collection({
       inversedBy: "owner",
     }),
 
+    shortcuts.relation.file("avatar", { isRequired: false }),
+
     ...shortcuts.relations.blameable(),
   ],
 });

@@ -8,13 +8,13 @@ import {
 } from "../exceptions";
 import { FieldEnumValuesAreNotUnique } from "../exceptions/FieldEnumValuesAreNotUnique.exception";
 import { FieldTypeIsNotEnumButEnumValuesWereGivenException } from "../exceptions/FieldTypeIsNotEnumButEnumValuesWereGiven.exception";
-import { FieldInput } from "./inputs";
+import { FieldCreateInput } from "./inputs";
 
 @Service()
 export class FieldSecurityService {
   constructor(protected readonly container: ContainerInstance) {}
 
-  public checkFieldIsValid(field: Field | FieldInput) {
+  public checkFieldIsValid(field: Field | FieldCreateInput) {
     const { name, type, enumValues } = field;
 
     if (type !== FieldType.ENUM) {

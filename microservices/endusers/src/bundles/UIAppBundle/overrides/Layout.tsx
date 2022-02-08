@@ -1,12 +1,14 @@
 import { Box, Typography } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 import { LayoutComponentProps } from 'src/defs';
-import { Header } from '../components';
+import { HeaderContainer } from '../components';
+
+const HeaderContainerMemo = memo(HeaderContainer, () => true);
 
 export const Layout: React.FC<LayoutComponentProps> = ({ children, title, withHeader = true }) => {
   return (
     <Fragment>
-      {withHeader && <Header />}
+      {withHeader && <HeaderContainerMemo />}
 
       {title && (
         <Box sx={{ marginTop: 4, marginBottom: 4, display: 'flex', justifyContent: 'center' }}>

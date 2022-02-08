@@ -1,6 +1,7 @@
 /** @overridable */
 import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
+import { AppFile } from "@bluelibs/x-s3-bundle";
 import { EndUser } from "../";
 import { IPasswordAuthenticationStrategy } from "@bluelibs/password-bundle";
 import { UserRole } from "./enums/UserRole.enum";
@@ -19,6 +20,11 @@ export class UserProfile {
 export class User {
   @Is(an.objectId())
   _id?: ObjectId;
+
+  avatar?: AppFile;
+
+  @Is(an.objectId().nullable())
+  avatarId?: ObjectId;
 
   /**
    * @description Represents the date when this object was created

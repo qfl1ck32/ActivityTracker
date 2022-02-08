@@ -152,6 +152,18 @@ export class UserViewer extends XViewer {
         },
       },
       {
+        id: "avatar",
+        label: t("management.users.fields.avatar"),
+        dataIndex: ["avatar"],
+        render: (value) => {
+          const props = {
+            type: "file",
+            value,
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
+      {
         id: "createdBy",
         label: t("management.users.fields.createdBy"),
         dataIndex: ["createdBy"],
@@ -211,6 +223,12 @@ export class UserViewer extends XViewer {
         _id: 1,
         fullName: 1,
       },
+      avatar: {
+        _id: 1,
+        downloadUrl: 1,
+        name: 1,
+      },
+      avatarId: 1,
       createdBy: {
         _id: 1,
         fullName: 1,

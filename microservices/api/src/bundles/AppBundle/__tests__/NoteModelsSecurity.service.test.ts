@@ -11,7 +11,7 @@ import {
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { NoteModelsTypeOfExistingFieldCanNotBeChangedException } from "../exceptions/NoteModelsTypeOfExistingFieldCanNotBeChanged.exception";
 import { NoteModelsService } from "../services";
-import { FieldInput } from "../services/inputs";
+import { FieldCreateInput, FieldInput } from "../services/inputs";
 import { NoteModelsSecurityService } from "../services/NoteModelsSecurity.service";
 import {
   createEndUser,
@@ -105,7 +105,7 @@ describe("NoteModelsSecurityService", () => {
     const noteModelsService = container.get(NoteModelsService);
 
     const check = (
-      input: { fields: (Field | FieldInput)[] },
+      input: { fields: (Field | FieldCreateInput)[] },
       noteModelId?: ObjectId
     ) => noteModelsSecurityService.checkFieldsInputIsValid(input, noteModelId);
 

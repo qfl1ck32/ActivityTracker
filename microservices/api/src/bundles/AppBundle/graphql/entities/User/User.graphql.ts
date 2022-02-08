@@ -1,6 +1,8 @@
 export default /* GraphQL */ `
   type User {
     _id: ObjectId
+    avatar: AppFile
+    avatarId: ObjectId
 
     """
     Represents the date when this object was created

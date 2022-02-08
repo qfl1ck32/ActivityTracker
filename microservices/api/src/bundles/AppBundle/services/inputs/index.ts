@@ -28,3 +28,5 @@ export * from "./FieldEnumValues.input";
 export * from "./FieldInputWithEnumValues.input";
 export * from "./EndUsersActivityLogDetailsFinish.input";
 export * from "./EndUsersActivityLogDetailsDelete.input";
+export * from "./FieldCreate.input";
+export * from "./FieldEnumValuesCreate.input";

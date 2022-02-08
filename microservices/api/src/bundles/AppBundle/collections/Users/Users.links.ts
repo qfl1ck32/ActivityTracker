@@ -1,4 +1,5 @@
 import { UsersCollection } from "./Users.collection";
+import { AppFilesCollection } from "@bluelibs/x-s3-bundle";
 import { EndUsersCollection } from "../EndUsers/EndUsers.collection";
 import { IBundleLinkCollectionOption } from "@bluelibs/mongo-bundle";
 
@@ -8,6 +9,11 @@ import { IBundleLinkCollectionOption } from "@bluelibs/mongo-bundle";
 export const endUser: IBundleLinkCollectionOption = {
   collection: () => EndUsersCollection,
   inversedBy: "owner",
+};
+
+export const avatar: IBundleLinkCollectionOption = {
+  collection: () => AppFilesCollection,
+  field: "avatarId",
 };
 
 export const createdBy: IBundleLinkCollectionOption = {

@@ -4,6 +4,10 @@ import {
   CollectionTransformMap,
 } from "@bluelibs/x-ui";
 import { User } from "@root/api.types";
+import {
+  AppFilesCollection,
+  AppFileGroupsCollection,
+} from "@bluelibs/x-ui-admin";
 import { EndUsersCollection } from "@bundles/UIAppBundle/collections";
 import { ObjectId } from "@bluelibs/ejson";
 
@@ -24,6 +28,11 @@ export class UsersCollection extends Collection<User> {
   // Return here the relations with other configs
   getLinks(): CollectionLinkConfig<User>[] {
     return [
+      {
+        collection: () => AppFilesCollection,
+        name: "avatar",
+        field: "avatarId",
+      },
       {
         collection: () => UsersCollection,
         name: "createdBy",

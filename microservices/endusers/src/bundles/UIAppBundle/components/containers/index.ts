@@ -10,3 +10,4 @@ export * from './ActivityNotes';
 export * from './Register';
 export * from './ForgotPassword';
 export * from './Dialog';
+export * from './Header';

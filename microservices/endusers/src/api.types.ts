@@ -327,7 +327,7 @@ export type EndUsersActivityNotesUpdateInput = {
 
 export type EndUsersNoteModelsCreateInput = {
   name: Scalars['String'];
-  fields: Array<Maybe<FieldInput>>;
+  fields: Array<Maybe<FieldCreateInput>>;
 };
 
 export type EndUsersNoteModelsUpdateInput = {
@@ -351,29 +351,41 @@ export type Field = {
   enumValues: Array<Maybe<FieldEnumValues>>;
 };
 
-export type FieldEnumValues = {
-  __typename?: 'FieldEnumValues';
-  id: Scalars['String'];
-  value: Scalars['String'];
-};
-
-export type FieldEnumValuesInput = {
-  id?: Maybe<Scalars['String']>;
-  value: Scalars['String'];
-};
-
-export type FieldInput = {
+export type FieldCreateInput = {
   id?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   type: FieldType;
   enumValues: Array<Maybe<Scalars['String']>>;
 };
 
+export type FieldEnumValues = {
+  __typename?: 'FieldEnumValues';
+  id: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type FieldEnumValuesCreateInput = {
+  id?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+export type FieldEnumValuesInput = {
+  id: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type FieldInput = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  type: FieldType;
+  enumValues: Array<Maybe<FieldEnumValuesInput>>;
+};
+
 export type FieldInputWithEnumValues = {
   id?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   type: FieldType;
-  enumValues: Array<Maybe<FieldEnumValuesInput>>;
+  enumValues: Array<Maybe<FieldEnumValuesCreateInput>>;
 };
 
 export type FieldRules = {
@@ -710,7 +722,7 @@ export type NoteModelInsertInput = {
 
 export type NoteModelUpdateInput = {
   endUserId?: Maybe<Scalars['ObjectId']>;
-  fields?: Maybe<Array<Maybe<FieldInputWithEnumValues>>>;
+  fields?: Maybe<Array<Maybe<FieldInput>>>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -1106,6 +1118,8 @@ export enum SubscriptionEventType {
 export type User = {
   __typename?: 'User';
   _id?: Maybe<Scalars['ObjectId']>;
+  avatar?: Maybe<AppFile>;
+  avatarId?: Maybe<Scalars['ObjectId']>;
   /** Represents the date when this object was created */
   createdAt: Scalars['Date'];
   /** Represents the user who has created this object */
@@ -1127,6 +1141,7 @@ export type User = {
 };
 
 export type UserInsertInput = {
+  avatarId?: Maybe<Scalars['ObjectId']>;
   isEnabled: Scalars['Boolean'];
   profile: UserProfileInput;
   roles: Array<Maybe<UserRole>>;
@@ -1149,6 +1164,7 @@ export enum UserRole {
 }
 
 export type UserUpdateInput = {
+  avatarId?: Maybe<Scalars['ObjectId']>;
   isEnabled?: Maybe<Scalars['Boolean']>;
   profile?: Maybe<UserProfileInput>;
   roles?: Maybe<Array<Maybe<UserRole>>>;
