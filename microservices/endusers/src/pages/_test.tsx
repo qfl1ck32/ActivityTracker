@@ -40,6 +40,16 @@ const fields = [
       },
     ],
   },
+  {
+    name: 'cevaBul',
+    type: 'checkbox',
+    label: 'Bulian',
+  },
+  {
+    name: 'numar',
+    type: 'number',
+    label: 'numarutz',
+  },
 ] as FormFieldType[];
 
 const Test = () => {
@@ -52,29 +62,26 @@ const Test = () => {
       console.log(data);
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      return true;
     } catch (err) {
       console.log('err');
-    }
 
-    setIsLoading(false);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div>
       <Form
-        defaultValues={{
-          email: 'test',
-          details: {
-            'gigi': 'wtf',
-
-            'SUPER NESTED': {
-              'this is weird': 'mergee',
-            },
-          },
-        }}
         fields={fields}
         isSubmitting={isLoading}
         onSubmit={onSubmit}
+        defaultValues={{
+          cevaBul: true,
+        }}
         submitButtonText="Hai noroc si doamne ajuta"
       />
     </div>

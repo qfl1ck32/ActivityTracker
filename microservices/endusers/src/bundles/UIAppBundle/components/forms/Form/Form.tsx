@@ -1,6 +1,6 @@
 import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField } from '@mui/material';
+import { Checkbox, FormControlLabel, FormHelperText, MenuItem, Select, TextField } from '@mui/material';
 import { get, isEmpty } from 'lodash-es';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -36,8 +36,11 @@ export function Form<T>(props: FormProps<T>) {
     resolver: yupResolver(schema),
 
     defaultValues,
+
+    mode: 'onChange',
   });
 
+  // TODO: move out?
   const renderField = (field: FormFieldType) => {
     if (field.nest?.length) {
       const fields = field.nest.map((nestedField) =>
@@ -50,13 +53,69 @@ export function Form<T>(props: FormProps<T>) {
       return fields;
     }
 
+    if (field.type === 'checkbox') {
+      return (
+        <div key={field.name}>
+          <FormHelperText>{field.label}</FormHelperText>
+
+          <FormControlLabel
+            label={field.label}
+            control={<Checkbox {...register(field.name)} defaultChecked={get(defaultValues, field.name)} />}
+          />
+        </div>
+      );
+    }
+
+    if (field.enumValues?.length) {
+      return (
+        <div key={field.name}>
+          <FormHelperText>{field.label}</FormHelperText>
+
+          <Select
+            fullWidth
+            {...register(field.name)}
+            defaultValue={get(defaultValues, field.name) || ''}
+            displayEmpty
+            inputProps={{ 'aria-label': field.name }}
+            error={Boolean(get(errors, field.name))}
+          >
+            <MenuItem disabled value="">
+              Select a value
+            </MenuItem>
+            {field.enumValues.map((enumValue) => {
+              let name = '';
+              let value = '';
+
+              if (typeof enumValue === 'string') {
+                name = value = enumValue;
+              } else {
+                name = enumValue.name;
+                value = enumValue.value;
+              }
+
+              return (
+                <MenuItem key={name} value={value}>
+                  {name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <FormHelperText error>{get(errors, field.name)?.message}</FormHelperText>
+        </div>
+      );
+    }
+
     return (
       <div key={field.name}>
+        <FormHelperText>{field.label}</FormHelperText>
+
         <TextField
           label={field.label}
           fullWidth
           margin="normal"
-          type={field.type}
+          // TODO: :(?
+          type={field.type === 'number' ? undefined : field.type}
+          multiline={field.multiline}
           error={Boolean(get(errors, field.name))}
           helperText={get(errors, field.name)?.message}
           {...register(field.name)}
@@ -80,7 +139,7 @@ export function Form<T>(props: FormProps<T>) {
       {fields.map(renderField)}
 
       <LoadingButton
-        disabled={!isValid || isEmpty(dirtyFields)}
+        disabled={isEmpty(dirtyFields)}
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
         fullWidth

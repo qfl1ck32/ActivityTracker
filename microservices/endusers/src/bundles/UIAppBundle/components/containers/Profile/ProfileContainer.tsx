@@ -124,28 +124,23 @@ export const ProfileContainer: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <Box>
-          <Typography component="h1" variant="h5">
-            Avatar
-          </Typography>
-          <DropzoneContainer
-            {...{
-              files,
-              setFiles,
+        <DropzoneContainer
+          {...{
+            files,
+            setFiles,
 
-              options: {
-                accept: 'image/jpeg',
-                maxFiles: 1,
-              },
+            options: {
+              accept: 'image/jpeg',
+              maxFiles: 1,
+            },
 
-              onUpload,
+            onUpload,
 
-              onRemove: () => onUpload(null),
-            }}
-          />
-        </Box>
+            onRemove: () => onUpload(null),
+          }}
+        />
 
-        <Box>
+        <Container>
           <Typography component="h1" variant="h5">
             Profile
           </Typography>
@@ -161,7 +156,7 @@ export const ProfileContainer: React.FC = () => {
               emailDefaultValues,
             }}
           />
-        </Box>
+        </Container>
       </Container>
     </UIComponents.Layout>
   );

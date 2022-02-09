@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, List, TextField, Typography } from '@mui/material';
+import { isEmpty } from 'lodash-es';
 import { Fragment, useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Field, FieldInput } from 'src/api.types';
@@ -31,9 +32,9 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
 }) => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, dirtyFields },
 
-    setValue,
+    reset,
 
     control,
     watch,
@@ -45,9 +46,7 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
   });
 
   useEffect(() => {
-    for (const key in defaultValues) {
-      setValue(key, defaultValues[key]);
-    }
+    reset(defaultValues);
   }, [JSON.stringify(defaultValues)]);
 
   const { fields, append, remove } = useFieldArray<any, any, any>({
@@ -80,7 +79,13 @@ export const NoteModelsForm: React.FC<NoteModelsFormProps> = ({
             helperText={errors.name?.message}
           />
 
-          <LoadingButton sx={{ marginLeft: 4 }} variant="contained" loading={isSubmitting} type="submit">
+          <LoadingButton
+            disabled={isEmpty(dirtyFields)}
+            sx={{ marginLeft: 4 }}
+            variant="contained"
+            loading={isSubmitting}
+            type="submit"
+          >
             {context === 'create' ? 'Create' : 'Edit'}
           </LoadingButton>
         </Box>

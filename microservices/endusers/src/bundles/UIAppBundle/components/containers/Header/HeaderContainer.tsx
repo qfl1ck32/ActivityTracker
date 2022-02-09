@@ -9,7 +9,5 @@ const HeaderMemo = memo(Header, (prev, next) => {
 export const HeaderContainer: React.FC = () => {
   const guardian = useAppGuardian();
 
-  console.log(guardian.state.user);
-
   return <HeaderMemo user={guardian.state.user} />;
 };

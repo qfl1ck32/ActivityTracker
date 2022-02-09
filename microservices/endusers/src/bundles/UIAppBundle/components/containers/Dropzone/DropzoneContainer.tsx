@@ -74,7 +74,7 @@ export const DropzoneContainer: React.FC<DropzoneContainerProps> = ({ options, f
         {isLoading ? (
           <UIComponents.Loader />
         ) : files.length === 0 ? (
-          <IconButton {...getRootProps()} sx={{ borderRadius: 0 }}>
+          <IconButton {...getRootProps()} sx={{ borderRadius: 0, color: 'white' }}>
             <AddIcon />
             Upload
           </IconButton>

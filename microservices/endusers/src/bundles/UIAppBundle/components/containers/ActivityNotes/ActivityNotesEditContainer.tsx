@@ -37,6 +37,13 @@ export const ActivityNotesEditContainer: React.FC<ActivityNotesEditContainerProp
   const onSubmit = async (value: Record<string, any>) => {
     setIsSubmitting(true);
 
+    // TODO: is there anything that does this, like, more pretty?
+    for (const key in value) {
+      if (!value[key]) {
+        delete value[key];
+      }
+    }
+
     try {
       const { data } = await updateActivityNote({
         variables: {
@@ -54,8 +61,12 @@ export const ActivityNotesEditContainer: React.FC<ActivityNotesEditContainerProp
       );
 
       toast.info('You have successfully updated the note!');
+
+      return true;
     } catch (err: any) {
       toast.error(err.toString());
+
+      return false;
     } finally {
       setIsSubmitting(false);
     }

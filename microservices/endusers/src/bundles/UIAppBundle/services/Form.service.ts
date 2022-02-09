@@ -27,18 +27,32 @@ export class FormService {
     if (textTypes.includes(type)) {
       schema = yup.string();
     } else if (type === 'number') {
-      schema = yup.number();
+      // TODO: maybe add "onlyIntegers?: boolean" to FormFieldType; by default, it allows floats too
+      schema = yup
+        .number()
+        .test({
+          name: 'is-int-or-float',
+
+          test: (value) => (value ? new RegExp(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/).test(String(value)) : true),
+        })
+        .transform((v, o) => (o === '' ? null : v));
+    } else if (type === 'checkbox') {
+      schema = yup.boolean();
     } else {
       schema = yup.string();
     }
 
-    // TODO: wut
-    if (field.enumValues) {
-      schema = (schema as any).oneOf(enumValues);
+    if (enumValues?.length) {
+      // FIXME: shame on typescript
+      const values = enumValues.map((enumValue) => (typeof enumValue === 'string' ? enumValue : enumValue.value));
+
+      schema = (schema as any).oneOf(isRequired ? values : [''].concat(values));
     }
 
     if (isRequired) {
       schema = schema.required();
+    } else {
+      schema = schema.nullable();
     }
 
     return schema;
