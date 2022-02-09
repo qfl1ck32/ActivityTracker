@@ -57,6 +57,13 @@ export const ProfileContainer: React.FC = () => {
 
       const newAvatar = data?.UsersUploadAvatar as AppFile | null;
 
+      guardian.updateState({
+        user: {
+          ...guardian.state.user,
+          avatar: newAvatar as AppFile,
+        },
+      });
+
       setFiles(newAvatar ? [newAvatar] : []);
 
       toast.info(`You have successfully ${Boolean(avatar) ? 'updated' : 'removed'} your avatar.`);

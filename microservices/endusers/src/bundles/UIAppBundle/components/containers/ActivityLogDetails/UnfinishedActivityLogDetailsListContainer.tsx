@@ -12,7 +12,7 @@ export const UnfinishedActivityLogDetailsListContainer: React.FC = () => {
     onCompleted: (data) => setActivityLogDetails(data.EndUsersActivityLogDetailsGetUnfinished),
   });
 
-  //   console.log(activityLogDetails);
+  console.log(activityLogDetails);
 
   return null;
 };

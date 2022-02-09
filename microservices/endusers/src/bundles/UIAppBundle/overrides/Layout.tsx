@@ -3,12 +3,10 @@ import { Fragment, memo } from 'react';
 import { LayoutComponentProps } from 'src/defs';
 import { HeaderContainer } from '../components';
 
-const HeaderContainerMemo = memo(HeaderContainer, () => true);
-
 export const Layout: React.FC<LayoutComponentProps> = ({ children, title, withHeader = true }) => {
   return (
     <Fragment>
-      {withHeader && <HeaderContainerMemo />}
+      {withHeader && <HeaderContainer />}
 
       {title && (
         <Box sx={{ marginTop: 4, marginBottom: 4, display: 'flex', justifyContent: 'center' }}>

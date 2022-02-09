@@ -44,9 +44,6 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
   const settings = user ? settingsLoggedIn : settingsNotLoggedIn;
   const pages = user ? pagesLoggedIn : pagesNotLoggedIn;
 
-  console.log('re-render?');
-  console.log(user);
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -110,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user?.fullName} src="/static/images/avatar/2.jpg" />
+                <Avatar alt={user?.fullName} src={user?.avatar?.downloadUrl} />
               </IconButton>
             </Tooltip>
 
