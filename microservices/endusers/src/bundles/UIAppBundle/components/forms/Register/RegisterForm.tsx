@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '../../';
 import { TextField } from '@mui/material';
 import { schema } from './schema';
+import { Form } from '../Form';
 
 export type RegisterFormProps = {
   onSubmit: (input: EndUsersRegisterInput) => Promise<void>;
@@ -12,59 +13,49 @@ export type RegisterFormProps = {
 };
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, isSubmitting }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
-      <TextField
-        label="First name"
-        error={Boolean(errors.firstName)}
-        helperText={errors.firstName?.message}
-        type="text"
-        margin="normal"
-        fullWidth
-        {...register('firstName')}
-      />
+    <Form
+      {...{
+        fields: [
+          {
+            name: 'firstName',
+            label: 'First name',
+            withLabel: false,
 
-      <TextField
-        label="Last name"
-        error={Boolean(errors.lastName)}
-        helperText={errors.lastName?.message}
-        type="text"
-        margin="normal"
-        fullWidth
-        {...register('lastName')}
-      />
+            isRequired: true,
+          },
+          {
+            name: 'lastName',
+            label: 'Last name',
+            withLabel: false,
 
-      <TextField
-        label="Email"
-        error={Boolean(errors.email)}
-        helperText={errors.email?.message}
-        type="email"
-        margin="normal"
-        fullWidth
-        {...register('email')}
-      />
+            isRequired: true,
+          },
+          {
+            name: 'email',
+            label: 'Email',
+            withLabel: false,
 
-      <TextField
-        label="Password"
-        error={Boolean(errors.password)}
-        helperText={errors.password?.message}
-        type="password"
-        margin="normal"
-        fullWidth
-        {...register('password')}
-      />
+            type: 'email',
 
-      <LoadingButton variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth type="submit" loading={isSubmitting}>
-        Register
-      </LoadingButton>
-    </form>
+            isRequired: true,
+          },
+          {
+            name: 'password',
+            label: 'Password',
+            withLabel: false,
+
+            type: 'password',
+
+            isRequired: true,
+          },
+        ],
+
+        onSubmit,
+        isSubmitting,
+
+        submitButtonText: 'Sign up',
+      }}
+    />
   );
 };

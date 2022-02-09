@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '../../';
 import { TextField } from '@mui/material';
 import { schema } from './schema';
+import { Form } from '../Form';
 
 export type ForgotPasswordFormProps = {
   onSubmit: (input: ForgotPasswordInput) => Promise<void>;
@@ -12,29 +13,24 @@ export type ForgotPasswordFormProps = {
 };
 
 export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSubmit, isSubmitting }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
-      <TextField
-        label="Email"
-        error={Boolean(errors.email)}
-        helperText={errors.email?.message}
-        type="text"
-        margin="normal"
-        fullWidth
-        {...register('email')}
-      />
+    <Form
+      {...{
+        fields: [
+          {
+            name: 'email',
+            label: 'Email',
 
-      <LoadingButton variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth type="submit" loading={isSubmitting}>
-        Send reset password e-mail
-      </LoadingButton>
-    </form>
+            withLabel: false,
+          },
+        ],
+
+        onSubmit,
+        isSubmitting,
+        submitButtonText: 'Send reset password e-mail',
+
+        submitButtonFullWidth: true,
+      }}
+    />
   );
 };

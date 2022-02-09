@@ -3,7 +3,7 @@ import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 import { Header } from '../../Header';
 
 const HeaderMemo = memo(Header, (prev, next) => {
-  return prev.user.avatar?.downloadUrl === next.user.avatar?.downloadUrl;
+  return prev.user?.avatar?.downloadUrl === next.user?.avatar?.downloadUrl;
 });
 
 export const HeaderContainer: React.FC = () => {

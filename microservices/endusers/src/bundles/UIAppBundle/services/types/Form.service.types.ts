@@ -18,4 +18,6 @@ export type FormFieldType = {
   nest?: FormFieldType[];
 
   multiline?: boolean;
+
+  withLabel?: boolean;
 };

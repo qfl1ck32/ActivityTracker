@@ -19,7 +19,7 @@ const LogoutPage: React.FC = () => {
       .finally(() => router.go(Routes.Home));
   }, []);
 
-  return <UIComponents.Loader />;
+  return <UIComponents.Loader verticalCenter horizontalCenter />;
 };
 
 export default LogoutPage;

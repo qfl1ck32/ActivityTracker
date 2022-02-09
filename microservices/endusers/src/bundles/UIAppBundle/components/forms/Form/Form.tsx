@@ -2,7 +2,7 @@ import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Checkbox, FormControlLabel, FormHelperText, MenuItem, Select, TextField } from '@mui/material';
 import { get, isEmpty } from 'lodash-es';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormService } from 'src/bundles/UIAppBundle/services';
 import { FormFieldType } from 'src/bundles/UIAppBundle/services/types';
@@ -17,7 +17,7 @@ export type FormProps<T> = {
 
   defaultValues?: Record<string, any>;
 
-  submitButtonText: string;
+  submitButtonText?: string;
   submitButtonFullWidth?: boolean;
 };
 
@@ -43,6 +43,10 @@ export function Form<T>(props: FormProps<T>) {
 
   // TODO: move out?
   const renderField = (field: FormFieldType) => {
+    if (field.withLabel === undefined) {
+      field.withLabel = true;
+    }
+
     if (field.nest?.length) {
       const fields = field.nest.map((nestedField) =>
         renderField({
@@ -56,21 +60,21 @@ export function Form<T>(props: FormProps<T>) {
 
     if (field.type === 'checkbox') {
       return (
-        <div key={field.name}>
-          <FormHelperText>{field.label}</FormHelperText>
+        <Fragment key={field.name}>
+          {field.withLabel && <FormHelperText>{field.label}</FormHelperText>}
 
           <FormControlLabel
             label={field.label}
             control={<Checkbox {...register(field.name)} defaultChecked={get(defaultValues, field.name)} />}
           />
-        </div>
+        </Fragment>
       );
     }
 
     if (field.enumValues?.length) {
       return (
-        <div key={field.name}>
-          <FormHelperText>{field.label}</FormHelperText>
+        <Fragment key={field.name}>
+          {field.withLabel && <FormHelperText>{field.label}</FormHelperText>}
 
           <Select
             fullWidth
@@ -102,13 +106,13 @@ export function Form<T>(props: FormProps<T>) {
             })}
           </Select>
           <FormHelperText error>{get(errors, field.name)?.message}</FormHelperText>
-        </div>
+        </Fragment>
       );
     }
 
     return (
-      <div key={field.name}>
-        <FormHelperText>{field.label}</FormHelperText>
+      <Fragment key={field.name}>
+        {field.withLabel && <FormHelperText>{field.label}</FormHelperText>}
 
         <TextField
           label={field.label}
@@ -121,7 +125,7 @@ export function Form<T>(props: FormProps<T>) {
           helperText={get(errors, field.name)?.message}
           {...register(field.name)}
         />
-      </div>
+      </Fragment>
     );
   };
 
@@ -139,18 +143,16 @@ export function Form<T>(props: FormProps<T>) {
     <form onSubmit={onFormSubmit}>
       {fields.map(renderField)}
 
-      <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <LoadingButton
-          disabled={!isValid || isEmpty(dirtyFields)}
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          fullWidth={submitButtonFullWidth}
-          type="submit"
-          loading={isSubmitting}
-        >
-          {submitButtonText}
-        </LoadingButton>
-      </Box>
+      <LoadingButton
+        disabled={!isValid || isEmpty(dirtyFields)}
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        fullWidth={submitButtonFullWidth}
+        type="submit"
+        loading={isSubmitting}
+      >
+        {submitButtonText ?? 'Submit'}
+      </LoadingButton>
     </form>
   );
 }
