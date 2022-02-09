@@ -276,7 +276,7 @@ describe("NoteModelsSecurityService", () => {
     );
   });
 
-  test.only("checkFieldsInputIsValid() - with isArray", async () => {
+  test("checkFieldsInputIsValid() - with isArray", async () => {
     const noteModelsSecurityService = container.get(NoteModelsSecurityService);
 
     const noteModelsService = container.get(NoteModelsService);
