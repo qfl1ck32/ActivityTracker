@@ -8,7 +8,7 @@ export type ActivityLogDetailsComponentProps = {
   startedAt: Date;
   finishedAt: Date;
 
-  onSubmit: (noteDetailsValue: Object) => Promise<void>;
+  onSubmit: (noteDetailsValue: Object) => Promise<boolean>;
 
   isSubmitting: boolean;
 };

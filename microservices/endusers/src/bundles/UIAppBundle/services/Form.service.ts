@@ -24,7 +24,9 @@ export class FormService {
 
     let schema = null;
 
-    if (textTypes.includes(type)) {
+    if (!type) {
+      schema = yup.string();
+    } else if (textTypes.includes(type)) {
       schema = yup.string();
     } else if (type === 'number') {
       // TODO: maybe add "onlyIntegers?: boolean" to FormFieldType; by default, it allows floats too
@@ -38,8 +40,6 @@ export class FormService {
         .transform((v, o) => (o === '' ? null : v));
     } else if (type === 'checkbox') {
       schema = yup.boolean();
-    } else {
-      schema = yup.string();
     }
 
     if (enumValues?.length) {
