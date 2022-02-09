@@ -1,6 +1,6 @@
 import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
-import { lookup, QueryBodyType } from "@bluelibs/nova";
+import { QueryBodyType } from "@bluelibs/nova";
 import {
   ActivityLogDetail,
   ActivityLogDetailsCollection,

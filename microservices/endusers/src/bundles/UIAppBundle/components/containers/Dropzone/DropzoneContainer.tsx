@@ -63,8 +63,8 @@ export const DropzoneContainer: React.FC<DropzoneContainerProps> = ({ options, f
       <Box
         sx={{
           display: 'flex',
-          borderRadius: '50%',
-          backgroundColor: '#00AAFF',
+          borderRadius: '25%',
+          backgroundColor: files.length && !isLoading ? '' : '#00AAFF',
           height: 200,
           width: 200,
           alignItems: 'center',
@@ -83,7 +83,7 @@ export const DropzoneContainer: React.FC<DropzoneContainerProps> = ({ options, f
             <Box key={index}>
               <img
                 {...getRootProps()}
-                style={{ width: 200, height: 200, borderRadius: '50%' }}
+                style={{ width: 200, height: 200, borderRadius: '25%', border: '5px solid #00AAFF' }}
                 src={file.downloadUrl}
               />
               {onRemove && (

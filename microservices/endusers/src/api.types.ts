@@ -343,11 +343,6 @@ export type EndUsersRegisterInput = {
   password: Scalars['String'];
 };
 
-export type EndUsersUpdateProfileInput = {
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-};
-
 export type Field = {
   __typename?: 'Field';
   id: Scalars['String'];
@@ -466,7 +461,7 @@ export type Mutation = {
   EndUsersNoteModelsCreate: NoteModel;
   EndUsersNoteModelsUpdate: NoteModel;
   EndUsersRegister?: Maybe<Scalars['Boolean']>;
-  EndUsersUpdateProfile: EndUser;
+  UsersUpdateProfile: User;
   UsersUploadAvatar?: Maybe<AppFile>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;
@@ -679,8 +674,8 @@ export type MutationEndUsersRegisterArgs = {
 };
 
 
-export type MutationEndUsersUpdateProfileArgs = {
-  input: EndUsersUpdateProfileInput;
+export type MutationUsersUpdateProfileArgs = {
+  input: UsersUpdateProfileInput;
 };
 
 
@@ -1185,6 +1180,12 @@ export type UserUpdateInput = {
   isEnabled?: Maybe<Scalars['Boolean']>;
   profile?: Maybe<UserProfileInput>;
   roles?: Maybe<Array<Maybe<UserRole>>>;
+};
+
+export type UsersUpdateProfileInput = {
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
 };
 
 export type UsersUploadAvatarInput = {

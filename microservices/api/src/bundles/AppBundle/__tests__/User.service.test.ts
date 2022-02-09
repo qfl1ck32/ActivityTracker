@@ -1,6 +1,6 @@
 import { UserService } from "../services/User.service";
 import { container } from "../../../__tests__/ecosystem";
-import { createEndUser, getUser } from "./utilities";
+import { createEndUser, createUser, getUser } from "./utilities";
 import { mockImage } from "./utilities/files";
 
 // Jest Setup & Teardown: https://jestjs.io/docs/en/setup-teardown
@@ -41,5 +41,35 @@ describe("UserService", () => {
 
     user = await getUser(userId);
     expect(user.avatarId).toBeFalsy();
+  });
+
+  test("updateProfile()", async () => {
+    const userService = container.get(UserService);
+
+    const email = "abc@app.com";
+    const firstName = "newFirstName";
+    const lastName = "newLastName";
+
+    const userId = await createUser({
+      password: {
+        email,
+      },
+    });
+
+    await userService.updateProfile(
+      {
+        email,
+        firstName,
+        lastName,
+      },
+      userId
+    );
+
+    const user = await getUser(userId);
+
+    expect(user.profile).toStrictEqual({
+      firstName,
+      lastName,
+    });
   });
 });

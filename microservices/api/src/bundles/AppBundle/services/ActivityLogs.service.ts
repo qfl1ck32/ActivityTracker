@@ -1,19 +1,8 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
-import { EJSON, ObjectId } from "@bluelibs/ejson";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
+import { ObjectId } from "@bluelibs/ejson";
 import { QueryBodyType } from "@bluelibs/nova";
-import { ActivityLogDetailsService } from ".";
-import {
-  ActivityLog,
-  ActivityLogsCollection,
-  Field,
-  FieldEnumValues,
-  FieldType,
-} from "../collections";
+import { ActivityLogDetailsService } from "./ActivityLogDetails.service";
+import { ActivityLog, ActivityLogsCollection } from "../collections";
 import { EndUserService } from "./EndUser.service";
 import { EndUsersActivityLogsCreateInput } from "./inputs/EndUsersActivityLogsCreate.input";
 import { EndUsersActivityLogsGetOneInput } from "./inputs/EndUsersActivityLogsGetOne.input";

@@ -3,7 +3,7 @@ import { useUIComponents } from '@bluelibs/x-ui-next';
 import { Box, Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AppFile, EndUsersUpdateProfileInput, Mutation, UsersUploadAvatarInput } from 'src/api.types';
+import { AppFile, Mutation, UsersUpdateProfileInput, UsersUploadAvatarInput } from 'src/api.types';
 import { UpdateProfile, UploadAvatar } from 'src/bundles/UIAppBundle/mutations';
 import { useAppGuardian } from 'src/bundles/UIAppBundle/services';
 import { ProfileForm } from '../..';
@@ -14,6 +14,7 @@ export const ProfileContainer: React.FC = () => {
 
   const [files, setFiles] = useState<DropzoneFileType[]>([]);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+  const [isUpdatingEmail, setIsUpdatingEmail] = useState(false);
 
   const [uploadAvatar] = useMutation<
     { UsersUploadAvatar: Mutation['UsersUploadAvatar'] },
@@ -21,8 +22,8 @@ export const ProfileContainer: React.FC = () => {
   >(UploadAvatar);
 
   const [updateProfile] = useMutation<
-    { EndUsersUpdateProfile: Mutation['EndUsersUpdateProfile'] },
-    { input: EndUsersUpdateProfileInput }
+    { UsersUpdateProfile: Mutation['UsersUpdateProfile'] },
+    { input: UsersUpdateProfileInput }
   >(UpdateProfile);
 
   const guardian = useAppGuardian();
@@ -32,7 +33,17 @@ export const ProfileContainer: React.FC = () => {
   const profileDefaultValues = {
     firstName: endUser?.firstName,
     lastName: endUser?.lastName,
-  } as EndUsersUpdateProfileInput;
+  } as Partial<UsersUpdateProfileInput>;
+
+  const emailDefaultValues = {
+    email: endUser?.email,
+  } as Partial<UsersUpdateProfileInput>;
+
+  useEffect(() => {
+    if (guardian.state.user.avatar) {
+      setFiles([guardian.state.user.avatar]);
+    }
+  }, []);
 
   const onUpload = async (avatar: File | null) => {
     try {
@@ -54,13 +65,7 @@ export const ProfileContainer: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (guardian.state.user.avatar) {
-      setFiles([guardian.state.user.avatar]);
-    }
-  }, []);
-
-  const onUpdateProfile = async (input: EndUsersUpdateProfileInput) => {
+  const onUpdateProfile = async (input: UsersUpdateProfileInput) => {
     setIsUpdatingProfile(true);
 
     try {
@@ -70,13 +75,35 @@ export const ProfileContainer: React.FC = () => {
         },
       });
 
-      // TODO: await guardian.load()??
-
       toast.info('You have successfully updated your profile!');
+
+      return true;
     } catch (err: any) {
       toast.error(err.toString());
+      return false;
     } finally {
       setIsUpdatingProfile(false);
+    }
+  };
+
+  const onUpdateEmail = async (input: Partial<UsersUpdateProfileInput>) => {
+    setIsUpdatingEmail(true);
+
+    try {
+      await updateProfile({
+        variables: {
+          input,
+        },
+      });
+
+      toast.info('You have successfully changed your e-mail!');
+
+      return true;
+    } catch (err: any) {
+      toast.error(err.toString());
+      return false;
+    } finally {
+      setIsUpdatingEmail(false);
     }
   };
 
@@ -117,9 +144,14 @@ export const ProfileContainer: React.FC = () => {
           </Typography>
           <ProfileForm
             {...{
-              onSubmit: onUpdateProfile,
-              isSubmitting: isUpdatingProfile,
-              defaultValues: profileDefaultValues,
+              onUpdateProfile,
+              isUpdatingProfile,
+
+              onUpdateEmail,
+              isUpdatingEmail,
+
+              profileDefaultValues,
+              emailDefaultValues,
             }}
           />
         </Box>

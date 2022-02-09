@@ -1,58 +1,75 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { EndUsersUpdateProfileInput, UserProfileInput } from 'src/api.types';
-import { LoadingButton } from '../..';
-import { schema } from './schema';
+import { Box, Divider } from '@mui/material';
+import { UserProfileInput, UsersUpdateProfileInput } from 'src/api.types';
+import { FormFieldType } from 'src/bundles/UIAppBundle/services/types';
+import { Form } from '../Form';
 
 export type ProfileFormProps = {
-  onSubmit: (data: EndUsersUpdateProfileInput) => Promise<void>;
+  onUpdateProfile: (data: UsersUpdateProfileInput) => Promise<boolean>;
+  onUpdateEmail: (data: UsersUpdateProfileInput) => Promise<boolean>;
 
-  isSubmitting: boolean;
+  isUpdatingProfile: boolean;
+  isUpdatingEmail: boolean;
 
-  defaultValues?: Partial<UserProfileInput>;
+  profileDefaultValues?: Partial<UserProfileInput>;
+
+  emailDefaultValues?: Partial<UserProfileInput>;
 };
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit, isSubmitting, defaultValues }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
+const profileFormFields = [
+  {
+    name: 'firstName',
+    label: 'First name',
+    isRequired: true,
+    type: 'text',
+  },
+  {
+    name: 'lastName',
+    label: 'Last name',
+    isRequired: true,
+    type: 'text',
+  },
+] as FormFieldType[];
 
-    defaultValues,
-  });
+const emailFormFields = [
+  {
+    name: 'email',
+    label: 'Email',
+    isRequired: true,
+    type: 'email',
+  },
+] as FormFieldType[];
 
+export const ProfileForm: React.FC<ProfileFormProps> = ({
+  onUpdateEmail,
+  onUpdateProfile,
+  isUpdatingEmail,
+  isUpdatingProfile,
+  profileDefaultValues,
+  emailDefaultValues,
+}) => {
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
-      <div>
-        <TextField
-          label="First name"
-          error={Boolean(errors.firstName)}
-          helperText={errors.firstName?.message}
-          type="text"
-          margin="normal"
-          fullWidth
-          {...register('firstName')}
-        />
-      </div>
+    <Box>
+      <Form
+        {...{
+          onSubmit: onUpdateProfile,
+          fields: profileFormFields,
+          isSubmitting: isUpdatingProfile,
+          defaultValues: profileDefaultValues,
+          submitButtonText: 'Update',
+        }}
+      />
 
-      <div>
-        <TextField
-          label="Last name"
-          error={Boolean(errors.lastName)}
-          helperText={errors.lastName?.message}
-          type="text"
-          margin="normal"
-          fullWidth
-          {...register('lastName')}
-        />
-      </div>
+      <Divider />
 
-      <LoadingButton variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth type="submit" loading={isSubmitting}>
-        Update
-      </LoadingButton>
-    </form>
+      <Form
+        {...{
+          onSubmit: onUpdateEmail,
+          fields: emailFormFields,
+          isSubmitting: isUpdatingEmail,
+          defaultValues: emailDefaultValues,
+          submitButtonText: 'Change e-mail',
+        }}
+      />
+    </Box>
   );
 };

@@ -1,15 +1,9 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { EJSON, ObjectId } from "@bluelibs/ejson";
 import {
   ActivityLogsCollection,
   ActivityNotesCollection,
   Field,
-  FieldEnumValues,
   FieldType,
   NoteModelsCollection,
 } from "../collections";

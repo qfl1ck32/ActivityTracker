@@ -1,9 +1,4 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import { ActivityLogsCollection } from "../collections";
 import { EndUserDoesNotOwnActivityLogException } from "../exceptions";

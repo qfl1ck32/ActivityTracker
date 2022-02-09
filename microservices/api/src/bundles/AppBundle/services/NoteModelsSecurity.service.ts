@@ -2,7 +2,7 @@ import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 // TODO: import from lodash-es, three shake
 import { uniq } from "lodash";
-import { FieldSecurityService } from ".";
+import { FieldSecurityService } from "./FieldSecurity.service";
 import { Field, FieldEnumValues, NoteModelsCollection } from "../collections";
 import { EndUserDoesNotOwnNoteModelException } from "../exceptions/EndUserDoesNotOwnNoteModel.exception";
 import { FieldNamesAreNotUniqueException } from "../exceptions/FieldNamesAreNotUnique.exception";

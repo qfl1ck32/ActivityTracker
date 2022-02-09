@@ -1,9 +1,4 @@
-import {
-  Service,
-  Inject,
-  EventManager,
-  ContainerInstance,
-} from "@bluelibs/core";
+import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { EJSON } from "@bluelibs/ejson";
 import { ActivityLogDetailsCollection, Field } from "../collections";
 import { FieldNameIsNotDefinedInNoteModelException } from "../exceptions/FieldNameIsNotDefinedInNoteModel.exception";

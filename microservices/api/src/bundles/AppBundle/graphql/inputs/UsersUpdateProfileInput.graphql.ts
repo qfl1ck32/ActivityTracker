@@ -1,6 +1,8 @@
 export default /* GraphQL */ `
-  input EndUsersUpdateProfileInput {
+  input UsersUpdateProfileInput {
     firstName: String
     lastName: String
+
+    email: String
   }
 `;

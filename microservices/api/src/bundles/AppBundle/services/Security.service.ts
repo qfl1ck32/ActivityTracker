@@ -11,6 +11,7 @@ import { ActivityNotesSecurityService } from "./ActivityNotesSecurity.service";
 import { DateSecurityService } from "./DateSecurity.service";
 import { FieldSecurityService } from "./FieldSecurity.service";
 import { NoteModelsSecurityService } from "./NoteModelsSecurity.service";
+import { UsersSecurityService } from "./UsersSecurity.service";
 
 @Service()
 export class SecurityService {
@@ -26,7 +27,7 @@ export class SecurityService {
   public noteModels: NoteModelsSecurityService;
 
   @Inject()
-  public date: DateSecurityService;
+  public dates: DateSecurityService;
 
   @Inject()
   public field: FieldSecurityService;
@@ -35,5 +36,8 @@ export class SecurityService {
   public activityNotes: ActivityNotesSecurityService;
 
   @Inject()
-  public file: FileSecurityService;
+  public files: FileSecurityService;
+
+  @Inject()
+  public users: UsersSecurityService;
 }

@@ -3,10 +3,12 @@ import { ObjectId } from "@bluelibs/ejson";
 // TODO :(
 import * as crypto from "crypto";
 import { pickBy } from "lodash";
-import { ActivityNotesService, EndUserService, SecurityService } from ".";
+import { ActivityNotesService } from "./ActivityNotes.service";
 import { Field, NoteModelsCollection } from "../collections";
 import { EndUsersNoteModelsCreateInput } from "./inputs/EndUsersNoteModelsCreate.input";
 import { EndUsersNoteModelsUpdateInput } from "./inputs/EndUsersNoteModelsUpdate.input";
+import { EndUserService } from "./EndUser.service";
+import { SecurityService } from "./Security.service";
 
 @Service()
 export class NoteModelsService {

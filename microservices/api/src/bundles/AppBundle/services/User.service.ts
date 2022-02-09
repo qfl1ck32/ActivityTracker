@@ -7,9 +7,10 @@ import {
 import { AvatarService } from "@bundles/AvatarBundle/services/Avatar.service";
 import { pickBy } from "lodash";
 import { ObjectId } from "mongodb";
-import { UsersCollection } from "../collections";
-import { UsersUploadAvatarInput } from "./inputs";
-import { UserProfileInput } from "./inputs/UserInsert.input.base";
+import { SecurityService } from "./Security.service";
+import { User, UsersCollection } from "../collections";
+import { UsersUpdateProfileInput, UsersUploadAvatarInput } from "./inputs";
+import { UserProfileUpdatedEvent } from "../events";
 
 @Service()
 export class UserService {
@@ -20,6 +21,12 @@ export class UserService {
 
   @Inject()
   private usersCollection: UsersCollection;
+
+  @Inject()
+  private securityService: SecurityService;
+
+  @Inject()
+  private eventManager: EventManager;
 
   public async uploadAvatar(input: UsersUploadAvatarInput, userId: ObjectId) {
     const { avatar } = input;
@@ -37,16 +44,38 @@ export class UserService {
     });
   }
 
-  public async updateProfile(profile: UserProfileInput, userId: ObjectId) {
-    const fieldsToUpdate = pickBy(profile, Boolean);
+  public async updateProfile(input: UsersUpdateProfileInput, userId: ObjectId) {
+    const { email, firstName, lastName } = input;
+
+    const $set = {} as Partial<User>;
+
+    if (email) {
+      await this.securityService.users.checkEmailIsNotTaken(email, userId);
+
+      $set["password.email"] = email;
+    }
+
+    if (firstName) {
+      $set["profile.firstName"] = firstName;
+    }
+
+    if (lastName) {
+      $set["profile.lastName"] = lastName;
+    }
 
     await this.usersCollection.updateOne(
       {
         _id: userId,
       },
       {
-        $set: fieldsToUpdate,
+        $set,
       }
+    );
+
+    await this.eventManager.emit(
+      new UserProfileUpdatedEvent({
+        userId,
+      })
     );
   }
 }

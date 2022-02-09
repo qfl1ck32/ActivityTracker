@@ -2,13 +2,11 @@ import { ContainerInstance, Inject, Service } from "@bluelibs/core";
 import { ObjectId } from "@bluelibs/ejson";
 import {
   ActivityLogDetailsCollection,
-  ActivityLogsCollection,
   ActivityTimingsCollection,
 } from "../collections";
 import { EndUserDoesNotOwnActivityLogDetailsException } from "../exceptions";
 import { ActivityLogDetailsTimingHasAlreadyBeenFinishedException } from "../exceptions/ActivityLogDetailsTimingHasAlreadyBeenFinished.exception";
 import { ActivityNotesSecurityService } from "./ActivityNotesSecurity.service";
-import { EndUsersActivityLogDetailsCreateInput } from "./inputs";
 
 @Service()
 export class ActivityLogDetailsSecurityService {

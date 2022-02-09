@@ -5,6 +5,7 @@ import {
   ActivityTimingsCollection,
   EndUsersCollection,
   NoteModelsCollection,
+  User,
   UsersCollection,
 } from "../../collections";
 import {
@@ -16,7 +17,7 @@ import {
 } from "../../services";
 import { EndUsersRegisterInput } from "../../services/inputs/EndUsersRegister.input";
 import { container } from "../../../../__tests__/ecosystem";
-import { endUsersRegisterInput } from "./inputs";
+import { endUsersRegisterInput, userInput } from "./inputs";
 import { EndUsersNoteModelsCreateInput } from "@bundles/AppBundle/services/inputs/EndUsersNoteModelsCreate.input";
 import { ObjectId } from "@bluelibs/ejson";
 import { EndUsersActivityLogsCreateInput } from "@bundles/AppBundle/services/inputs/EndUsersActivityLogsCreate.input";
@@ -25,6 +26,7 @@ import {
   EndUsersActivityNotesUpdateInput,
 } from "@bundles/AppBundle/services/inputs";
 import { EndUsersActivityLogDetailsFinishInput } from "@bundles/AppBundle/services/inputs/EndUsersActivityLogDetailsFinish.input";
+import { DeepPartial } from "@bluelibs/core";
 
 // create
 export const createEndUser = async (
@@ -40,6 +42,12 @@ export const createEndUser = async (
     endUserId: endUser._id,
     userId: endUser.ownerId,
   };
+};
+
+export const createUser = async (input: DeepPartial<User> = userInput) => {
+  const usersCollection = container.get(UsersCollection);
+
+  return (await usersCollection.insertOne(input as any)).insertedId;
 };
 
 export const createNoteModel = async (
@@ -114,6 +122,9 @@ export const getUser = async (userId: ObjectId) =>
   container.get(UsersCollection).findOne({
     _id: userId,
   });
+
+export const getEndUser = async (endUserId: ObjectId) =>
+  container.get(EndUsersCollection).findOne({ _id: endUserId });
 
 // update
 

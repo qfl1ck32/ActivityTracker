@@ -13,3 +13,4 @@ export * from "./ActivityLogDetailsSecurity.service";
 export * from "./ActivityNotesSecurity.service";
 export * from "./Activity.service";
 export * from "./User.service";
+export * from "./UsersSecurity.service";
