@@ -1,6 +1,6 @@
 import { use } from '@bluelibs/x-ui-next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Checkbox, FormControlLabel, FormHelperText, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormHelperText, MenuItem, Select, TextField } from '@mui/material';
 import { get, isEmpty } from 'lodash-es';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,17 +13,18 @@ export type FormProps<T> = {
 
   isSubmitting: boolean;
 
-  onSubmit: (data: T) => Promise<boolean>;
+  onSubmit: (data: T) => Promise<boolean | void>;
 
   defaultValues?: Record<string, any>;
 
   submitButtonText: string;
+  submitButtonFullWidth?: boolean;
 };
 
 export function Form<T>(props: FormProps<T>) {
   const formService = use(FormService);
 
-  const { fields, isSubmitting, onSubmit, defaultValues, submitButtonText } = props;
+  const { fields, isSubmitting, onSubmit, defaultValues, submitButtonText, submitButtonFullWidth = true } = props;
 
   const [schema] = useState(formService.buildSchema(fields));
 
@@ -80,7 +81,7 @@ export function Form<T>(props: FormProps<T>) {
             error={Boolean(get(errors, field.name))}
           >
             <MenuItem disabled value="">
-              Select a value
+              {field.enumValuePlaceholder ?? 'Select a value'}
             </MenuItem>
             {field.enumValues.map((enumValue) => {
               let name = '';
@@ -138,16 +139,18 @@ export function Form<T>(props: FormProps<T>) {
     <form onSubmit={onFormSubmit}>
       {fields.map(renderField)}
 
-      <LoadingButton
-        disabled={isEmpty(dirtyFields)}
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        fullWidth
-        type="submit"
-        loading={isSubmitting}
-      >
-        {submitButtonText}
-      </LoadingButton>
+      <Box style={{ display: 'flex', justifyContent: 'center' }}>
+        <LoadingButton
+          disabled={!isValid || isEmpty(dirtyFields)}
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          fullWidth={submitButtonFullWidth}
+          type="submit"
+          loading={isSubmitting}
+        >
+          {submitButtonText}
+        </LoadingButton>
+      </Box>
     </form>
   );
 }

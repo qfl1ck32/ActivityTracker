@@ -9,8 +9,9 @@ export type FormFieldType = {
   name: string;
   label: string;
 
-  type: HTMLInputTypeAttribute;
+  type?: HTMLInputTypeAttribute;
   enumValues?: string[] | FormFieldEnumValueType[];
+  enumValuePlaceholder?: string;
 
   isRequired?: boolean | number;
 

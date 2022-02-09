@@ -4,6 +4,9 @@ import { Box, MenuItem, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Activity, EndUsersActivityLogsCreateInput, NoteModel } from 'src/api.types';
 import { schema } from './schema';
+import { Form } from '../Form';
+import { FormFieldType } from 'src/bundles/UIAppBundle/services/types';
+import { useState } from 'react';
 
 export type ActivityLogsCreateFormProps = {
   onSubmit: (data: EndUsersActivityLogsCreateInput) => Promise<void>;
@@ -20,68 +23,45 @@ export const ActivityLogsCreateForm: React.FC<ActivityLogsCreateFormProps> = ({
   activities,
   noteModels,
 }) => {
-  const {
-    handleSubmit,
-    register,
+  const [fields] = useState<FormFieldType[]>([
+    {
+      name: 'activityId',
+      label: 'Activity',
 
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+      enumValues: activities.map((activity) => ({
+        name: activity.name,
+        value: activity._id,
+      })),
+
+      isRequired: true,
+
+      enumValuePlaceholder: 'Select an activity',
+    },
+    {
+      name: 'noteModelId',
+      label: 'Note model',
+
+      enumValues: noteModels.map((noteModel) => ({
+        name: noteModel.name,
+        value: noteModel._id,
+      })),
+
+      isRequired: true,
+
+      enumValuePlaceholder: 'Select a model',
+    },
+  ]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)}>
-      <div>
-        <TextField
-          margin="normal"
-          fullWidth
-          label="Activity"
-          {...register('activityId')}
-          select
-          defaultValue="none"
-          error={Boolean(errors.activityId)}
-          helperText={errors.activityId?.message}
-        >
-          <MenuItem disabled value="none">
-            Select an activity
-          </MenuItem>
+    <Form
+      {...{
+        fields,
+        onSubmit,
+        isSubmitting,
+        submitButtonText: 'Create',
 
-          {activities.map((activity) => (
-            <MenuItem key={activity._id} value={activity._id}>
-              {activity.name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </div>
-
-      <div>
-        <TextField
-          margin="normal"
-          fullWidth
-          label="Note Model"
-          {...register('noteModelId')}
-          select
-          defaultValue="none"
-          error={Boolean(errors.noteModelId)}
-          helperText={errors.noteModelId?.message}
-        >
-          <MenuItem disabled value="none">
-            Select a note model
-          </MenuItem>
-
-          {noteModels.map((noteModel) => (
-            <MenuItem key={noteModel._id} value={noteModel._id}>
-              {noteModel.name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </div>
-
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <LoadingButton variant="contained" loading={isSubmitting} type="submit">
-          Create
-        </LoadingButton>
-      </Box>
-    </form>
+        submitButtonFullWidth: false,
+      }}
+    />
   );
 };

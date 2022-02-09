@@ -25,9 +25,9 @@ export const HomeContainer: React.FC = () => {
               Welcome, {guardian.state.user.fullName}!
             </Typography>
 
-            <ActivityLogProvider>
+            {/* <ActivityLogProvider>
               <UnfinishedActivityLogDetailsListContainer />
-            </ActivityLogProvider>
+            </ActivityLogProvider> */}
           </Container>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
