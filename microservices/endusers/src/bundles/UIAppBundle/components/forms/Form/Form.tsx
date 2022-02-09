@@ -78,6 +78,7 @@ export function Form<T>(props: FormProps<T>) {
 
           <Select
             fullWidth
+            sx={{ marginBottom: '1rem' }}
             {...register(field.name)}
             defaultValue={get(defaultValues, field.name) || ''}
             displayEmpty
@@ -115,6 +116,7 @@ export function Form<T>(props: FormProps<T>) {
         {field.withLabel && <FormHelperText>{field.label}</FormHelperText>}
 
         <TextField
+          sx={{ marginBottom: '1rem' }}
           label={field.label}
           fullWidth
           margin="normal"

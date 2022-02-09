@@ -1,1 +1,2 @@
-export * from "./ActivityLog"
+export * from './ActivityLog';
+export * from './NoteModels';

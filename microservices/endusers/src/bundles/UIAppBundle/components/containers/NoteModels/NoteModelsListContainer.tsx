@@ -6,6 +6,7 @@ import { GridColumns } from '@mui/x-data-grid';
 import { useEffect, useState, Fragment } from 'react';
 import { toast } from 'react-toastify';
 import { Field, NoteModel, Query } from 'src/api.types';
+import { NoteModelsEditModalProvider, useNoteModelsEditModal } from 'src/bundles/UIAppBundle/contexts';
 import {
   INoteModelCreated,
   INoteModelUpdated,
@@ -32,28 +33,18 @@ const columns: GridColumns = [
     width: 250,
 
     renderCell: (params) => {
-      const [open, setOpen] = useState(false);
+      const [setOpen, setNoteModel] = useNoteModelsEditModal();
 
       const noteModel = params.row as NoteModel;
 
+      const onClick = () => {
+        setOpen(true);
+        setNoteModel(noteModel);
+      };
+
       return (
         <Box>
-          <Button onClick={() => setOpen(true)}>Open</Button>
-
-          <DialogContainer
-            {...{
-              open,
-              onClose: () => setOpen(false),
-
-              title: `Edit note model: ${noteModel.name}`,
-            }}
-          >
-            <NoteModelsEditContainer
-              {...{
-                defaultValues: noteModel,
-              }}
-            />
-          </DialogContainer>
+          <Button onClick={onClick}>Open</Button>
         </Box>
       );
     },
@@ -133,16 +124,18 @@ export const NoteModelsListContainer: React.FC = () => {
         <UIComponents.Loader horizontalCenter verticalCenter />
       ) : (
         <Fragment>
-          <DataGridContainer
-            {...{
-              rows: noteModels,
-              columns,
-              onDelete,
-              toolbarProps: {
-                onCreatePress: () => setCreateDialogIsOpened(true),
-              },
-            }}
-          />
+          <NoteModelsEditModalProvider>
+            <DataGridContainer
+              {...{
+                rows: noteModels,
+                columns,
+                onDelete,
+                toolbarProps: {
+                  onCreatePress: () => setCreateDialogIsOpened(true),
+                },
+              }}
+            />
+          </NoteModelsEditModalProvider>
 
           <DialogContainer
             {...{

@@ -67,6 +67,8 @@ export const ActivityLogsCreateContainer: React.FC = () => {
 
   if (noteModelsError) return <UIComponents.Error error={noteModelsError} />;
 
+  if (activities.length === 0 || noteModels.length === 0) return <UIComponents.Loader horizontalCenter />;
+
   return (
     <Box sx={{ padding: 2 }}>
       <ActivityLogsCreateForm {...{ onSubmit, isSubmitting, activities, noteModels }} />
