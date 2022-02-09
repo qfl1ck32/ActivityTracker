@@ -12,6 +12,9 @@ export class Field {
   @Is(a.string().required())
   name: string;
 
+  @Is(a.boolean().required())
+  isArray: boolean;
+
   @Is(a.string().oneOf(Object.values(FieldType).concat(null)).required())
   type: FieldType;
 

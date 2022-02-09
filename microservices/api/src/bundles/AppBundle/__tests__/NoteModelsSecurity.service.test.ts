@@ -37,6 +37,7 @@ describe("NoteModelsSecurityService", () => {
             name: "dummy",
             type: FieldType.BOOLEAN,
             enumValues: [],
+            isArray: false,
           },
         ],
       },
@@ -83,6 +84,7 @@ describe("NoteModelsSecurityService", () => {
         fields: [
           {
             name: "dummy",
+            isArray: false,
             type: FieldType.BOOLEAN,
             enumValues: [],
           },
@@ -115,11 +117,13 @@ describe("NoteModelsSecurityService", () => {
           {
             name: "abc",
             type: FieldType.NUMBER,
+            isArray: false,
             enumValues: [],
           },
           {
             name: "abc",
             type: FieldType.STRING,
+            isArray: false,
             enumValues: [],
           },
         ],
@@ -132,6 +136,7 @@ describe("NoteModelsSecurityService", () => {
           {
             name: "abc",
             type: FieldType.STRING,
+            isArray: false,
 
             enumValues: ["A"],
           },
@@ -147,6 +152,7 @@ describe("NoteModelsSecurityService", () => {
           {
             name: "abc",
             type: FieldType.ENUM,
+            isArray: false,
 
             enumValues: ["A"],
           },
@@ -170,6 +176,8 @@ describe("NoteModelsSecurityService", () => {
           {
             name: "myField",
             type: FieldType.ENUM,
+            isArray: false,
+
             enumValues: ["test"],
           },
         ],
@@ -182,6 +190,7 @@ describe("NoteModelsSecurityService", () => {
     fields.push({
       id: "id-that-should-not-be-here",
       name: "test",
+      isArray: false,
       type: FieldType.BOOLEAN,
       enumValues: [],
     });
@@ -265,5 +274,16 @@ describe("NoteModelsSecurityService", () => {
     ).rejects.toThrow(
       new NoteModelsTypeOfExistingFieldCanNotBeChangedException()
     );
+  });
+
+  test.only("checkFieldsInputIsValid() - with isArray", async () => {
+    const noteModelsSecurityService = container.get(NoteModelsSecurityService);
+
+    const noteModelsService = container.get(NoteModelsService);
+
+    const check = (
+      input: { fields: (Field | FieldCreateInput)[] },
+      noteModelId?: ObjectId
+    ) => noteModelsSecurityService.checkFieldsInputIsValid(input, noteModelId);
   });
 });

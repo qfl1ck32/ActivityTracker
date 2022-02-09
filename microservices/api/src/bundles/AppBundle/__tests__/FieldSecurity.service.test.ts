@@ -24,6 +24,7 @@ describe("FieldSecurityService", () => {
       check({
         name: "name",
         type: FieldType.ENUM,
+        isArray: false,
         enumValues: [],
       })
     ).toThrowError(new FieldEnumValuesAreMissingException());
@@ -32,6 +33,7 @@ describe("FieldSecurityService", () => {
       check({
         name: "name",
         type: FieldType.ENUM,
+        isArray: false,
         enumValues: ["A", "A"],
       })
     ).toThrowError(new FieldEnumValuesAreNotUnique({ fieldName: "name" }));
@@ -41,6 +43,7 @@ describe("FieldSecurityService", () => {
         name: "name",
         type: FieldType.NUMBER,
         enumValues: ["a", "b"],
+        isArray: false,
       })
     ).toThrowError(new FieldTypeIsNotEnumButEnumValuesWereGivenException());
 
@@ -49,6 +52,7 @@ describe("FieldSecurityService", () => {
         name: "name",
         type: FieldType.ENUM,
         enumValues: ["a", "b"],
+        isArray: false,
       })
     ).not.toThrow();
   });
@@ -70,6 +74,7 @@ describe("FieldSecurityService", () => {
           name,
           type: FieldType.ENUM,
           enumValues: [],
+          isArray: false,
         },
         "test"
       )
@@ -87,6 +92,7 @@ describe("FieldSecurityService", () => {
               value: "test",
             },
           ],
+          isArray: false,
         },
         "abc"
       )
@@ -100,6 +106,7 @@ describe("FieldSecurityService", () => {
           name,
           type: FieldType.BOOLEAN,
           enumValues: [],
+          isArray: false,
         },
         true
       )
@@ -112,6 +119,7 @@ describe("FieldSecurityService", () => {
           name,
           type: FieldType.BOOLEAN,
           enumValues: [],
+          isArray: false,
         },
         false
       )
@@ -124,6 +132,7 @@ describe("FieldSecurityService", () => {
           name,
           type: FieldType.BOOLEAN,
           enumValues: [],
+          isArray: false,
         },
         "test"
       )
@@ -136,6 +145,7 @@ describe("FieldSecurityService", () => {
           name,
           type: FieldType.STRING,
           enumValues: [],
+          isArray: false,
         },
         "test"
       )

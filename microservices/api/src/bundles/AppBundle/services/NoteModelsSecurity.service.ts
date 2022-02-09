@@ -50,7 +50,6 @@ export class NoteModelsSecurityService {
       throw new NoteModelsFieldsAreMissingException();
     }
 
-    // TODO: same for enumValue! check there are not new enumValues with attached ID!!!
     if (noteModelId) {
       const { fields: noteModelFields } =
         await this.noteModelsCollection.findOne({ _id: noteModelId });

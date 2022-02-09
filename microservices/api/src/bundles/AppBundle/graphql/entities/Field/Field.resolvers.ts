@@ -6,6 +6,7 @@ export default {
       ENUM: "ENUM",
       NUMBER: "NUMBER",
       STRING: "STRING",
+      OBJECT: "OBJECT",
     },
   },
 };

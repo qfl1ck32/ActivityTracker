@@ -122,6 +122,7 @@ export class NoteModelList extends XList<NoteModel> {
       fields: {
         id: 1,
         name: 1,
+        isArray: 1,
         type: 1,
         enumValues: {
           id: 1,

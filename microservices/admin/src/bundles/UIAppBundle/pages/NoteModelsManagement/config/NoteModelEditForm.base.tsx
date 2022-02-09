@@ -55,6 +55,26 @@ export class NoteModelEditForm extends XForm {
           },
 
           {
+            id: "isArray",
+            label: t("management.note_models.fields.isArray"),
+            name: ["fields", "isArray"],
+            required: true,
+            initialValue: [],
+            render: (props) => (
+              <Ant.Form.Item {...props}>
+                <Ant.Radio.Group>
+                  <Ant.Radio value={false} key={0}>
+                    No
+                  </Ant.Radio>
+                  <Ant.Radio value={true} key={1}>
+                    Yes
+                  </Ant.Radio>
+                </Ant.Radio.Group>
+              </Ant.Form.Item>
+            ),
+          },
+
+          {
             id: "type",
             label: t("management.note_models.fields.type"),
             name: ["fields", "type"],
@@ -76,6 +96,9 @@ export class NoteModelEditForm extends XForm {
                   </Ant.Select.Option>
                   <Ant.Select.Option value="STRING" key="STRING">
                     String
+                  </Ant.Select.Option>
+                  <Ant.Select.Option value="OBJECT" key="OBJECT">
+                    Object
                   </Ant.Select.Option>
                 </Ant.Select>
               </Ant.Form.Item>
@@ -119,6 +142,7 @@ export class NoteModelEditForm extends XForm {
       fields: {
         id: 1,
         name: 1,
+        isArray: 1,
         type: 1,
         enumValues: {
           id: 1,

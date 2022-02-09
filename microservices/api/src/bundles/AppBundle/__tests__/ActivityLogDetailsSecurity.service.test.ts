@@ -41,6 +41,7 @@ describe("ActivityLogDetailsSecurityService", () => {
           {
             name: "dummy",
             type: FieldType.BOOLEAN,
+            isArray: false,
             enumValues: [],
           },
         ],
@@ -104,6 +105,7 @@ describe("ActivityLogDetailsSecurityService", () => {
           {
             name: "dummy",
             type: FieldType.BOOLEAN,
+            isArray: false,
             enumValues: [],
           },
         ],

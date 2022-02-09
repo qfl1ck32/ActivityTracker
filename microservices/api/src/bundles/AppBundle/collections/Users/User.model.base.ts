@@ -45,7 +45,7 @@ export class User {
 
   email: string;
 
-  endUser: EndUser[] = [];
+  endUser: EndUser;
 
   fullName: string;
 

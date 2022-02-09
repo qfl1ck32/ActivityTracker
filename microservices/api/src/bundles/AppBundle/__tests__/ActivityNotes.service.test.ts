@@ -37,17 +37,20 @@ describe("ActivityNotesService", () => {
           {
             name: "How it went?",
             type: FieldType.ENUM,
+            isArray: false,
 
             enumValues: ["GREAT", "EXCELLENT"],
           },
           {
             name: "How many reps?",
             type: FieldType.NUMBER,
+            isArray: false,
             enumValues: [],
           },
           {
             name: "Did you rest?",
             type: FieldType.BOOLEAN,
+            isArray: false,
             enumValues: [],
           },
         ],

@@ -22,6 +22,7 @@ describe("ActivityLogsService", () => {
           {
             name: "dummy",
             type: FieldType.BOOLEAN,
+            isArray: false,
             enumValues: [],
           },
         ],

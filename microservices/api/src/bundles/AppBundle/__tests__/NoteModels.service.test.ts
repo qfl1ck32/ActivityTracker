@@ -46,6 +46,7 @@ describe("NoteModelsService", () => {
           {
             name: "isThisOk",
             type: FieldType.ENUM,
+            isArray: false,
             enumValues: ["TEST"],
           },
         ],

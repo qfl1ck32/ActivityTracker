@@ -3,6 +3,7 @@ export enum FieldType {
   ENUM = "ENUM",
   NUMBER = "NUMBER",
   STRING = "STRING",
+  OBJECT = "OBJECT",
 }
 
 export enum FieldTypeLabels {
@@ -10,4 +11,5 @@ export enum FieldTypeLabels {
   "ENUM" = "Enum",
   "NUMBER" = "Number",
   "STRING" = "String",
+  "OBJECT" = "Object",
 }

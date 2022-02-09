@@ -2,6 +2,7 @@ export default /* GraphQL */ `
   type Field {
     id: String!
     name: String!
+    isArray: Boolean!
     type: FieldType!
     enumValues: [FieldEnumValues]!
   }
@@ -11,5 +12,6 @@ export default /* GraphQL */ `
     ENUM
     NUMBER
     STRING
+    OBJECT
   }
 `;

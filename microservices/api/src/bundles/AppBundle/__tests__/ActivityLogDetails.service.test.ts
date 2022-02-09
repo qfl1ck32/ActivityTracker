@@ -30,6 +30,7 @@ describe("ActivityLogDetailsService", () => {
           {
             name: "Went hardcore?",
             type: FieldType.ENUM,
+            isArray: false,
             enumValues: ["YES", "HELL YES!"],
           },
         ],
@@ -86,6 +87,7 @@ describe("ActivityLogDetailsService", () => {
           {
             name: "Went hardcore?",
             type: FieldType.ENUM,
+            isArray: false,
             enumValues: ["YES", "HELL YES!"],
           },
         ],
@@ -136,6 +138,7 @@ describe("ActivityLogDetailsService", () => {
           {
             name: "Went hardcore?",
             type: FieldType.ENUM,
+            isArray: false,
             enumValues: ["YES", "HELL YES!"],
           },
         ],
@@ -196,6 +199,7 @@ describe("ActivityLogDetailsService", () => {
           {
             name: "Went hardcore?",
             type: FieldType.ENUM,
+            isArray: false,
             enumValues: ["YES", "HELL YES!"],
           },
         ],

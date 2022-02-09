@@ -44,11 +44,13 @@ describe("ActivityNotesSecurityService", () => {
           {
             name: "enumTest",
             type: FieldType.ENUM,
+            isArray: false,
             enumValues: ["ACCEPTED_ENUM_VALUE"],
           },
           {
             name: "booleanTest",
             type: FieldType.BOOLEAN,
+            isArray: false,
             enumValues: [],
           },
         ],

@@ -10,6 +10,9 @@ export class FieldCreateInput {
   @Is(a.string().oneOf(Object.values(FieldType)).required())
   type: FieldType;
 
+  @Is(a.boolean().required())
+  isArray: boolean;
+
   @Is(an.array().of(a.string()))
   enumValues: string[] = [];
 }
